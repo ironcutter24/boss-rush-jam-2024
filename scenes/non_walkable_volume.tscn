@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://bftwl3dsinhe0"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_yrof4"]
+
+[node name="NonWalkableVolume" type="Area3D"]
+input_ray_pickable = false
+monitoring = false
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_yrof4")
