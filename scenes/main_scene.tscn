@@ -1,15 +1,22 @@
-[gd_scene load_steps=2 format=3 uid="uid://bja7jmhmj"]
+[gd_scene load_steps=3 format=3 uid="uid://bja7jmhmj"]
+
+[ext_resource type="Script" path="res://scripts/LevelData.cs" id="1_ke8qq"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_2esyx"]
 
-[node name="Node3D" type="Node3D"]
+[node name="main_scene" type="Node3D"]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.5, -0.612372, 0.612372, 0, 0.707107, 0.707107, -0.866025, 0.353553, -0.353553, 0, 2, 0)
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(-1, 6.18172e-08, -6.18172e-08, 1.84343e-08, 0.840311, 0.542104, 8.54571e-08, 0.542104, -0.840311, -1.19209e-07, 1.00884, -1.65372)
+transform = Transform3D(-0.707107, 0.5, -0.5, 0, 0.707107, 0.707107, 0.707107, 0.5, -0.5, 0, 5, 0)
+projection = 1
 current = true
+size = 10.5
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("PlaneMesh_2esyx")
+
+[node name="LevelData" type="Node" parent="."]
+script = ExtResource("1_ke8qq")
