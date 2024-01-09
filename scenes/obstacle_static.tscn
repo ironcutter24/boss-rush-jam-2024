@@ -2,7 +2,8 @@
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_yrof4"]
 
-[node name="NonWalkableVolume" type="Area3D"]
+[node name="StaticObstacleVolume" type="Area3D"]
+collision_layer = 1024
 input_ray_pickable = false
 monitoring = false
 

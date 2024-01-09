@@ -128,7 +128,7 @@ public partial class LevelData : Node3D
 
     private Vector3 GetWorldPos(int i, int j)
     {
-        return GlobalPosition + new Vector3(j, 0f, i) * CELL_SIZE;
+        return GlobalPosition + new Vector3(i, 0f, j) * CELL_SIZE;
     }
 
     private bool HasObstacleAt(Vector3 pos)

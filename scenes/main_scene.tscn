@@ -1,9 +1,13 @@
-[gd_scene load_steps=4 format=3 uid="uid://bja7jmhmj"]
+[gd_scene load_steps=6 format=3 uid="uid://bja7jmhmj"]
 
+[ext_resource type="Script" path="res://scripts/InputManager.cs" id="1_6df1n"]
 [ext_resource type="Script" path="res://scripts/LevelData.cs" id="1_ke8qq"]
 [ext_resource type="PackedScene" uid="uid://bftwl3dsinhe0" path="res://scenes/obstacle_static.tscn" id="2_o73fg"]
 
-[sub_resource type="PlaneMesh" id="PlaneMesh_2esyx"]
+[sub_resource type="BoxShape3D" id="BoxShape3D_6qkt4"]
+size = Vector3(8, 1, 8)
+
+[sub_resource type="BoxMesh" id="BoxMesh_4xgao"]
 
 [node name="main_scene" type="Node3D"]
 
@@ -16,9 +20,8 @@ projection = 1
 current = true
 size = 10.5
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(4, 0, 0, 0, 4, 0, 0, 0, 4, 3.5, 0, 3.5)
-mesh = SubResource("PlaneMesh_2esyx")
+[node name="InputManager" type="Node3D" parent="."]
+script = ExtResource("1_6df1n")
 
 [node name="LevelData" type="Node3D" parent="." node_paths=PackedStringArray("ray")]
 script = ExtResource("1_ke8qq")
@@ -26,13 +29,27 @@ ray = NodePath("RayCast3D")
 
 [node name="RayCast3D" type="RayCast3D" parent="LevelData"]
 transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0)
+collision_mask = 3072
 hit_from_inside = true
 collide_with_areas = true
 
-[node name="NonWalkableVolume" parent="." instance=ExtResource("2_o73fg")]
+[node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, -0.5, 3.5)
+collision_layer = 256
 
-[node name="NonWalkableVolume2" parent="." instance=ExtResource("2_o73fg")]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+shape = SubResource("BoxShape3D_6qkt4")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D"]
+transform = Transform3D(8, 0, 0, 0, 1, 0, 0, 0, 8, 0, 0, 0)
+mesh = SubResource("BoxMesh_4xgao")
+skeleton = NodePath("../..")
+
+[node name="StaticObstacleVolume" parent="." instance=ExtResource("2_o73fg")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
+
+[node name="StaticObstacleVolume2" parent="." instance=ExtResource("2_o73fg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 2)
 
-[node name="NonWalkableVolume3" parent="." instance=ExtResource("2_o73fg")]
+[node name="StaticObstacleVolume3" parent="." instance=ExtResource("2_o73fg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 3)
