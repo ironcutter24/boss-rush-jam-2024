@@ -3,13 +3,21 @@ using System;
 
 public partial class Global : Node
 {
-	// Called when the node enters the scene tree for the first time.
-	public override void _Ready()
-	{
-	}
+    public static Global Instance { get; private set; }
 
-	// Called every frame. 'delta' is the elapsed time since the previous frame.
-	public override void _Process(double delta)
-	{
-	}
+    public SceneTree Tree { get; private set; }
+
+    public override void _Ready()
+    {
+        Instance = this;
+        Tree = GetTree();
+    }
+
+    public override void _Process(double delta)
+    {
+        if (Input.IsActionJustPressed("quit"))
+        {
+            GetTree().Quit();
+        }
+    }
 }

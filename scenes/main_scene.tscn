@@ -1,13 +1,31 @@
-[gd_scene load_steps=6 format=3 uid="uid://bja7jmhmj"]
+[gd_scene load_steps=15 format=3 uid="uid://bja7jmhmj"]
 
 [ext_resource type="Script" path="res://scripts/InputManager.cs" id="1_6df1n"]
+[ext_resource type="Script" path="res://scripts/TurnManager.cs" id="1_22vsh"]
 [ext_resource type="Script" path="res://scripts/LevelData.cs" id="1_ke8qq"]
 [ext_resource type="PackedScene" uid="uid://bftwl3dsinhe0" path="res://scenes/obstacle_static.tscn" id="2_o73fg"]
+[ext_resource type="Script" path="res://scripts/Units/TestUnit.cs" id="5_d4ewf"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_1dibq"]
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_6qkt4"]
 size = Vector3(8, 1, 8)
 
 [sub_resource type="BoxMesh" id="BoxMesh_4xgao"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_c0pqn"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_gyyka"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_rowki"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_s1wp0"]
+radius = 0.2
+height = 1.0
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_rdu23"]
+
+[sub_resource type="AnimationRootNode" id="AnimationRootNode_6pr8b"]
 
 [node name="main_scene" type="Node3D"]
 
@@ -15,34 +33,59 @@ size = Vector3(8, 1, 8)
 transform = Transform3D(-0.5, -0.612372, 0.612372, 0, 0.707107, 0.707107, -0.866025, 0.353553, -0.353553, 0, 2, 0)
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(-0.707107, 0.5, -0.5, 0, 0.707107, 0.707107, 0.707107, 0.5, -0.5, 0, 5, 0)
+transform = Transform3D(-0.707107, 0.5, -0.5, 0, 0.707107, 0.707107, 0.707107, 0.5, -0.5, 0, 6, 0)
 projection = 1
 current = true
-size = 10.5
+size = 14.0
 
-[node name="InputManager" type="Node3D" parent="."]
+[node name="TurnManager" type="Node" parent="."]
+script = ExtResource("1_22vsh")
+
+[node name="InputManager" type="Node3D" parent="." node_paths=PackedStringArray("marker")]
 script = ExtResource("1_6df1n")
+marker = NodePath("MeshInstance3D")
 
-[node name="LevelData" type="Node3D" parent="." node_paths=PackedStringArray("ray")]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="InputManager"]
+visible = false
+mesh = SubResource("BoxMesh_1dibq")
+
+[node name="Level" type="Node3D" parent="." node_paths=PackedStringArray("ray")]
 script = ExtResource("1_ke8qq")
 ray = NodePath("RayCast3D")
 
-[node name="RayCast3D" type="RayCast3D" parent="LevelData"]
+[node name="RayCast3D" type="RayCast3D" parent="Level"]
 transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0)
 collision_mask = 3072
 hit_from_inside = true
 collide_with_areas = true
 
-[node name="Area3D" type="Area3D" parent="."]
+[node name="Grid" type="Area3D" parent="Level"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, -0.5, 3.5)
 collision_layer = 256
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="Area3D"]
+[node name="CollisionShape3D" type="CollisionShape3D" parent="Level/Grid"]
 shape = SubResource("BoxShape3D_6qkt4")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Area3D"]
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Level/Grid"]
 transform = Transform3D(8, 0, 0, 0, 1, 0, 0, 0, 8, 0, 0, 0)
 mesh = SubResource("BoxMesh_4xgao")
+skeleton = NodePath("../../..")
+
+[node name="Walls" type="Node3D" parent="Level"]
+transform = Transform3D(1, 0, 0, 0, 3.5, 0, 0, 0, 1, 0, 0.75, 0)
+
+[node name="WallAngle" type="MeshInstance3D" parent="Level/Walls"]
+transform = Transform3D(0.5, 0, 0, 0, 1, 0, 0, 0, 0.5, 7.75, 0, 7.75)
+mesh = SubResource("BoxMesh_c0pqn")
+
+[node name="WallRight" type="MeshInstance3D" parent="Level/Walls"]
+transform = Transform3D(0.5, 0, 0, 0, 1, 0, 0, 0, 8, 7.75, 0, 3.5)
+mesh = SubResource("BoxMesh_gyyka")
+skeleton = NodePath("../..")
+
+[node name="WallLeft" type="MeshInstance3D" parent="Level/Walls"]
+transform = Transform3D(8, 0, 0, 0, 1, 0, 0, 0, 0.5, 3.5, 0, 7.75)
+mesh = SubResource("BoxMesh_rowki")
 skeleton = NodePath("../..")
 
 [node name="StaticObstacleVolume" parent="." instance=ExtResource("2_o73fg")]
@@ -53,3 +96,21 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 2)
 
 [node name="StaticObstacleVolume3" parent="." instance=ExtResource("2_o73fg")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 3)
+
+[node name="CharacterBody3D" type="CharacterBody3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 2)
+script = ExtResource("5_d4ewf")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("CapsuleShape3D_s1wp0")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="CharacterBody3D"]
+transform = Transform3D(0.4, 0, 0, 0, 0.5, 0, 0, 0, 0.4, 0, 0.5, 0)
+mesh = SubResource("CapsuleMesh_rdu23")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CharacterBody3D"]
+
+[node name="AnimationTree" type="AnimationTree" parent="CharacterBody3D"]
+tree_root = SubResource("AnimationRootNode_6pr8b")
+anim_player = NodePath("../AnimationPlayer")

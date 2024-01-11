@@ -4,44 +4,51 @@ using System;
 
 public partial class InputManager : Node3D
 {
-    // Called when the node enters the scene tree for the first time.
+    [Export]
+    private Node3D marker;
+
+    private Vector3? hitCellPos = null;
+
     public override void _Ready()
     {
     }
 
-    // Called every frame. 'delta' is the elapsed time since the previous frame.
     public override void _Process(double delta)
     {
         if (Input.IsActionJustPressed("mouse_left"))
         {
-            var hits = CastRayFromScreen(1 << 8);  // Layer 9 -> Ground
-            if (hits.Count > 0)
+            if (hitCellPos.HasValue)
             {
-                var point = hits["position"].AsVector3();
-                if (point.Y == 0f)
-                {
-                    point += new Vector3(1, 0, 1) * .5f;
-                    GD.Print($"Ray hit point: {point}");
 
-                    int i = Mathf.FloorToInt(point.X);
-                    int j = Mathf.FloorToInt(point.Z);
-                    GD.Print($"Selected cell ({i}, {j})");
-
-                    return;
-                }
             }
-            GD.Print("No hit");
         }
+    }
 
-        if (Input.IsActionJustPressed("mouse_right"))
+    public override void _PhysicsProcess(double delta)
+    {
+        var hits = CastRayFromScreen(1 << 8);  // Layer 9 -> "Ground"
+        if (hits.Count > 0)
         {
+            var point = hits["position"].AsVector3();
+            if (Mathf.IsEqualApprox(point.Y, 0f))
+            {
+                point += new Vector3(1, 0, 1) * .5f;
+                GD.Print($"Ray hit point: {point}");
 
-        }
+                int i = Mathf.FloorToInt(point.X);
+                int j = Mathf.FloorToInt(point.Z);
 
-        if (Input.IsActionJustPressed("quit"))
-        {
-            GetTree().Quit();
+                hitCellPos = new Vector3(i, 0f, j);
+                marker.Visible = true;
+                marker.GlobalPosition = hitCellPos.Value;
+                GD.Print($"Selected cell ({i}, {j})");
+
+                return;
+            }
         }
+        //GD.Print("No hit");
+        marker.Visible = false;
+        hitCellPos = null;
     }
 
     private Dictionary CastRayFromScreen(uint mask = 1)
