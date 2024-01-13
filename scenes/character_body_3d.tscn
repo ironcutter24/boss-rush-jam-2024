@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://bobk7fgktpcc3"]
+
+[ext_resource type="Script" path="res://scripts/Units/TestUnit.cs" id="1_anvkw"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_s1wp0"]
+radius = 0.2
+height = 1.0
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_rdu23"]
+
+[sub_resource type="AnimationRootNode" id="AnimationRootNode_6pr8b"]
+
+[node name="CharacterBody3D" type="CharacterBody3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 2)
+collision_layer = 2049
+script = ExtResource("1_anvkw")
+MoveDistance = 3
+MaxHealth = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+shape = SubResource("CapsuleShape3D_s1wp0")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.4, 0, 0, 0, 0.5, 0, 0, 0, 0.4, 0, 0.5, 0)
+mesh = SubResource("CapsuleMesh_rdu23")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+
+[node name="AnimationTree" type="AnimationTree" parent="."]
+tree_root = SubResource("AnimationRootNode_6pr8b")
+anim_player = NodePath("../AnimationPlayer")

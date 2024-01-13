@@ -1,95 +1,99 @@
 using Godot;
 using System;
-using System.Threading;
-using System.Threading.Tasks;
 
 public partial class TurnManager : Node
 {
-    public delegate Task<TurnState> TurnState(CancellationToken ct);
+    public delegate TurnState TurnState();
+
+    private Unit currentUnit;
+
+    [Export] InputManager inputManager;
+    [Export] LevelData levelData;
+
     public TurnState CurrentTurn { get; private set; }
 
-    CancellationTokenSource cancellationTokenSource = new CancellationTokenSource();
 
     public override void _Ready()
     {
-        CurrentTurn = null;
-        _ = GameLoop(cancellationTokenSource.Token);
+        CurrentTurn = PlayerSelectUnit;
     }
 
-    private async Task GameLoop(CancellationToken ct)
+    TurnState previousTurn = null;
+    public override void _Process(double delta)
     {
-        while (!ct.IsCancellationRequested)
+        if (previousTurn != CurrentTurn)
         {
-            CurrentTurn = await CurrentTurn(ct);
-            await GDTask.NextFrame();
+            GD.Print($"Turn state: {CurrentTurn.Method.Name}");
+            previousTurn = CurrentTurn;
         }
+        CurrentTurn = CurrentTurn();
     }
 
-    #region Turn states AI
+    #region AI turn states
 
     #endregion
 
-    #region Turn states Player
+    #region Player turn states
 
-    private async Task<TurnState> PlayerUnitSelection(CancellationToken ct)
+    Vector2I? cellPos;
+
+    private TurnState PlayerSelectUnit()
     {
-        bool result = await PlayerInput(
-            () => Input.IsActionJustPressed("mouse_left"),
-            () => false,
-            ct
-            );
-
-        return result ? PlayerMoveSelection : CurrentTurn;
-    }
-
-    private async Task<TurnState> PlayerMoveSelection(CancellationToken ct)
-    {
-        bool result = await PlayerInput(
-            () => Input.IsActionJustPressed("mouse_left"),
-            () => Input.IsActionJustPressed("mouse_right"),
-            ct
-            );
-
-        return result ? PlayerAttackSelection : PlayerUnitSelection;
-    }
-
-    private async Task<TurnState> PlayerAttackSelection(CancellationToken ct)
-    {
-        bool result = await PlayerInput(
-            () => Input.IsActionJustPressed("mouse_left"),
-            () => Input.IsActionJustPressed("mouse_right"),
-            ct
-            );
-
-        return result ? PlayerUnitSelection : PlayerUnitSelection;
-    }
-
-    private async Task<bool> PlayerInput(Func<bool> accept, Func<bool> cancel, CancellationToken ct)
-    {
-        while (true)
+        if (inputManager.CellSelected(out cellPos))
         {
-            await GDTask.NextFrame();
-            if (accept()) return true;
-            if (cancel()) return false;
+            currentUnit = levelData.GetUnitAt(cellPos.Value);
+            if (currentUnit != null)
+            {
+                GD.Print($"Selected unit at: ({cellPos.Value.X}, {cellPos.Value.Y})");
+                return PlayerSelectAction;
+            }
         }
+
+        return CurrentTurn;
+    }
+
+    private TurnState PlayerSelectAction()
+    {
+        if (currentUnit.HasMovement) return PlayerSelectMove;
+        if (inputManager.Attack()) return PlayerSelectAttack;
+        if (inputManager.Cancel()) return PlayerSelectUnit;
+        return CurrentTurn;
+    }
+
+    private TurnState PlayerSelectMove()
+    {
+        // Display move UI
+
+        if (inputManager.CellSelected(out cellPos))
+        {
+            // TODO:
+            // Let LevelData validate move and return path
+            // Let Unit follow path
+            // On completion return PlayerUnitSelected
+            if (cellPos.HasValue && levelData.IsReachable(currentUnit, cellPos.Value))
+            {
+                // Move
+                currentUnit.HasMovement = false;
+                return PlayerSelectAction;
+            }
+        }
+        if (inputManager.Attack()) return PlayerSelectAttack;
+        if (inputManager.Cancel()) return PlayerSelectUnit;
+
+        return CurrentTurn;
+    }
+
+    private TurnState PlayerSelectAttack()
+    {
+        if (inputManager.CellSelected(out cellPos))
+        {
+            // Attack unit at location
+
+            return PlayerSelectAction;
+        }
+
+        return CurrentTurn;
     }
 
     #endregion
-
-    public override void _Notification(int what)
-    {
-        if (what == MainLoop.NotificationPredelete)
-        {
-            CancelAsyncOperations();
-        }
-    }
-
-    private void CancelAsyncOperations()
-    {
-        if (!cancellationTokenSource.Token.IsCancellationRequested)
-        {
-            cancellationTokenSource.Cancel();
-            GD.Print("Cancellation token canceled.");
-        }
-    }
 }

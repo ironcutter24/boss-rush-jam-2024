@@ -4,24 +4,38 @@ using System;
 
 public partial class InputManager : Node3D
 {
+    private Vector2I? hitCellPos = null;
+
     [Export]
     private Node3D marker;
 
-    private Vector3? hitCellPos = null;
 
-    public override void _Ready()
+    public bool CellSelected(out Vector2I? pos)
     {
-    }
-
-    public override void _Process(double delta)
-    {
+        pos = hitCellPos;
         if (Input.IsActionJustPressed("mouse_left"))
         {
-            if (hitCellPos.HasValue)
-            {
-
-            }
+            if (pos.HasValue) return true;
         }
+        return false;
+    }
+
+    public bool CellHover(out Vector2I? pos)
+    {
+        pos = hitCellPos;
+        if (pos.HasValue) return true;
+        else return false;
+    }
+
+    public bool Cancel()
+    {
+        return Input.IsActionJustPressed("mouse_right");
+    }
+
+    public bool Attack()
+    {
+        // TODO: hook attack UI (?)
+        return false;
     }
 
     public override void _PhysicsProcess(double delta)
@@ -33,15 +47,17 @@ public partial class InputManager : Node3D
             if (Mathf.IsEqualApprox(point.Y, 0f))
             {
                 point += new Vector3(1, 0, 1) * .5f;
-                GD.Print($"Ray hit point: {point}");
 
                 int i = Mathf.FloorToInt(point.X);
                 int j = Mathf.FloorToInt(point.Z);
 
-                hitCellPos = new Vector3(i, 0f, j);
+                hitCellPos = new Vector2I(i, j);
                 marker.Visible = true;
-                marker.GlobalPosition = hitCellPos.Value;
-                GD.Print($"Selected cell ({i}, {j})");
+                var worldPos = new Vector3(hitCellPos.Value.X, 0f, hitCellPos.Value.Y);
+                marker.GlobalPosition = worldPos;
+
+                //GD.Print($"Ray hit point: {point}");
+                //GD.Print($"Selected cell ({i}, {j})");
 
                 return;
             }

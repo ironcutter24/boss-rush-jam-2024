@@ -7,15 +7,15 @@ public partial class Global : Node
 
     public SceneTree Tree { get; private set; }
 
-    public override void _Ready()
+    public override void _EnterTree()
     {
-        Instance = this;
         Tree = GetTree();
+        Instance = this;
     }
 
-    public override void _Process(double delta)
+    public override void _Input(InputEvent @event)
     {
-        if (Input.IsActionJustPressed("quit"))
+        if (@event.IsActionPressed("quit"))
         {
             GetTree().Quit();
         }
