@@ -50,10 +50,12 @@ script = ExtResource("1_22vsh")
 [node name="InputManager" type="Node3D" parent="."]
 script = ExtResource("1_6df1n")
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="InputManager"]
-transform = Transform3D(1, 0, 0, 0, 0.1, 0, 0, 0, 1, 0, 0, 0)
-visible = false
+[node name="Marker" type="Node3D" parent="InputManager"]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="InputManager/Marker"]
+transform = Transform3D(1, 0, 0, 0, 0.05, 0, 0, 0, 1, 0, 0.025, 0)
 mesh = SubResource("BoxMesh_1dibq")
+skeleton = NodePath("../..")
 surface_material_override/0 = SubResource("StandardMaterial3D_vuxm5")
 
 [node name="Level" type="Node3D" parent="." node_paths=PackedStringArray("ray")]

@@ -9,13 +9,13 @@ public partial class InputManager : Node3D
 
     public override void _EnterTree()
     {
-        marker = GetNode<MeshInstance3D>("MeshInstance3D");
+        marker = GetNode<Node3D>("Marker");
     }
 
     public bool CellSelected(out Vector2I? pos)
     {
         pos = hitCellPos;
-        if (Input.IsActionJustPressed("mouse_left"))
+        if (Input.IsActionJustPressed("select"))
         {
             if (pos.HasValue) return true;
         }
@@ -31,13 +31,17 @@ public partial class InputManager : Node3D
 
     public bool Cancel()
     {
-        return Input.IsActionJustPressed("mouse_right");
+        return Input.IsActionJustPressed("cancel");
     }
 
     public bool Attack()
     {
-        // TODO: hook attack UI (?)
-        return false;
+        return Input.IsActionJustPressed("attack");
+    }
+
+    public bool EndTurn()
+    {
+        return Input.IsActionJustPressed("end_turn");
     }
 
     public override void _PhysicsProcess(double delta)

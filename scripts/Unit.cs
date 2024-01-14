@@ -10,7 +10,13 @@ public abstract partial class Unit : CharacterBody3D
     [Export] public int MaxHealth { get; private set; } = 3;
     public int Health { get; private set; }
     public bool IsSelected { get; private set; } = false;
-    public bool HasMovement { get; set; } = true;
+    private bool _hasMovement = true;
+    public bool HasMovement
+    {
+        get { return _hasMovement && HasAttack; }
+        set { _hasMovement = value; }
+    }
+    public bool HasAttack { get; set; } = true;
     public Vector2I GridPosition => new Vector2I((int)Position.X, (int)Position.Z);
     public int GridId => LevelData.GetId(GridPosition.X, GridPosition.Y);
 
@@ -27,6 +33,11 @@ public abstract partial class Unit : CharacterBody3D
         GetNode<MeshInstance3D>("MeshInstance3D").MaterialOverride = mat;
     }
 
+    public void ResetTurn()
+    {
+        HasMovement = HasAttack = true;
+    }
+
     public abstract Task Attack();
     public abstract Task Special();
     public abstract Task Reaction();
@@ -39,7 +50,7 @@ public abstract partial class Unit : CharacterBody3D
             Tween tween = CreateTween();
             float duration = GridDistance(path[i - 1], path[i]) * moveSpeed;
             tween.TweenProperty(this, "position", path[i], duration);
-            await Task.Delay(TimeSpan.FromSeconds(duration));
+            await GDTask.DelaySeconds(duration);
         }
 
         Position = path[path.Length - 1];

@@ -28,6 +28,7 @@ public partial class TurnManager : Node
     private InputManager inputManager;
     private LevelData levelData;
 
+    public bool IsPlayerTurn { get; private set; } = true;
     public TurnState CurrentTurn { get; private set; }
 
 
@@ -45,6 +46,8 @@ public partial class TurnManager : Node
     TurnState previousTurn = null;
     public override void _Process(double delta)
     {
+        if (inputManager.EndTurn()) SwitchTurnOwner();
+
         if (previousTurn != CurrentTurn)
         {
             GD.Print($"Turn state: {CurrentTurn.Method.Name}");
@@ -53,26 +56,7 @@ public partial class TurnManager : Node
         CurrentTurn = CurrentTurn();
     }
 
-    private TurnState AwaitingTask()
-    {
-        if (!currentTask.HasValue) throw new System.Exception("currentTask is null");
-        if (currentTask.Value.IsCompleted)
-        {
-            levelData.RefreshLevel();  // Refresh Level to update moved, killed and spawned units
-
-            var nextState = currentTask.Value.NextState;
-            currentTask.Value.Dispose();
-            currentTask = null;
-            return nextState;
-        }
-        return CurrentTurn;
-    }
-
-    #region AI turn states
-
-    #endregion
-
-    #region Player turn states
+    #region Turn states (Player)
 
     private TurnState PlayerSelectUnit()
     {
@@ -112,7 +96,7 @@ public partial class TurnManager : Node
             Vector3[] path;
             if (cursorGridPos.HasValue && levelData.IsReachable(currentUnit, cursorGridPos.Value, out path))
             {
-                //currentUnit.HasMovement = false;
+                currentUnit.HasMovement = false;
                 currentTask = new TurnTask(currentUnit.FollowPath(path), PlayerContextUnit);
                 return AwaitingTask;
             }
@@ -125,14 +109,66 @@ public partial class TurnManager : Node
 
     private TurnState PlayerSelectAttack()
     {
+        if (!currentUnit.HasAttack) return PlayerContextUnit;
+
         if (inputManager.CellSelected(out cursorGridPos))
         {
             // TODO: Attack unit at location
 
-            return PlayerContextUnit;
+            currentUnit.HasAttack = false;
+            return PlayerSelectUnit;
         }
+        if (inputManager.Cancel()) return PlayerContextUnit;
 
         return CurrentTurn;
+    }
+
+    #endregion
+
+    #region Turn states (AI)
+
+    private TurnState EnemyAIRoot()
+    {
+        currentTask = new TurnTask(EndTurnCountdown(), CurrentTurn);
+        return AwaitingTask;
+    }
+
+    async Task EndTurnCountdown()
+    {
+        await GDTask.DelaySeconds(4f);
+        SwitchTurnOwner();
+        await GDTask.NextFrame();
+    }
+
+    #endregion
+
+    #region Helper methods
+
+    private TurnState AwaitingTask()
+    {
+        if (!currentTask.HasValue) throw new System.Exception("currentTask is null");
+        if (currentTask.Value.IsCompleted)
+        {
+            levelData.RefreshLevel();  // Refresh Level to update moved, killed and spawned units
+
+            var nextState = currentTask.Value.NextState;
+            currentTask.Value.Dispose();
+            currentTask = null;
+            return nextState;
+        }
+        return CurrentTurn;
+    }
+
+    private void SwitchTurnOwner()
+    {
+        currentUnit?.SetSelected(false);
+        currentUnit = null;
+        GetTree().CallGroup("units", "ResetTurn");
+
+        if (IsPlayerTurn) CurrentTurn = EnemyAIRoot;
+        else CurrentTurn = PlayerSelectUnit;
+
+        IsPlayerTurn = !IsPlayerTurn;
     }
 
     #endregion

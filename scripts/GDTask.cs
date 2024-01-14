@@ -12,4 +12,9 @@ public static class GDTask
     {
         await Global.Instance.ToSignal(Global.Instance.Tree, "process_frame");
     }
+
+    public static async Task DelaySeconds(float s)
+    {
+        await Task.Delay(TimeSpan.FromSeconds(s));
+    }
 }

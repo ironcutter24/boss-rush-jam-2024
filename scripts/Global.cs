@@ -12,12 +12,4 @@ public partial class Global : Node
         Tree = GetTree();
         Instance = this;
     }
-
-    public override void _Input(InputEvent @event)
-    {
-        if (@event.IsActionPressed("quit"))
-        {
-            GetTree().Quit();
-        }
-    }
 }

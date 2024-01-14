@@ -4,6 +4,13 @@ using System.Collections.Generic;
 
 public partial class LevelData : Node3D
 {
+    public struct CellData
+    {
+        public Unit unit = null;
+
+        public CellData() { }
+    }
+
     private const int NUM_OF_ROWS = 8;
     private const int NUM_OF_COLS = 8;
     private const int CELL_SIZE = 1;
@@ -37,6 +44,13 @@ public partial class LevelData : Node3D
         //DebugPrintReachables(10, 3);
     }
 
+    public Unit GetUnitAt(Vector2I pos)
+    {
+        return Level[pos.X, pos.Y].unit;
+    }
+
+    #region Level Initialization
+
     private void InitLevel()
     {
         for (int i = 0; i < NUM_OF_ROWS; i++)
@@ -44,44 +58,6 @@ public partial class LevelData : Node3D
             for (int j = 0; j < NUM_OF_COLS; j++)
             {
                 Level[i, j] = new CellData();
-            }
-        }
-    }
-
-    private void InitAStar()
-    {
-        for (int i = 0; i < NUM_OF_ROWS; i++)
-        {
-            for (int j = 0; j < NUM_OF_COLS; j++)
-            {
-                var worldPos = GetWorldPos(i, j);
-                if (!HasStaticObstacleAt(worldPos))
-                {
-                    AddPoint(navGrid, i, j, worldPos);
-                    InitConnections(navGrid, i, j);
-                    //SpawnSphere(worldPos, .2f);  // Debug only
-                }
-            }
-        }
-    }
-
-    public void RefreshAStar(Vector2I? currentPos = null)
-    {
-        for (int i = 0; i < NUM_OF_ROWS; i++)
-        {
-            for (int j = 0; j < NUM_OF_COLS; j++)
-            {
-                if (!navGrid.HasPoint(GetId(i, j))) continue;
-
-                bool isCurrentPos = currentPos.HasValue ? currentPos.Value.Equals(new Vector2I(i, j)) : false;
-                if (!isCurrentPos && Level[i, j].unit != null)
-                {
-                    navGrid.SetPointDisabled(GetId(i, j));
-                }
-                else
-                {
-                    navGrid.SetPointDisabled(GetId(i, j), false);
-                }
             }
         }
     }
@@ -106,20 +82,58 @@ public partial class LevelData : Node3D
         }
     }
 
-    public Unit GetUnitAt(Vector2I pos)
+    #endregion
+
+    #region AStar Initialization
+
+    private void InitAStar()
     {
-        return Level[pos.X, pos.Y].unit;
+        for (int i = 0; i < NUM_OF_ROWS; i++)
+        {
+            for (int j = 0; j < NUM_OF_COLS; j++)
+            {
+                var worldPos = GetWorldPos(i, j);
+                if (!HasStaticObstacleAt(worldPos))
+                {
+                    AddPoint(navGrid, i, j, worldPos);
+                    InitConnections(navGrid, i, j);
+                    //SpawnSphere(worldPos, .2f);  // Debug only
+                }
+            }
+        }
+
+
+        static void AddPoint(AStar3D aStar, int i, int j, Vector3 pos)
+        {
+            aStar.AddPoint(GetId(i, j), pos);
+        }
+
+        static void InitConnections(AStar3D aStar, int i, int j)
+        {
+            if (i > 0) ConnectIfValid(aStar, i, j, i - 1, j);
+            if (j > 0) ConnectIfValid(aStar, i, j, i, j - 1);
+        }
     }
 
-    private static void AddPoint(AStar3D aStar, int i, int j, Vector3 pos)
+    public void RefreshAStar(Vector2I? currentPos = null)
     {
-        aStar.AddPoint(GetId(i, j), pos);
-    }
+        for (int i = 0; i < NUM_OF_ROWS; i++)
+        {
+            for (int j = 0; j < NUM_OF_COLS; j++)
+            {
+                if (!navGrid.HasPoint(GetId(i, j))) continue;
 
-    private static void InitConnections(AStar3D aStar, int i, int j)
-    {
-        if (i > 0) ConnectIfValid(aStar, i, j, i - 1, j);
-        if (j > 0) ConnectIfValid(aStar, i, j, i, j - 1);
+                bool isCurrentPos = currentPos.HasValue ? currentPos.Value.Equals(new Vector2I(i, j)) : false;
+                if (!isCurrentPos && Level[i, j].unit != null)
+                {
+                    navGrid.SetPointDisabled(GetId(i, j));
+                }
+                else
+                {
+                    navGrid.SetPointDisabled(GetId(i, j), false);
+                }
+            }
+        }
     }
 
     private static void ConnectIfValid(AStar3D aStar, int i, int j, int toI, int toJ)
@@ -135,6 +149,10 @@ public partial class LevelData : Node3D
             GD.Print($"({i}, {j}) -> ({toI}, {toJ}) | Valid: false");
         }
     }
+
+    #endregion
+
+    #region Path validation
 
     public bool IsReachable(Unit unit, Vector2I pos)
     {
@@ -191,6 +209,8 @@ public partial class LevelData : Node3D
         }
         return bounds;
     }
+
+    #endregion
 
     #region Helper methods
 
@@ -282,8 +302,4 @@ public partial class LevelData : Node3D
 
     #endregion
 
-    public class CellData
-    {
-        public Unit unit = null;
-    }
 }

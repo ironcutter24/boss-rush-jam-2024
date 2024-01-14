@@ -1,7 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://bobk7fgktpcc3"]
+[gd_scene load_steps=5 format=3 uid="uid://bobk7fgktpcc3"]
 
 [ext_resource type="Script" path="res://scripts/Units/TestUnit.cs" id="1_anvkw"]
-[ext_resource type="Material" uid="uid://cfrnbetp3whc7" path="res://materials/red_mat.tres" id="2_8oua2"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_s1wp0"]
 radius = 0.2
@@ -11,11 +10,10 @@ height = 1.0
 
 [sub_resource type="AnimationRootNode" id="AnimationRootNode_6pr8b"]
 
-[node name="CharacterBody3D" type="CharacterBody3D"]
+[node name="CharacterBody3D" type="CharacterBody3D" groups=["units"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 2)
 collision_layer = 2049
 script = ExtResource("1_anvkw")
-selectionMat = ExtResource("2_8oua2")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
