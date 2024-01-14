@@ -1,7 +1,6 @@
 using Godot;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 
 public partial class LevelData : Node3D
 {
@@ -11,8 +10,7 @@ public partial class LevelData : Node3D
 
     private AStar3D navGrid = new AStar3D();
 
-    [Export]
-    private RayCast3D ray;
+    [Export] RayCast3D ray;
 
     /*
      * Grid in game world:
@@ -28,12 +26,11 @@ public partial class LevelData : Node3D
     public CellData[,] Level = new CellData[NUM_OF_ROWS, NUM_OF_COLS];
 
 
-    // Called when the node enters the scene tree for the first time.
     public override void _Ready()
     {
         InitLevel();
-        InitAStar(navGrid);
-        RefreshAStar(navGrid);
+        InitAStar();
+        RefreshAStar();
 
         //DebugPrintPath(17, 29);
         //DebugPrintReachables(10, 3);
@@ -50,7 +47,7 @@ public partial class LevelData : Node3D
         }
     }
 
-    private void InitAStar(AStar3D aStar)
+    private void InitAStar()
     {
         for (int i = 0; i < NUM_OF_ROWS; i++)
         {
@@ -59,24 +56,21 @@ public partial class LevelData : Node3D
                 var worldPos = GetWorldPos(i, j);
                 if (!HasStaticObstacleAt(worldPos))
                 {
-                    AddPoint(aStar, i, j, worldPos);
-                    InitConnections(aStar, i, j);
-
-                    SpawnSphere(worldPos, .2f);  // Debug only
+                    AddPoint(navGrid, i, j, worldPos);
+                    InitConnections(navGrid, i, j);
+                    //SpawnSphere(worldPos, .2f);  // Debug only
                 }
             }
         }
     }
 
-    public void RefreshAStar(AStar3D aStar)
+    public void RefreshAStar()
     {
         for (int i = 0; i < NUM_OF_ROWS; i++)
         {
             for (int j = 0; j < NUM_OF_COLS; j++)
             {
-                if (!aStar.HasPoint(GetId(i, j))) continue;
-
-                aStar.SetPointDisabled(GetId(i, j), false);
+                if (!navGrid.HasPoint(GetId(i, j))) continue;
 
                 Unit unit;
                 if (HasMovableObstacleAt(GetWorldPos(i, j), out unit))
@@ -84,6 +78,12 @@ public partial class LevelData : Node3D
                     // TODO: disable movable obstacles points
                     //aStar.SetPointDisabled(GetId(i, j));
                     Level[i, j].unit = unit;
+                    GD.Print($"Unit at: ({i}, {j})");
+                }
+                else
+                {
+                    navGrid.SetPointDisabled(GetId(i, j), false);
+                    Level[i, j].unit = null;
                 }
             }
         }
@@ -121,9 +121,25 @@ public partial class LevelData : Node3D
 
     public bool IsReachable(Unit unit, Vector2I pos)
     {
-        var path = navGrid.GetPointPath(unit.GridId, GetId(pos));
-        GD.Print($"Path length: {path.Length - 1}");
-        return path.Length - 1 <= unit.MoveDistance;
+        Vector3[] path;
+        return IsReachable(unit, pos, out path);
+    }
+
+    public bool IsReachable(Unit unit, Vector2I pos, out Vector3[] path)
+    {
+        int destId = GetId(pos);
+        if (navGrid.HasPoint(destId))
+        {
+            path = navGrid.GetPointPath(unit.GridId, destId);
+            GD.Print($"Path length: {path.Length - 1}");
+            return path.Length - 1 <= unit.MoveDistance;
+        }
+        else
+        {
+            path = null;
+            GD.Print("Path destination is not valid");
+            return false;
+        }
     }
 
     private static List<int> GetReachableIds(AStar3D aStar, int id, int maxDist)
@@ -176,13 +192,18 @@ public partial class LevelData : Node3D
         return (id / NUM_OF_COLS, id % NUM_OF_COLS);
     }
 
-    private Vector3 GetWorldPos(int id)
+    public Vector3 GetWorldPos(int id)
     {
         var (i, j) = GetIndexes(id);
         return GetWorldPos(i, j);
     }
 
-    private Vector3 GetWorldPos(int i, int j)
+    public Vector3 GetWorldPos(Vector2I pos)
+    {
+        return GetWorldPos(pos.X, pos.Y);
+    }
+
+    public Vector3 GetWorldPos(int i, int j)
     {
         return GlobalPosition + new Vector3(i, 0f, j) * CELL_SIZE;
     }

@@ -1,11 +1,30 @@
 using Godot;
 using System;
+using System.Threading.Tasks;
 
 public partial class TurnManager : Node
 {
+    private struct TurnTask
+    {
+        private Task task;
+        public TurnState NextState { get; private set; }
+        public bool IsCompleted => task.IsCompleted;
+
+        public TurnTask(Task task, TurnState nextState)
+        {
+            this.task = task;
+            NextState = nextState;
+        }
+
+        public void Dispose() { task?.Dispose(); }
+    }
+
+
     public delegate TurnState TurnState();
 
     private Unit currentUnit;
+    private TurnTask? currentTask;
+    private Vector2I? cursorGridPos;
 
     [Export] InputManager inputManager;
     [Export] LevelData levelData;
@@ -29,30 +48,47 @@ public partial class TurnManager : Node
         CurrentTurn = CurrentTurn();
     }
 
+    private TurnState AwaitingTask()
+    {
+        if (!currentTask.HasValue) throw new System.Exception("currentTask is null");
+        if (currentTask.Value.IsCompleted)
+        {
+            levelData.RefreshAStar();  // Refresh Level to update moved, killed and spawned units
+
+            var nextState = currentTask.Value.NextState;
+            currentTask.Value.Dispose();
+            currentTask = null;
+            return nextState;
+        }
+        return CurrentTurn;
+    }
+
     #region AI turn states
 
     #endregion
 
     #region Player turn states
 
-    Vector2I? cellPos;
-
     private TurnState PlayerSelectUnit()
     {
-        if (inputManager.CellSelected(out cellPos))
+        currentUnit?.SetSelected(false);
+        currentUnit = null;
+
+        if (inputManager.CellSelected(out cursorGridPos))
         {
-            currentUnit = levelData.GetUnitAt(cellPos.Value);
+            currentUnit = levelData.GetUnitAt(cursorGridPos.Value);
             if (currentUnit != null)
             {
-                GD.Print($"Selected unit at: ({cellPos.Value.X}, {cellPos.Value.Y})");
-                return PlayerSelectAction;
+                currentUnit.SetSelected(true);
+                GD.Print($"Selected unit at: ({cursorGridPos.Value.X}, {cursorGridPos.Value.Y})");
+                return PlayerContextUnit;
             }
         }
 
         return CurrentTurn;
     }
 
-    private TurnState PlayerSelectAction()
+    private TurnState PlayerContextUnit()
     {
         if (currentUnit.HasMovement) return PlayerSelectMove;
         if (inputManager.Attack()) return PlayerSelectAttack;
@@ -62,19 +98,16 @@ public partial class TurnManager : Node
 
     private TurnState PlayerSelectMove()
     {
-        // Display move UI
+        // TODO: Display move UI
 
-        if (inputManager.CellSelected(out cellPos))
+        if (inputManager.CellSelected(out cursorGridPos))
         {
-            // TODO:
-            // Let LevelData validate move and return path
-            // Let Unit follow path
-            // On completion return PlayerUnitSelected
-            if (cellPos.HasValue && levelData.IsReachable(currentUnit, cellPos.Value))
+            Vector3[] path;
+            if (cursorGridPos.HasValue && levelData.IsReachable(currentUnit, cursorGridPos.Value, out path))
             {
-                // Move
-                currentUnit.HasMovement = false;
-                return PlayerSelectAction;
+                //currentUnit.HasMovement = false;
+                currentTask = new TurnTask(currentUnit.FollowPath(path), PlayerContextUnit);
+                return AwaitingTask;
             }
         }
         if (inputManager.Attack()) return PlayerSelectAttack;
@@ -85,15 +118,16 @@ public partial class TurnManager : Node
 
     private TurnState PlayerSelectAttack()
     {
-        if (inputManager.CellSelected(out cellPos))
+        if (inputManager.CellSelected(out cursorGridPos))
         {
-            // Attack unit at location
+            // TODO: Attack unit at location
 
-            return PlayerSelectAction;
+            return PlayerContextUnit;
         }
 
         return CurrentTurn;
     }
 
     #endregion
+
 }

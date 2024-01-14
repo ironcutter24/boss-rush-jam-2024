@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bja7jmhmj"]
+[gd_scene load_steps=13 format=3 uid="uid://bja7jmhmj"]
 
 [ext_resource type="Script" path="res://scripts/InputManager.cs" id="1_6df1n"]
 [ext_resource type="Script" path="res://scripts/TurnManager.cs" id="1_22vsh"]
@@ -18,6 +18,8 @@ size = Vector3(8, 1, 8)
 [sub_resource type="BoxMesh" id="BoxMesh_gyyka"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_rowki"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_xpqmo"]
 
 [node name="main_scene" type="Node3D"]
 
@@ -81,13 +83,22 @@ transform = Transform3D(8, 0, 0, 0, 1, 0, 0, 0, 0.5, 3.5, 0, 7.75)
 mesh = SubResource("BoxMesh_rowki")
 skeleton = NodePath("../..")
 
-[node name="StaticObstacleVolume" parent="." instance=ExtResource("2_o73fg")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
-
-[node name="StaticObstacleVolume2" parent="." instance=ExtResource("2_o73fg")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 2)
-
-[node name="StaticObstacleVolume3" parent="." instance=ExtResource("2_o73fg")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 3)
-
 [node name="CharacterBody3D" parent="." instance=ExtResource("5_lyjas")]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)
+mesh = SubResource("CylinderMesh_xpqmo")
+
+[node name="StaticObstacleVolume" parent="MeshInstance3D" instance=ExtResource("2_o73fg")]
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 2)
+mesh = SubResource("CylinderMesh_xpqmo")
+
+[node name="StaticObstacleVolume" parent="MeshInstance3D2" instance=ExtResource("2_o73fg")]
+
+[node name="MeshInstance3D3" type="MeshInstance3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 3)
+mesh = SubResource("CylinderMesh_xpqmo")
+
+[node name="StaticObstacleVolume" parent="MeshInstance3D3" instance=ExtResource("2_o73fg")]

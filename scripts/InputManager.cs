@@ -6,9 +6,7 @@ public partial class InputManager : Node3D
 {
     private Vector2I? hitCellPos = null;
 
-    [Export]
-    private Node3D marker;
-
+    [Export] Node3D marker;
 
     public bool CellSelected(out Vector2I? pos)
     {
