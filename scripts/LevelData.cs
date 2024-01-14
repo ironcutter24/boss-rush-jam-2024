@@ -42,6 +42,8 @@ public partial class LevelData : Node3D
 
         //DebugPrintPath(17, 29);
         //DebugPrintReachables(10, 3);
+
+        //GenerateReachableMesh();
     }
 
     public Unit GetUnitAt(Vector2I pos)
@@ -175,6 +177,49 @@ public partial class LevelData : Node3D
             GD.Print("Path destination is not valid");
             return false;
         }
+    }
+
+    private void GenerateReachableMesh()
+    {
+        List<Vector3> allVertices = new List<Vector3>();
+        for (int i = 0; i < NUM_OF_ROWS; i++)
+        {
+            for (int j = 0; j < NUM_OF_COLS; j++)
+            {
+                allVertices.AddRange(GetQuadVertices(new Vector3(i, 0, j)));
+            }
+        }
+
+        // Initialize the ArrayMesh.
+        var arrMesh = new ArrayMesh();
+        var arrays = new Godot.Collections.Array();
+        arrays.Resize((int)Mesh.ArrayType.Max);
+        arrays[(int)Mesh.ArrayType.Vertex] = allVertices.ToArray(); ;
+
+        // Create the Mesh.
+        arrMesh.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, arrays);
+        var m = new MeshInstance3D();
+        m.Mesh = arrMesh;
+
+        m.Position = Vector3.Up * 1f;
+        AddChild(m);
+    }
+
+    Vector3[] GetQuadVertices(Vector3 pos)
+    {
+        var min = pos - Vector3.One * .5f;
+        var max = pos + Vector3.One * .5f;
+
+        return new Vector3[]
+        {
+            new Vector3(min.X, 0, min.Z),
+            new Vector3(max.X, 0, min.Z),
+            new Vector3(min.X, 0, max.Z),
+
+            new Vector3(max.X, 0, max.Z),
+            new Vector3(min.X, 0, max.Z),
+            new Vector3(max.X, 0, min.Z),
+        };
     }
 
     private static List<int> GetReachableIds(AStar3D aStar, int id, int maxDist)
