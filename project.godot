@@ -19,6 +19,10 @@ config/icon="res://icon.svg"
 
 Global="*res://scripts/Global.cs"
 
+[display]
+
+window/size/mode=3
+
 [dotnet]
 
 project/assembly_name="boss-rush-jam-2024"
