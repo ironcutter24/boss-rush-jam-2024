@@ -25,12 +25,17 @@ public partial class TurnManager : Node
     private Unit currentUnit;
     private TurnTask? currentTask;
     private Vector2I? cursorGridPos;
-
-    [Export] InputManager inputManager;
-    [Export] LevelData levelData;
+    private InputManager inputManager;
+    private LevelData levelData;
 
     public TurnState CurrentTurn { get; private set; }
 
+
+    public override void _EnterTree()
+    {
+        inputManager = GetNode<InputManager>("../InputManager");
+        levelData = GetNode<LevelData>("../Level");
+    }
 
     public override void _Ready()
     {
@@ -53,7 +58,7 @@ public partial class TurnManager : Node
         if (!currentTask.HasValue) throw new System.Exception("currentTask is null");
         if (currentTask.Value.IsCompleted)
         {
-            levelData.RefreshAStar();  // Refresh Level to update moved, killed and spawned units
+            levelData.RefreshLevel();  // Refresh Level to update moved, killed and spawned units
 
             var nextState = currentTask.Value.NextState;
             currentTask.Value.Dispose();
@@ -81,6 +86,8 @@ public partial class TurnManager : Node
             {
                 currentUnit.SetSelected(true);
                 GD.Print($"Selected unit at: ({cursorGridPos.Value.X}, {cursorGridPos.Value.Y})");
+
+                levelData.RefreshAStar(currentUnit.GridPosition);
                 return PlayerContextUnit;
             }
         }

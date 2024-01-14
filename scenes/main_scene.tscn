@@ -32,14 +32,11 @@ projection = 1
 current = true
 size = 14.0
 
-[node name="TurnManager" type="Node" parent="." node_paths=PackedStringArray("inputManager", "levelData")]
+[node name="TurnManager" type="Node" parent="."]
 script = ExtResource("1_22vsh")
-inputManager = NodePath("../InputManager")
-levelData = NodePath("../Level")
 
-[node name="InputManager" type="Node3D" parent="." node_paths=PackedStringArray("marker")]
+[node name="InputManager" type="Node3D" parent="."]
 script = ExtResource("1_6df1n")
-marker = NodePath("MeshInstance3D")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="InputManager"]
 visible = false
@@ -84,6 +81,12 @@ mesh = SubResource("BoxMesh_rowki")
 skeleton = NodePath("../..")
 
 [node name="CharacterBody3D" parent="." instance=ExtResource("5_lyjas")]
+
+[node name="CharacterBody3D2" parent="." instance=ExtResource("5_lyjas")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 4)
+
+[node name="CharacterBody3D3" parent="." instance=ExtResource("5_lyjas")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 3)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 0)

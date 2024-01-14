@@ -30,6 +30,7 @@ public partial class LevelData : Node3D
     {
         InitLevel();
         InitAStar();
+        RefreshLevel();
         RefreshAStar();
 
         //DebugPrintPath(17, 29);
@@ -64,7 +65,7 @@ public partial class LevelData : Node3D
         }
     }
 
-    public void RefreshAStar()
+    public void RefreshAStar(Vector2I? currentPos = null)
     {
         for (int i = 0; i < NUM_OF_ROWS; i++)
         {
@@ -72,17 +73,33 @@ public partial class LevelData : Node3D
             {
                 if (!navGrid.HasPoint(GetId(i, j))) continue;
 
+                bool isCurrentPos = currentPos.HasValue ? currentPos.Value.Equals(new Vector2I(i, j)) : false;
+                if (!isCurrentPos && Level[i, j].unit != null)
+                {
+                    navGrid.SetPointDisabled(GetId(i, j));
+                }
+                else
+                {
+                    navGrid.SetPointDisabled(GetId(i, j), false);
+                }
+            }
+        }
+    }
+
+    public void RefreshLevel()
+    {
+        for (int i = 0; i < NUM_OF_ROWS; i++)
+        {
+            for (int j = 0; j < NUM_OF_COLS; j++)
+            {
                 Unit unit;
                 if (HasMovableObstacleAt(GetWorldPos(i, j), out unit))
                 {
-                    // TODO: disable movable obstacles points
-                    //aStar.SetPointDisabled(GetId(i, j));
                     Level[i, j].unit = unit;
                     GD.Print($"Unit at: ({i}, {j})");
                 }
                 else
                 {
-                    navGrid.SetPointDisabled(GetId(i, j), false);
                     Level[i, j].unit = null;
                 }
             }

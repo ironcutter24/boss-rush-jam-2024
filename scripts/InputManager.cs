@@ -5,8 +5,12 @@ using System;
 public partial class InputManager : Node3D
 {
     private Vector2I? hitCellPos = null;
+    private Node3D marker;
 
-    [Export] Node3D marker;
+    public override void _EnterTree()
+    {
+        marker = GetNode<MeshInstance3D>("MeshInstance3D");
+    }
 
     public bool CellSelected(out Vector2I? pos)
     {
