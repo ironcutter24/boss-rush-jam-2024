@@ -179,7 +179,7 @@ public partial class LevelData : Node3D
     public bool IsReachable(Unit unit, Vector2I pos, out Vector3[] path)
     {
         int destId = GetId(pos);
-        if (navGrid.HasPoint(destId))
+        if (navGrid.HasPoint(destId) && !navGrid.IsPointDisabled(destId))
         {
             path = navGrid.GetPointPath(unit.GridId, destId);
             GD.Print($"Path length: {path.Length - 1}");
@@ -243,7 +243,7 @@ public partial class LevelData : Node3D
         var reachables = new List<int>();
         foreach (int testId in GetBoundIds(id, maxDist))
         {
-            if (aStar.HasPoint(testId) && aStar.GetIdPath(id, testId).Length - 1 <= maxDist)
+            if (aStar.HasPoint(testId) && !aStar.IsPointDisabled(testId) && aStar.GetIdPath(id, testId).Length - 1 <= maxDist)
             {
                 reachables.Add(testId);
                 debug += $"{testId} - ";

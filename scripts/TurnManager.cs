@@ -105,6 +105,7 @@ public partial class TurnManager : Node3D
             .OnExit(() =>
             {
                 levelData.RefreshLevel();
+                levelData.RefreshAStar();
             })
             .AddTransition(State.UnitContext, () => currentTask.IsCompleted);
 
@@ -125,6 +126,11 @@ public partial class TurnManager : Node3D
 
         sm.Configure(State.AwaitAttack)
             .OnEntry(() => currentUnit.HasAttack = false)
+            .OnExit(() =>
+            {
+                levelData.RefreshLevel();
+                levelData.RefreshAStar();
+            })
             .AddTransition(State.SelectUnit, () => currentTask.IsCompleted);
     }
 

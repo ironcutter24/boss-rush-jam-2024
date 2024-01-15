@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bja7jmhmj"]
+[gd_scene load_steps=19 format=3 uid="uid://bja7jmhmj"]
 
 [ext_resource type="Script" path="res://scripts/InputManager.cs" id="1_6df1n"]
 [ext_resource type="Script" path="res://scripts/TurnManager.cs" id="1_22vsh"]
@@ -7,6 +7,7 @@
 [ext_resource type="Material" uid="uid://bjlq2xxhujjic" path="res://materials/fade_yellow_mat.tres" id="3_sq4jo"]
 [ext_resource type="Texture2D" uid="uid://drsdtllkrucgw" path="res://textures/Tile_04-512x512.png" id="4_hrwr1"]
 [ext_resource type="PackedScene" uid="uid://bobk7fgktpcc3" path="res://scenes/character_body_3d.tscn" id="5_lyjas"]
+[ext_resource type="Material" uid="uid://cs6rja8nfblda" path="res://materials/mold_mat.tres" id="8_kvcro"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_1dibq"]
 
@@ -29,6 +30,8 @@ uv1_scale = Vector3(2, 2, 1)
 [sub_resource type="BoxMesh" id="BoxMesh_rowki"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_xpqmo"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_psmw8"]
 
 [node name="main_scene" type="Node3D"]
 
@@ -128,3 +131,9 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 3)
 mesh = SubResource("CylinderMesh_xpqmo")
 
 [node name="StaticObstacleVolume" parent="MeshInstance3D3" instance=ExtResource("2_o73fg")]
+
+[node name="SphereMesh" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 3, 0, 5)
+visible = false
+mesh = SubResource("SphereMesh_psmw8")
+surface_material_override/0 = ExtResource("8_kvcro")
