@@ -8,9 +8,12 @@ public class StateMachine<TState>
 
     public State CurrentState { get; private set; }
 
-    public void Init(TState enterState)
+    internal enum Event { Entry, Process, Exit }
+    private Event stateEvent = Event.Entry;
+
+    public StateMachine(TState entryState)
     {
-        CurrentState = states[enterState];
+        CurrentState = Configure(entryState);
     }
 
     public State Configure(TState stateKey)
@@ -22,7 +25,7 @@ public class StateMachine<TState>
         }
         else
         {
-            state = new State(stateKey);
+            state = new State(this, stateKey);
             states.Add(stateKey, state);
             return state;
         }
@@ -30,42 +33,31 @@ public class StateMachine<TState>
 
     public void Process()
     {
-        var s = CurrentState.Process();
-        CurrentState = states[s];
+        CurrentState = CurrentState.Process(ref stateEvent);
+
+        if (stateEvent == Event.Entry) { stateEvent = Event.Process; }
+        if (stateEvent == Event.Exit) { stateEvent = Event.Entry; }
     }
 
     public class State
     {
-        internal Dictionary<TState, Func<bool>> transitions = new Dictionary<TState, Func<bool>>();
-        private bool isFirstProcess = true;
+        internal Dictionary<State, Func<bool>> transitions = new Dictionary<State, Func<bool>>();
+        private State parent;
 
+        public StateMachine<TState> OwnerMachine { get; private set; }
         public TState Key { get; private set; }
 
-        public State(TState stateKey)
+        public State(StateMachine<TState> owner, TState stateKey)
         {
+            OwnerMachine = owner;
             Key = stateKey;
         }
 
-        public State AddTransition(TState nextState, Func<bool> condition)
+        internal State Process(ref Event stateEvent)
         {
-            Func<bool> existingCondition;
-            if (transitions.TryGetValue(nextState, out existingCondition))
-            {
-                transitions[nextState] = () => existingCondition() || condition();
-            }
-            else
-            {
-                transitions.Add(nextState, condition);
-            }
-            return this;
-        }
-
-        internal TState Process()
-        {
-            if (isFirstProcess)
+            if (stateEvent == Event.Entry)
             {
                 onEntry?.Invoke();
-                isFirstProcess = false;
             }
 
             onProcess?.Invoke();
@@ -75,13 +67,40 @@ public class StateMachine<TState>
                 if (t.Value.Invoke())
                 {
                     onExit?.Invoke();
-                    isFirstProcess = true;
+                    stateEvent = Event.Exit;
                     return t.Key;
                 }
             }
 
-            return Key;
+            return this;
         }
+
+        #region State Configuration
+
+        public State SubstateOf(TState parentState)
+        {
+            parent = OwnerMachine.Configure(parentState);
+            return this;
+        }
+
+        public State AddTransition(TState nextState, Func<bool> condition)
+        {
+            State nextStateInstance = OwnerMachine.Configure(nextState);
+            Func<bool> existingCondition;
+            if (transitions.TryGetValue(nextStateInstance, out existingCondition))
+            {
+                transitions[nextStateInstance] = () => existingCondition() || condition();
+            }
+            else
+            {
+                transitions.Add(nextStateInstance, condition);
+            }
+            return this;
+        }
+
+        #endregion
+
+        #region State Actions
 
         Action onEntry;
         public State OnEntry(Action entryAction)
@@ -103,5 +122,8 @@ public class StateMachine<TState>
             onExit = exitAction;
             return this;
         }
+
+        #endregion
+
     }
 }

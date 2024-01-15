@@ -4,14 +4,11 @@
 [ext_resource type="Script" path="res://scripts/TurnManager.cs" id="1_22vsh"]
 [ext_resource type="Script" path="res://scripts/LevelData.cs" id="1_ke8qq"]
 [ext_resource type="PackedScene" uid="uid://bftwl3dsinhe0" path="res://scenes/obstacle_static.tscn" id="2_o73fg"]
+[ext_resource type="Material" uid="uid://bjlq2xxhujjic" path="res://materials/fade_yellow_mat.tres" id="3_sq4jo"]
 [ext_resource type="Texture2D" uid="uid://drsdtllkrucgw" path="res://textures/Tile_04-512x512.png" id="4_hrwr1"]
 [ext_resource type="PackedScene" uid="uid://bobk7fgktpcc3" path="res://scenes/character_body_3d.tscn" id="5_lyjas"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_1dibq"]
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vuxm5"]
-transparency = 1
-albedo_color = Color(0, 1, 0, 0.431373)
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_6qkt4"]
 size = Vector3(8, 1, 8)
@@ -56,7 +53,7 @@ script = ExtResource("1_6df1n")
 transform = Transform3D(1, 0, 0, 0, 0.05, 0, 0, 0, 1, 0, 0.025, 0)
 mesh = SubResource("BoxMesh_1dibq")
 skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("StandardMaterial3D_vuxm5")
+surface_material_override/0 = ExtResource("3_sq4jo")
 
 [node name="Level" type="Node3D" parent="." node_paths=PackedStringArray("ray")]
 script = ExtResource("1_ke8qq")

@@ -15,7 +15,7 @@ public partial class TurnManager : Node3D
     public bool IsPlayerTurn { get; private set; } = true;
 
     enum State { SelectUnit, UnitContext, SelectMove, AwaitMove, SelectAttack, AwaitAttack }
-    StateMachine<State> sm = new StateMachine<State>();
+    StateMachine<State> sm = new StateMachine<State>(State.SelectUnit);
 
 
     public override void _EnterTree()
@@ -27,8 +27,6 @@ public partial class TurnManager : Node3D
     public override void _Ready()
     {
         InitPlayerStates();
-
-        sm.Init(State.SelectUnit);
     }
 
     State previousState;
@@ -80,7 +78,7 @@ public partial class TurnManager : Node3D
 
                 var m = new MeshInstance3D();
                 m.Mesh = levelData.GenerateWalkableMesh(currentUnit);
-                m.MaterialOverride = GD.Load<Material>("materials/red_mat.tres");
+                m.MaterialOverride = GD.Load<Material>("materials/fade_green_mat.tres");
                 m.Position = Vector3.Up * .05f;
                 AddChild(m);
             })
@@ -102,12 +100,15 @@ public partial class TurnManager : Node3D
             .OnEntry(() =>
             {
                 currentUnit.HasMovement = false;
-                currentTask = new Task(async () => await currentUnit.FollowPathTo(cursorGridPos.Value));
+                currentTask = currentUnit.FollowPathTo(cursorGridPos.Value);
+            })
+            .OnExit(() =>
+            {
+                levelData.RefreshLevel();
             })
             .AddTransition(State.UnitContext, () => currentTask.IsCompleted);
 
         sm.Configure(State.SelectAttack)
-            .AddTransition(State.UnitContext, () => !currentUnit.HasAttack)
             .AddTransition(State.SelectUnit, () =>
             {
                 if (inputManager.CellSelected(out cursorGridPos))
@@ -119,6 +120,7 @@ public partial class TurnManager : Node3D
                 }
                 return false;
             })
+            .AddTransition(State.UnitContext, () => !currentUnit.HasAttack)
             .AddTransition(State.UnitContext, () => inputManager.Cancel());
 
         sm.Configure(State.AwaitAttack)
