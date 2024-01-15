@@ -2,34 +2,20 @@ using Godot;
 using System;
 using System.Threading.Tasks;
 
-public partial class TurnManager : Node
+public partial class TurnManager : Node3D
 {
-    private struct TurnTask
-    {
-        private Task task;
-        public TurnState NextState { get; private set; }
-        public bool IsCompleted => task.IsCompleted;
-
-        public TurnTask(Task task, TurnState nextState)
-        {
-            this.task = task;
-            NextState = nextState;
-        }
-
-        public void Dispose() { task?.Dispose(); }
-    }
-
-
     public delegate TurnState TurnState();
 
     private Unit currentUnit;
-    private TurnTask? currentTask;
+    private Task currentTask;
     private Vector2I? cursorGridPos;
     private InputManager inputManager;
     private LevelData levelData;
 
     public bool IsPlayerTurn { get; private set; } = true;
-    public TurnState CurrentTurn { get; private set; }
+
+    enum State { SelectUnit, UnitContext, SelectMove, AwaitMove, SelectAttack, AwaitAttack }
+    StateMachine<State> sm = new StateMachine<State>();
 
 
     public override void _EnterTree()
@@ -40,124 +26,107 @@ public partial class TurnManager : Node
 
     public override void _Ready()
     {
-        CurrentTurn = PlayerSelectUnit;
+        InitPlayerStates();
+
+        sm.Init(State.SelectUnit);
     }
 
-    TurnState previousTurn = null;
+    State previousState;
     public override void _Process(double delta)
     {
-        if (inputManager.EndTurn()) SwitchTurnOwner();
+        if (inputManager.EndTurn()) SwitchTurnOwner();  // Make base state
+        sm.Process();
 
-        if (previousTurn != CurrentTurn)
+        if (sm.CurrentState.Key != previousState)
         {
-            GD.Print($"Turn state: {CurrentTurn.Method.Name}");
-            previousTurn = CurrentTurn;
+            GD.Print("Entered: " + sm.CurrentState.Key.ToString());
+            previousState = sm.CurrentState.Key;
         }
-        CurrentTurn = CurrentTurn();
     }
 
-    #region Turn states (Player)
-
-    private TurnState PlayerSelectUnit()
+    private void InitPlayerStates()
     {
-        currentUnit?.SetSelected(false);
-        currentUnit = null;
-
-        if (inputManager.CellSelected(out cursorGridPos))
-        {
-            currentUnit = levelData.GetUnitAt(cursorGridPos.Value);
-            if (currentUnit != null)
+        sm.Configure(State.SelectUnit)
+            .OnEntry(() =>
             {
+                currentUnit?.SetSelected(false);
+                currentUnit = null;
+            })
+            .AddTransition(State.UnitContext, () =>
+            {
+                if (inputManager.CellSelected(out cursorGridPos))
+                {
+                    currentUnit = levelData.GetUnitAt(cursorGridPos.Value);
+                    return currentUnit != null;
+                }
+                return false;
+            });
+
+        sm.Configure(State.UnitContext)
+            .OnEntry(() =>
+            {
+                levelData.RefreshAStar(currentUnit.GridPosition);
                 currentUnit.SetSelected(true);
                 GD.Print($"Selected unit at: ({cursorGridPos.Value.X}, {cursorGridPos.Value.Y})");
+            })
+            .AddTransition(State.SelectMove, () => currentUnit.HasMovement)
+            .AddTransition(State.SelectAttack, () => inputManager.Attack())
+            .AddTransition(State.SelectUnit, () => inputManager.Cancel());
 
-                levelData.RefreshAStar(currentUnit.GridPosition);
-                return PlayerContextUnit;
-            }
-        }
+        sm.Configure(State.SelectMove)
+            .OnEntry(() =>
+            {
+                // TODO: Display move UI
 
-        return CurrentTurn;
-    }
+                var m = new MeshInstance3D();
+                m.Mesh = levelData.GenerateWalkableMesh(currentUnit);
+                m.MaterialOverride = GD.Load<Material>("materials/red_mat.tres");
+                m.Position = Vector3.Up * .05f;
+                AddChild(m);
+            })
+            .OnExit(() =>
+            {
+                foreach (var child in GetChildren())
+                    child.Free();
+            })
+            .AddTransition(State.AwaitMove, () =>
+            {
+                return inputManager.CellSelected(out cursorGridPos)
+                    && cursorGridPos.HasValue
+                    && levelData.IsReachable(currentUnit, cursorGridPos.Value);
+            })
+            .AddTransition(State.SelectAttack, () => inputManager.Attack())
+            .AddTransition(State.SelectUnit, () => inputManager.Cancel());
 
-    private TurnState PlayerContextUnit()
-    {
-        if (currentUnit.HasMovement) return PlayerSelectMove;
-        if (inputManager.Attack()) return PlayerSelectAttack;
-        if (inputManager.Cancel()) return PlayerSelectUnit;
-        return CurrentTurn;
-    }
-
-    private TurnState PlayerSelectMove()
-    {
-        // TODO: Display move UI
-
-        if (inputManager.CellSelected(out cursorGridPos))
-        {
-            Vector3[] path;
-            if (cursorGridPos.HasValue && levelData.IsReachable(currentUnit, cursorGridPos.Value, out path))
+        sm.Configure(State.AwaitMove)
+            .OnEntry(() =>
             {
                 currentUnit.HasMovement = false;
-                currentTask = new TurnTask(currentUnit.FollowPath(path), PlayerContextUnit);
-                return AwaitingTask;
-            }
-        }
-        if (inputManager.Attack()) return PlayerSelectAttack;
-        if (inputManager.Cancel()) return PlayerSelectUnit;
+                currentTask = new Task(async () => await currentUnit.FollowPathTo(cursorGridPos.Value));
+            })
+            .AddTransition(State.UnitContext, () => currentTask.IsCompleted);
 
-        return CurrentTurn;
+        sm.Configure(State.SelectAttack)
+            .AddTransition(State.UnitContext, () => !currentUnit.HasAttack)
+            .AddTransition(State.SelectUnit, () =>
+            {
+                if (inputManager.CellSelected(out cursorGridPos))
+                {
+                    // TODO: Check for valid cell
+                    // TODO: Attack unit at location
+
+                    return true;
+                }
+                return false;
+            })
+            .AddTransition(State.UnitContext, () => inputManager.Cancel());
+
+        sm.Configure(State.AwaitAttack)
+            .OnEntry(() => currentUnit.HasAttack = false)
+            .AddTransition(State.SelectUnit, () => currentTask.IsCompleted);
     }
-
-    private TurnState PlayerSelectAttack()
-    {
-        if (!currentUnit.HasAttack) return PlayerContextUnit;
-
-        if (inputManager.CellSelected(out cursorGridPos))
-        {
-            // TODO: Attack unit at location
-
-            currentUnit.HasAttack = false;
-            return PlayerSelectUnit;
-        }
-        if (inputManager.Cancel()) return PlayerContextUnit;
-
-        return CurrentTurn;
-    }
-
-    #endregion
-
-    #region Turn states (AI)
-
-    private TurnState EnemyAIRoot()
-    {
-        currentTask = new TurnTask(EndTurnCountdown(), CurrentTurn);
-        return AwaitingTask;
-    }
-
-    async Task EndTurnCountdown()
-    {
-        await GDTask.DelaySeconds(4f);
-        SwitchTurnOwner();
-        await GDTask.NextFrame();
-    }
-
-    #endregion
 
     #region Helper methods
-
-    private TurnState AwaitingTask()
-    {
-        if (!currentTask.HasValue) throw new System.Exception("currentTask is null");
-        if (currentTask.Value.IsCompleted)
-        {
-            levelData.RefreshLevel();  // Refresh Level to update moved, killed and spawned units
-
-            var nextState = currentTask.Value.NextState;
-            currentTask.Value.Dispose();
-            currentTask = null;
-            return nextState;
-        }
-        return CurrentTurn;
-    }
 
     private void SwitchTurnOwner()
     {
@@ -165,8 +134,8 @@ public partial class TurnManager : Node
         currentUnit = null;
         GetTree().CallGroup("units", "ResetTurn");
 
-        if (IsPlayerTurn) CurrentTurn = EnemyAIRoot;
-        else CurrentTurn = PlayerSelectUnit;
+        //if (IsPlayerTurn) CurrentTurn = EnemyAIRoot;
+        //else CurrentTurn = PlayerSelectUnit;
 
         IsPlayerTurn = !IsPlayerTurn;
     }

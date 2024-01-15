@@ -42,8 +42,10 @@ public abstract partial class Unit : CharacterBody3D
     public abstract Task Special();
     public abstract Task Reaction();
 
-    public async Task FollowPath(Vector3[] path)
+    public async Task FollowPathTo(Vector2I pos)
     {
+        Vector3[] path = LevelData.Instance.GetPath(this, pos);
+
         const float moveSpeed = 1 / 4f;
         for (int i = 1; i < path.Length; i++)
         {

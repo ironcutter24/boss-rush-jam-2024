@@ -1,5 +1,6 @@
 using Godot;
 using System;
+using System.CodeDom.Compiler;
 using System.Collections.Generic;
 
 public partial class LevelData : Node3D
@@ -32,6 +33,12 @@ public partial class LevelData : Node3D
      */
     public CellData[,] Level = new CellData[NUM_OF_ROWS, NUM_OF_COLS];
 
+    public static LevelData Instance {  get; private set; }
+
+    public override void _EnterTree()
+    {
+        Instance = this;
+    }
 
     public override void _Ready()
     {
@@ -156,6 +163,13 @@ public partial class LevelData : Node3D
 
     #region Path validation
 
+    public Vector3[] GetPath(Unit unit, Vector2I pos)
+    {
+        Vector3[] path;
+        IsReachable(unit, pos, out path);
+        return path;
+    }
+
     public bool IsReachable(Unit unit, Vector2I pos)
     {
         Vector3[] path;
@@ -179,15 +193,20 @@ public partial class LevelData : Node3D
         }
     }
 
-    private void GenerateReachableMesh()
+    public Mesh GenerateWalkableMesh(Unit unit)
+    {
+        var walkables = GetReachableIds(navGrid, unit.GridId, unit.MoveDistance);
+        return GenerateMeshFrom(walkables);
+    }
+
+    private Mesh GenerateMeshFrom(List<int> ids)
     {
         List<Vector3> allVertices = new List<Vector3>();
-        for (int i = 0; i < NUM_OF_ROWS; i++)
+
+        foreach (var id in ids)
         {
-            for (int j = 0; j < NUM_OF_COLS; j++)
-            {
-                allVertices.AddRange(GetQuadVertices(new Vector3(i, 0, j)));
-            }
+            var (i, j) = GetIndexes(id);
+            allVertices.AddRange(GetQuadVertices(new Vector3(i, 0, j)));
         }
 
         // Initialize the ArrayMesh.
@@ -198,11 +217,7 @@ public partial class LevelData : Node3D
 
         // Create the Mesh.
         arrMesh.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, arrays);
-        var m = new MeshInstance3D();
-        m.Mesh = arrMesh;
-
-        m.Position = Vector3.Up * 1f;
-        AddChild(m);
+        return arrMesh;
     }
 
     Vector3[] GetQuadVertices(Vector3 pos)
