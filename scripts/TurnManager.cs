@@ -55,6 +55,7 @@ public partial class TurnManager : Node3D
                 if (inputManager.CellSelected(out cursorGridPos))
                 {
                     currentUnit = levelData.GetUnitAt(cursorGridPos.Value);
+                    GD.Print($"Selected unit at: ({cursorGridPos.Value.X}, {cursorGridPos.Value.Y})");
                     return currentUnit != null;
                 }
                 return false;
@@ -65,7 +66,6 @@ public partial class TurnManager : Node3D
             {
                 levelData.RefreshAStar(currentUnit.GridPosition);
                 currentUnit.SetSelected(true);
-                GD.Print($"Selected unit at: ({cursorGridPos.Value.X}, {cursorGridPos.Value.Y})");
             })
             .AddTransition(State.SelectMove, () => currentUnit.HasMovement)
             .AddTransition(State.SelectAttack, () => inputManager.Attack())
