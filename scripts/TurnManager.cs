@@ -14,7 +14,11 @@ public partial class TurnManager : Node3D
 
     public bool IsPlayerTurn { get; private set; } = true;
 
-    enum State { SelectUnit, UnitContext, SelectMove, AwaitMove, SelectAttack, AwaitAttack }
+    enum State
+    {
+        PlayerTurn, SelectUnit, UnitContext, SelectMove, AwaitMove, SelectAttack, AwaitAttack,
+        EnemyTurn
+    }
     StateMachine<State> sm = new StateMachine<State>(State.SelectUnit);
 
 
@@ -26,25 +30,31 @@ public partial class TurnManager : Node3D
 
     public override void _Ready()
     {
+        sm.StateChanged += s => GD.Print($"FSM >> Changed to: \"{s}\"");
         InitPlayerStates();
     }
 
-    State previousState;
     public override void _Process(double delta)
     {
         if (inputManager.EndTurn()) SwitchTurnOwner();  // Make base state
         sm.Process();
-
-        if (sm.CurrentState.Key != previousState)
-        {
-            GD.Print("Entered: " + sm.CurrentState.Key.ToString());
-            previousState = sm.CurrentState.Key;
-        }
     }
 
     private void InitPlayerStates()
     {
+        sm.Configure(State.PlayerTurn)
+            .OnEntry(() =>
+            {
+                GD.Print(">>> Entered Player turn");
+            })
+            .OnExit(() =>
+            {
+                GD.Print("<<< Exited Player turn");
+            })
+            .AddTransition(State.EnemyTurn, () => Input.IsKeyPressed(Key.A));
+
         sm.Configure(State.SelectUnit)
+            .SubstateOf(State.PlayerTurn)
             .OnEntry(() =>
             {
                 currentUnit?.SetSelected(false);
@@ -62,6 +72,7 @@ public partial class TurnManager : Node3D
             });
 
         sm.Configure(State.UnitContext)
+            .SubstateOf(State.PlayerTurn)
             .OnEntry(() =>
             {
                 levelData.RefreshAStar(currentUnit.GridPosition);
@@ -72,6 +83,7 @@ public partial class TurnManager : Node3D
             .AddTransition(State.SelectUnit, () => inputManager.Cancel());
 
         sm.Configure(State.SelectMove)
+            .SubstateOf(State.PlayerTurn)
             .OnEntry(() =>
             {
                 // TODO: Display move UI
@@ -97,6 +109,7 @@ public partial class TurnManager : Node3D
             .AddTransition(State.SelectUnit, () => inputManager.Cancel());
 
         sm.Configure(State.AwaitMove)
+            .SubstateOf(State.PlayerTurn)
             .OnEntry(() =>
             {
                 currentUnit.HasMovement = false;
@@ -110,6 +123,7 @@ public partial class TurnManager : Node3D
             .AddTransition(State.UnitContext, () => currentTask.IsCompleted);
 
         sm.Configure(State.SelectAttack)
+            .SubstateOf(State.PlayerTurn)
             .AddTransition(State.SelectUnit, () =>
             {
                 if (inputManager.CellSelected(out cursorGridPos))
@@ -125,6 +139,7 @@ public partial class TurnManager : Node3D
             .AddTransition(State.UnitContext, () => inputManager.Cancel());
 
         sm.Configure(State.AwaitAttack)
+            .SubstateOf(State.PlayerTurn)
             .OnEntry(() => currentUnit.HasAttack = false)
             .OnExit(() =>
             {
@@ -132,6 +147,15 @@ public partial class TurnManager : Node3D
                 levelData.RefreshAStar();
             })
             .AddTransition(State.SelectUnit, () => currentTask.IsCompleted);
+    }
+
+    private void InitEnemyStates()
+    {
+        sm.Configure(State.EnemyTurn)
+            .OnEntry(() =>
+            {
+                GD.Print(">>> Entered Enemy turn");
+            });
     }
 
     #region Helper methods

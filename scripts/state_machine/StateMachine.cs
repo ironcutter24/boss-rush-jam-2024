@@ -1,12 +1,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Godot;
 
 public class StateMachine<TState>
 {
+    public event Action<string> StateChanged;
+
     private Dictionary<TState, State> states = new Dictionary<TState, State>();
 
     public State CurrentState { get; private set; }
+    private State NextState { get; set; }
 
     internal enum Event { Entry, Process, Exit }
     private Event stateEvent = Event.Entry;
@@ -31,9 +35,26 @@ public class StateMachine<TState>
         }
     }
 
+    (int from, int to) depth = (int.MaxValue, int.MaxValue);
     public void Process()
     {
-        CurrentState = CurrentState.Process(ref stateEvent);
+        if (stateEvent == Event.Entry)
+        {
+            StateChanged?.Invoke(CurrentState.FormatParents());
+            CurrentState.PerformOnEntry(depth.to);
+        }
+
+        CurrentState.PerformOnProcess();
+
+        NextState = CurrentState.PerformTransitionCheck();
+        if (NextState != null)
+        {
+            State.HaveSharedParent(CurrentState, NextState, out depth);
+            GD.Print($"Depth: ({depth.from}, {depth.to})");
+            CurrentState.PerformOnExit(depth.from);
+            stateEvent = Event.Exit;
+            CurrentState = NextState;
+        }
 
         if (stateEvent == Event.Entry) { stateEvent = Event.Process; }
         if (stateEvent == Event.Exit) { stateEvent = Event.Entry; }
@@ -51,28 +72,6 @@ public class StateMachine<TState>
         {
             OwnerMachine = owner;
             Key = stateKey;
-        }
-
-        internal State Process(ref Event stateEvent)
-        {
-            if (stateEvent == Event.Entry)
-            {
-                onEntry?.Invoke();
-            }
-
-            onProcess?.Invoke();
-
-            foreach (var t in transitions)
-            {
-                if (t.Value.Invoke())
-                {
-                    onExit?.Invoke();
-                    stateEvent = Event.Exit;
-                    return t.Key;
-                }
-            }
-
-            return this;
         }
 
         #region State Configuration
@@ -102,24 +101,89 @@ public class StateMachine<TState>
 
         #region State Actions
 
-        Action onEntry;
+        internal void PerformOnEntry(int depth)
+        {
+            if (depth > 1)
+                parent?.PerformOnEntry(depth - 1);
+
+            onEntryCallback?.Invoke();
+        }
+
+        internal void PerformOnProcess()
+        {
+            parent?.PerformOnProcess();
+            onProcessCallback?.Invoke();
+        }
+
+        internal State PerformTransitionCheck()
+        {
+            foreach (var t in transitions)
+            {
+                if (t.Value.Invoke()) return t.Key;
+            }
+            return parent?.PerformTransitionCheck();
+        }
+
+        internal void PerformOnExit(int depth)
+        {
+            onExitCallback?.Invoke();
+            if (depth > 1)
+                parent?.PerformOnExit(depth - 1);
+        }
+
+        public static bool HaveSharedParent(State a, State b, out (int from, int to) depth)
+        {
+            State aParent = a;
+            State bParent = b;
+            depth = (-1, -1);
+
+            while (aParent != null)
+            {
+                bParent = b;
+                depth.to = 0;
+                depth.from++;
+
+                while (bParent != null)
+                {
+                    if (aParent == bParent)
+                    {
+                        return true; // Found a common ancestor
+                    }
+                    bParent = bParent.parent;
+                    depth.to++;
+                }
+                aParent = aParent.parent;
+            }
+
+            // Reset depth values to their maximum if no common ancestor is found
+            depth = (int.MaxValue, int.MaxValue);
+            return false;
+        }
+
+
+        internal string FormatParents()
+        {
+            return Key.ToString() + ((parent != null) ? $" : {parent.FormatParents()}" : "");
+        }
+
+        private Action onEntryCallback;
         public State OnEntry(Action entryAction)
         {
-            onEntry = entryAction;
+            onEntryCallback = entryAction;
             return this;
         }
 
-        Action onProcess;
+        private Action onProcessCallback;
         public State OnProcess(Action processAction)
         {
-            onProcess = processAction;
+            onProcessCallback = processAction;
             return this;
         }
 
-        Action onExit;
+        private Action onExitCallback;
         public State OnExit(Action exitAction)
         {
-            onExit = exitAction;
+            onExitCallback = exitAction;
             return this;
         }
 
