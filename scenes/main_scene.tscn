@@ -130,6 +130,7 @@ skeleton = NodePath("../../..")
 [node name="Units" type="Node3D" parent="."]
 
 [node name="BaseUnitPlayer" parent="Units" instance=ExtResource("5_lyjas")]
+AttackDistance = 8
 
 [node name="BaseUnitPlayer2" parent="Units" instance=ExtResource("5_lyjas")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 4)

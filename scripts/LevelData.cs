@@ -45,11 +45,6 @@ public partial class LevelData : Node3D
         InitAStar();
         RefreshLevel();
         RefreshAStar();
-
-        //DebugPrintPath(17, 29);
-        //DebugPrintReachables(10, 3);
-
-        //GenerateReachableMesh();
     }
 
     public Unit GetUnitAt(Vector2I pos)
@@ -57,7 +52,7 @@ public partial class LevelData : Node3D
         return Level[pos.X, pos.Y].unit;
     }
 
-    #region Level Initialization
+    #region Initialization
 
     private void InitLevel()
     {
@@ -69,30 +64,6 @@ public partial class LevelData : Node3D
             }
         }
     }
-
-    public void RefreshLevel()
-    {
-        for (int i = 0; i < NUM_OF_ROWS; i++)
-        {
-            for (int j = 0; j < NUM_OF_COLS; j++)
-            {
-                Unit unit;
-                if (HasMovableObstacleAt(GetWorldPos(i, j), out unit))
-                {
-                    Level[i, j].unit = unit;
-                    GD.Print($"Unit at: ({i}, {j})");
-                }
-                else
-                {
-                    Level[i, j].unit = null;
-                }
-            }
-        }
-    }
-
-    #endregion
-
-    #region AStar Initialization
 
     private void InitAStar()
     {
@@ -121,6 +92,33 @@ public partial class LevelData : Node3D
             if (i > 0) ConnectIfValid(aStar, i, j, i - 1, j);
             if (j > 0) ConnectIfValid(aStar, i, j, i, j - 1);
         }
+
+        static void ConnectIfValid(AStar3D aStar, int i, int j, int toI, int toJ)
+        {
+            var toId = GetId(toI, toJ);
+            if (aStar.HasPoint(toId))
+            {
+                var fromId = GetId(i, j);
+                aStar.ConnectPoints(fromId, toId, true);
+            }
+        }
+    }
+
+    #endregion
+
+    #region Board refresh
+
+    public void RefreshLevel()
+    {
+        for (int i = 0; i < NUM_OF_ROWS; i++)
+        {
+            for (int j = 0; j < NUM_OF_COLS; j++)
+            {
+                Unit unit;
+                bool hasObstacle = HasMovableObstacleAt(GetWorldPos(i, j), out unit);
+                Level[i, j].unit = hasObstacle ? unit : null;
+            }
+        }
     }
 
     public void RefreshAStar(Vector2I? currentPos = null)
@@ -132,29 +130,9 @@ public partial class LevelData : Node3D
                 if (!navGrid.HasPoint(GetId(i, j))) continue;
 
                 bool isCurrentPos = currentPos.HasValue ? currentPos.Value.Equals(new Vector2I(i, j)) : false;
-                if (!isCurrentPos && Level[i, j].unit != null)
-                {
-                    navGrid.SetPointDisabled(GetId(i, j));
-                }
-                else
-                {
-                    navGrid.SetPointDisabled(GetId(i, j), false);
-                }
+                bool isWalkable = isCurrentPos || Level[i, j].unit == null;
+                navGrid.SetPointDisabled(GetId(i, j), !isWalkable);
             }
-        }
-    }
-
-    private static void ConnectIfValid(AStar3D aStar, int i, int j, int toI, int toJ)
-    {
-        var toId = GetId(toI, toJ);
-        if (aStar.HasPoint(toId))
-        {
-            var fromId = GetId(i, j);
-            aStar.ConnectPoints(fromId, toId, true);
-        }
-        else
-        {
-            GD.Print($"({i}, {j}) -> ({toI}, {toJ}) | Valid: false");
         }
     }
 
@@ -247,21 +225,27 @@ public partial class LevelData : Node3D
         for (int i = 1; i <= unit.AttackDistance; i++)
         {
             var pos = unit.GridPosition + dir * i;
-            var target = Instance.Level[pos.X, pos.Y].unit;
-            if (target != null && target.Faction == unit.Faction)
+
+            if (!IsWithinBounds(pos))
+                break;
+
+            var targetId = GetId(pos);
+            if (!aStar.HasPoint(targetId))
+                break;
+
+            Unit target = GetUnitAtPosition(pos);
+            if (target != null)
             {
+                if (target.Faction == unit.Faction)
+                    break;
+
+                visibles.Add(targetId);
                 break;
             }
-            var id = GetId(pos);
-            if (aStar.HasPoint(id))
-            {
-                visibles.Add(id);
-                if (aStar.IsPointDisabled(id))
-                {
-                    break;
-                }
-            }
+
+            visibles.Add(targetId);
         }
+
         return visibles;
     }
 
@@ -352,6 +336,17 @@ public partial class LevelData : Node3D
     public Vector3 GetWorldPos(int i, int j)
     {
         return GlobalPosition + new Vector3(i, 0f, j) * CELL_SIZE;
+    }
+
+    private static bool IsWithinBounds(Vector2I pos)
+    {
+        return pos.X >= 0 && pos.X < Instance.Level.GetLength(0) && pos.Y >= 0 && pos.Y < Instance.Level.GetLength(1);
+    }
+
+    private static Unit GetUnitAtPosition(Vector2I pos)
+    {
+        try { return Instance.Level[pos.X, pos.Y].unit; }
+        catch (IndexOutOfRangeException) { return null; }
     }
 
     private bool HasStaticObstacleAt(Vector3 pos)
