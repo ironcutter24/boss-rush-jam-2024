@@ -6,19 +6,22 @@ public abstract partial class Unit : CharacterBody3D
 {
     private AnimationTree animTree;
 
+    [Export] public FactionType Faction { get; private set; }
+    [Export] public int AttackDistance { get; private set; } = 1;
     [Export] public int MoveDistance { get; private set; } = 3;
     [Export] public int MaxHealth { get; private set; } = 3;
     public int Health { get; private set; }
     public bool IsSelected { get; private set; } = false;
     private bool _hasMovement = true;
-    public bool HasMovement
-    {
-        get { return _hasMovement && HasAttack; }
-        set { _hasMovement = value; }
-    }
+    public bool HasMovement => _hasMovement && HasAttack;
     public bool HasAttack { get; set; } = true;
     public Vector2I GridPosition => new Vector2I((int)Position.X, (int)Position.Z);
     public int GridId => LevelData.GetId(GridPosition.X, GridPosition.Y);
+
+    public override void _EnterTree()
+    {
+        AddToGroup($"{Faction.ToString().ToLower()}_units");
+    }
 
     public override void _Ready()
     {
@@ -35,7 +38,7 @@ public abstract partial class Unit : CharacterBody3D
 
     public void ResetTurn()
     {
-        HasMovement = HasAttack = true;
+        _hasMovement = HasAttack = true;
     }
 
     public abstract Task Attack();
@@ -44,6 +47,8 @@ public abstract partial class Unit : CharacterBody3D
 
     public async Task FollowPathTo(Vector2I pos)
     {
+        _hasMovement = false;
+
         Vector3[] path = LevelData.Instance.GetPath(this, pos);
 
         const float moveSpeed = 1 / 4f;

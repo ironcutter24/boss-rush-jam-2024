@@ -1,0 +1,16 @@
+[gd_scene load_steps=4 format=3 uid="uid://d3ita488awasa"]
+
+[ext_resource type="PackedScene" uid="uid://bkh4eat12qt1o" path="res://scenes/base_unit_enemy.tscn" id="1_qevcm"]
+[ext_resource type="Material" uid="uid://cs6rja8nfblda" path="res://materials/mold_mat.tres" id="2_mr5uq"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_5hqw1"]
+
+[node name="EnemySlime" instance=ExtResource("1_qevcm")]
+
+[node name="MeshInstance3D" parent="." index="1"]
+visible = false
+
+[node name="SphereMesh" type="MeshInstance3D" parent="." index="4"]
+transform = Transform3D(0.7, 0, 0, 0, 0.4, 0, 0, 0, 0.7, 0, 0, 0)
+mesh = SubResource("SphereMesh_5hqw1")
+surface_material_override/0 = ExtResource("2_mr5uq")

@@ -10,7 +10,7 @@ height = 1.0
 
 [sub_resource type="AnimationRootNode" id="AnimationRootNode_6pr8b"]
 
-[node name="CharacterBody3D" type="CharacterBody3D" groups=["units"]]
+[node name="BaseUnitPlayer" type="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 2)
 collision_layer = 2049
 script = ExtResource("1_anvkw")

@@ -12,7 +12,7 @@ public partial class TurnManager : Node3D
     private InputManager inputManager;
     private LevelData levelData;
 
-    public bool IsPlayerTurn { get; private set; } = true;
+    enum MeshColor { Red, Yellow, Green }
 
     enum State
     {
@@ -36,7 +36,6 @@ public partial class TurnManager : Node3D
 
     public override void _Process(double delta)
     {
-        if (inputManager.EndTurn()) SwitchTurnOwner();  // Make base state
         sm.Process();
     }
 
@@ -45,6 +44,7 @@ public partial class TurnManager : Node3D
         sm.Configure(State.PlayerTurn)
             .OnEntry(() =>
             {
+                ResetUnits(FactionType.Player);
                 GD.Print(">>> Entered Player turn");
             })
             .OnExit(() =>
@@ -57,8 +57,7 @@ public partial class TurnManager : Node3D
             .SubstateOf(State.PlayerTurn)
             .OnEntry(() =>
             {
-                currentUnit?.SetSelected(false);
-                currentUnit = null;
+                ResetUnits(FactionType.Player);
             })
             .AddTransition(State.UnitContext, () =>
             {
@@ -88,21 +87,14 @@ public partial class TurnManager : Node3D
             {
                 // TODO: Display move UI
 
-                var m = new MeshInstance3D();
-                m.Mesh = levelData.GenerateWalkableMesh(currentUnit);
-                m.MaterialOverride = GD.Load<Material>("materials/fade_green_mat.tres");
-                m.Position = Vector3.Up * .05f;
-                AddChild(m);
+                DisplayMesh(levelData.GenerateWalkableMesh(currentUnit), MeshColor.Green);
             })
-            .OnExit(() =>
-            {
-                foreach (var child in GetChildren())
-                    child.Free();
-            })
+            .OnExit(() => DestroyChildren())
             .AddTransition(State.AwaitMove, () =>
             {
                 return inputManager.CellSelected(out cursorGridPos)
                     && cursorGridPos.HasValue
+                    && cursorGridPos.Value != currentUnit.GridPosition
                     && levelData.IsReachable(currentUnit, cursorGridPos.Value);
             })
             .AddTransition(State.SelectAttack, () => inputManager.Attack())
@@ -112,17 +104,17 @@ public partial class TurnManager : Node3D
             .SubstateOf(State.PlayerTurn)
             .OnEntry(() =>
             {
-                currentUnit.HasMovement = false;
                 currentTask = currentUnit.FollowPathTo(cursorGridPos.Value);
             })
-            .OnExit(() =>
-            {
-                levelData.RefreshLevel();
-                levelData.RefreshAStar();
-            })
+            .OnExit(() => RefreshGrid())
             .AddTransition(State.UnitContext, () => currentTask.IsCompleted);
 
         sm.Configure(State.SelectAttack)
+            .OnEntry(() =>
+            {
+                DisplayMesh(levelData.GenerateHittableMesh(currentUnit), MeshColor.Red);
+            })
+            .OnExit(() => DestroyChildren())
             .SubstateOf(State.PlayerTurn)
             .AddTransition(State.SelectUnit, () =>
             {
@@ -136,16 +128,13 @@ public partial class TurnManager : Node3D
                 return false;
             })
             .AddTransition(State.UnitContext, () => !currentUnit.HasAttack)
-            .AddTransition(State.UnitContext, () => inputManager.Cancel());
+            .AddTransition(State.UnitContext, () => inputManager.Cancel() && currentUnit.HasMovement)
+            .AddTransition(State.SelectUnit, () => inputManager.Cancel() && !currentUnit.HasMovement);
 
         sm.Configure(State.AwaitAttack)
             .SubstateOf(State.PlayerTurn)
             .OnEntry(() => currentUnit.HasAttack = false)
-            .OnExit(() =>
-            {
-                levelData.RefreshLevel();
-                levelData.RefreshAStar();
-            })
+            .OnExit(() => RefreshGrid())
             .AddTransition(State.SelectUnit, () => currentTask.IsCompleted);
     }
 
@@ -154,22 +143,55 @@ public partial class TurnManager : Node3D
         sm.Configure(State.EnemyTurn)
             .OnEntry(() =>
             {
+                ResetUnits(FactionType.Enemy);
                 GD.Print(">>> Entered Enemy turn");
+            })
+            .OnExit(() =>
+            {
+                GD.Print(">>> Exited Enemy turn");
             });
     }
 
     #region Helper methods
 
-    private void SwitchTurnOwner()
+    private void DisplayMesh(Mesh mesh, MeshColor color)
+    {
+        var m = new MeshInstance3D();
+        m.Mesh = mesh;
+        m.MaterialOverride = GetMaterialFrom(color);
+        m.Position = Vector3.Up * .05f;
+        AddChild(m);
+    }
+
+    private void DestroyChildren()
+    {
+        foreach (var child in GetChildren())
+        {
+            child.Free();
+        }
+    }
+
+    private void ResetUnits(FactionType faction)
     {
         currentUnit?.SetSelected(false);
         currentUnit = null;
-        GetTree().CallGroup("units", "ResetTurn");
+        GetTree().CallGroup(GetGroupFrom(faction), "ResetTurn");
+    }
 
-        //if (IsPlayerTurn) CurrentTurn = EnemyAIRoot;
-        //else CurrentTurn = PlayerSelectUnit;
+    private void RefreshGrid()
+    {
+        levelData.RefreshLevel();
+        levelData.RefreshAStar();
+    }
 
-        IsPlayerTurn = !IsPlayerTurn;
+    private StringName GetGroupFrom(FactionType faction)
+    {
+        return $"{faction.ToString().ToLower()}_units";
+    }
+
+    private Material GetMaterialFrom(MeshColor color)
+    {
+        return GD.Load<Material>($"materials/fade_{color.ToString().ToLower()}_mat.tres");
     }
 
     #endregion

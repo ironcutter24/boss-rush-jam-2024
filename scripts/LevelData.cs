@@ -1,6 +1,5 @@
 using Godot;
 using System;
-using System.CodeDom.Compiler;
 using System.Collections.Generic;
 
 public partial class LevelData : Node3D
@@ -33,7 +32,7 @@ public partial class LevelData : Node3D
      */
     public CellData[,] Level = new CellData[NUM_OF_ROWS, NUM_OF_COLS];
 
-    public static LevelData Instance {  get; private set; }
+    public static LevelData Instance { get; private set; }
 
     public override void _EnterTree()
     {
@@ -193,10 +192,93 @@ public partial class LevelData : Node3D
         }
     }
 
+    private static List<int> GetReachableIds(AStar3D aStar, int id, int maxDist)
+    {
+        string debug = "";
+        var reachables = new List<int>();
+        foreach (int testId in GetBoundIds(id, maxDist))
+        {
+            if (aStar.HasPoint(testId) && !aStar.IsPointDisabled(testId) && aStar.GetIdPath(id, testId).Length - 1 <= maxDist)
+            {
+                reachables.Add(testId);
+                debug += $"{testId} - ";
+            }
+        }
+        return reachables;
+    }
+
+    private static List<int> GetBoundIds(int id, int maxDist)
+    {
+        var (x, z) = GetIndexes(id);
+        var bounds = new List<int>();
+        for (int i = 0; i < NUM_OF_ROWS; i++)
+        {
+            for (int j = 0; j < NUM_OF_COLS; j++)
+            {
+                if (i == x && j == z) continue;
+                if (Mathf.Abs(x - i) <= maxDist && Mathf.Abs(z - j) <= maxDist)
+                {
+                    bounds.Add(GetId(i, j));
+                }
+            }
+        }
+        return bounds;
+    }
+
+    #endregion
+
+    #region Attack validation
+
+    private static List<int> GetHittableIds(AStar3D aStar, Unit unit)
+    {
+        if (unit.AttackDistance <= 0) return null;
+
+        var hittables = new List<int>();
+        hittables.AddRange(GetLineOfSightIds(aStar, unit, Vector2I.Up));
+        hittables.AddRange(GetLineOfSightIds(aStar, unit, Vector2I.Down));
+        hittables.AddRange(GetLineOfSightIds(aStar, unit, Vector2I.Right));
+        hittables.AddRange(GetLineOfSightIds(aStar, unit, Vector2I.Left));
+        return hittables;
+    }
+
+    private static List<int> GetLineOfSightIds(AStar3D aStar, Unit unit, Vector2I dir)
+    {
+        var visibles = new List<int>();
+        for (int i = 1; i <= unit.AttackDistance; i++)
+        {
+            var pos = unit.GridPosition + dir * i;
+            var target = Instance.Level[pos.X, pos.Y].unit;
+            if (target != null && target.Faction == unit.Faction)
+            {
+                break;
+            }
+            var id = GetId(pos);
+            if (aStar.HasPoint(id))
+            {
+                visibles.Add(id);
+                if (aStar.IsPointDisabled(id))
+                {
+                    break;
+                }
+            }
+        }
+        return visibles;
+    }
+
+    #endregion
+
+    #region Mesh Generation
+
     public Mesh GenerateWalkableMesh(Unit unit)
     {
         var walkables = GetReachableIds(navGrid, unit.GridId, unit.MoveDistance);
         return GenerateMeshFrom(walkables);
+    }
+
+    public Mesh GenerateHittableMesh(Unit unit)
+    {
+        var hittables = GetHittableIds(navGrid, unit);
+        return GenerateMeshFrom(hittables);
     }
 
     private Mesh GenerateMeshFrom(List<int> ids)
@@ -235,39 +317,6 @@ public partial class LevelData : Node3D
             new Vector3(min.X, 0, max.Z),
             new Vector3(max.X, 0, min.Z),
         };
-    }
-
-    private static List<int> GetReachableIds(AStar3D aStar, int id, int maxDist)
-    {
-        string debug = "";
-        var reachables = new List<int>();
-        foreach (int testId in GetBoundIds(id, maxDist))
-        {
-            if (aStar.HasPoint(testId) && !aStar.IsPointDisabled(testId) && aStar.GetIdPath(id, testId).Length - 1 <= maxDist)
-            {
-                reachables.Add(testId);
-                debug += $"{testId} - ";
-            }
-        }
-        return reachables;
-    }
-
-    private static List<int> GetBoundIds(int id, int maxDist)
-    {
-        var (x, z) = GetIndexes(id);
-        var bounds = new List<int>();
-        for (int i = 0; i < NUM_OF_ROWS; i++)
-        {
-            for (int j = 0; j < NUM_OF_COLS; j++)
-            {
-                if (i == x && j == z) continue;
-                if (Mathf.Abs(x - i) <= maxDist && Mathf.Abs(z - j) <= maxDist)
-                {
-                    bounds.Add(GetId(i, j));
-                }
-            }
-        }
-        return bounds;
     }
 
     #endregion
