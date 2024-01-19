@@ -20,12 +20,13 @@ public abstract partial class Unit : CharacterBody3D
 
     public override void _EnterTree()
     {
+        animTree = GetNode<AnimationTree>("AnimationTree");
         AddToGroup($"{Faction.ToString().ToLower()}_units");
     }
 
     public override void _Ready()
     {
-        animTree = GetNode<AnimationTree>("AnimationTree");
+        Health = MaxHealth;
         GD.Print(GridId);
     }
 
@@ -41,7 +42,16 @@ public abstract partial class Unit : CharacterBody3D
         _hasMovement = HasAttack = true;
     }
 
-    public abstract Task Attack();
+    public void ApplyDamage(int value)
+    {
+        Health = Mathf.Max(0, Health - value);
+        if (Health <= 0)
+        {
+            Free();
+        }
+    }
+
+    public abstract Task Attack(Unit target);
     public abstract Task Special();
     public abstract Task Reaction();
 

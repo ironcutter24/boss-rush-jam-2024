@@ -207,6 +207,16 @@ public partial class LevelData : Node3D
 
     #region Attack validation
 
+    public bool IsHittable(Unit unit, Vector2I pos)
+    {
+        Unit target = Level[pos.X, pos.Y].unit;
+        if (target == null) return false;
+
+        var targetId = GetId(pos);
+        var hittableIds = GetHittableIds(navGrid, unit);
+        return hittableIds.Contains(targetId);
+    }
+
     private static List<int> GetHittableIds(AStar3D aStar, Unit unit)
     {
         if (unit.AttackDistance <= 0) return null;
@@ -343,7 +353,7 @@ public partial class LevelData : Node3D
         return pos.X >= 0 && pos.X < Instance.Level.GetLength(0) && pos.Y >= 0 && pos.Y < Instance.Level.GetLength(1);
     }
 
-    private static Unit GetUnitAtPosition(Vector2I pos)
+    public static Unit GetUnitAtPosition(Vector2I pos)
     {
         try { return Instance.Level[pos.X, pos.Y].unit; }
         catch (IndexOutOfRangeException) { return null; }

@@ -4,9 +4,20 @@ using System.Threading.Tasks;
 
 public partial class TestUnit : Unit
 {
-    public override async Task Attack()
+    public override async Task Attack(Unit target)
     {
-        GD.Print("Performing attack");
+        const float duration = .1f;
+        Vector3 startPos = Position;
+        Tween tween = CreateTween();
+
+        var targetPos = Position + (target.Position - Position).Normalized() * .5f;
+        tween.TweenProperty(this, "position", targetPos, duration);
+        tween.TweenProperty(this, "position", startPos, duration).SetDelay(duration);
+        
+        await GDTask.DelaySeconds(duration);
+        target.ApplyDamage(1);
+        await GDTask.DelaySeconds(duration);
+
         await GDTask.NextFrame();
         return;
     }

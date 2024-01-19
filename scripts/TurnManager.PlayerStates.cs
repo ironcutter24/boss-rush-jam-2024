@@ -71,22 +71,16 @@ public partial class TurnManager : Node3D
             .AddTransition(State.UnitContext, () => currentTask.IsCompleted);
 
         sm.Configure(State.SelectAttack)
+            .SubstateOf(State.PlayerTurn)
             .OnEntry(() =>
             {
                 DisplayMesh(levelData.GenerateHittableMesh(currentUnit), MeshColor.Red);
             })
             .OnExit(() => DestroyChildren())
-            .SubstateOf(State.PlayerTurn)
-            .AddTransition(State.SelectUnit, () =>
+            .AddTransition(State.AwaitAttack, () =>
             {
-                if (inputManager.CellSelected(out cursorGridPos))
-                {
-                    // TODO: Check for valid cell
-                    // TODO: Attack unit at location
-
-                    return true;
-                }
-                return false;
+                return inputManager.CellSelected(out cursorGridPos)
+                    && levelData.IsHittable(currentUnit, cursorGridPos.Value);
             })
             .AddTransition(State.UnitContext, () => inputManager.Attack())
             .AddTransition(State.UnitContext, () => inputManager.Cancel() && currentUnit.HasMovement)
@@ -94,7 +88,11 @@ public partial class TurnManager : Node3D
 
         sm.Configure(State.AwaitAttack)
             .SubstateOf(State.PlayerTurn)
-            .OnEntry(() => currentUnit.HasAttack = false)
+            .OnEntry(() =>
+            {
+                currentUnit.HasAttack = false;
+                currentTask = currentUnit.Attack(LevelData.GetUnitAtPosition(cursorGridPos.Value));
+            })
             .OnExit(() => RefreshGrid())
             .AddTransition(State.SelectUnit, () => currentTask.IsCompleted);
     }

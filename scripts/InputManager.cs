@@ -15,9 +15,9 @@ public partial class InputManager : Node3D
     public bool CellSelected(out Vector2I? pos)
     {
         pos = hitCellPos;
-        if (Input.IsActionJustPressed("select"))
+        if (pos.HasValue && Input.IsActionJustPressed("select"))
         {
-            if (pos.HasValue) return true;
+            return true;
         }
         return false;
     }
