@@ -39,6 +39,7 @@ public partial class TurnManager : Node3D
 
         sm.StateChanged += s => GD.Print($"FSM >> Changed to: \"{s}\"");
         InitPlayerStates();
+        InitEnemyStates();
     }
 
     public override void _Process(double delta)

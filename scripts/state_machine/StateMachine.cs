@@ -117,9 +117,9 @@ public class StateMachine<TState>
 
         internal State PerformTransitionCheck()
         {
-            foreach (var t in transitions)
+            foreach (var pair in transitions)
             {
-                if (t.Value.Invoke()) return t.Key;
+                if (pair.Value.Invoke()) return pair.Key;
             }
             return parent?.PerformTransitionCheck();
         }

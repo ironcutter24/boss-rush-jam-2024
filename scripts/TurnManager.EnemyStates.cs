@@ -18,7 +18,8 @@ public partial class TurnManager : Node3D
             .OnExit(() =>
             {
                 GD.Print("<<< Exited Enemy turn");
-            });
+            })
+            .AddTransition(State.SelectUnit, () => Input.IsKeyPressed(Key.P));
 
         sm.Configure(State.EnemyAI)
             .SubstateOf(State.EnemyTurn)
@@ -27,12 +28,6 @@ public partial class TurnManager : Node3D
                 // Debug run
                 RunUtilityDecisionMaker(enemyUnits[0]);
             });
-
-        sm.Configure(State.SelectSwap)
-            .SubstateOf(State.EnemyTurn);
-
-        sm.Configure(State.AwaitSwap)
-            .SubstateOf(State.EnemyTurn);
     }
 
     private void RunUtilityDecisionMaker(Unit unit)
@@ -43,6 +38,7 @@ public partial class TurnManager : Node3D
         reachableIds.ForEach(id => cellScores.Add(id, 0));
 
         GD.Print("Reachables: " + reachableIds.Count);
+
 
         // Calculate nearby players for all valid movement cells
         // 0->0 1->2, 2->1, 3->0 etc...
@@ -69,7 +65,7 @@ public partial class TurnManager : Node3D
         // Move to last pair or pick random from highest scores
 
 
-        DebugPrintCellScores(cellScores);
+        DebugPrintCellScores(unit.GridId, cellScores);
     }
 
     private void UpdateScores(Unit unit, Unit playerUnit, ref Dictionary<int, int> scores)
@@ -98,10 +94,10 @@ public partial class TurnManager : Node3D
     int CountNearbyUnits(int cellId)
     {
         int count = 0;
-        var (i, j) = LevelData.GetIndexes(cellId);
-        for (--i; i < i + 3; i++)
+        var (iCell, jCell) = LevelData.GetIndexes(cellId);
+        for (int i = iCell - 1; i < iCell + 2; i++)
         {
-            for (--j; j < j + 3; j++)
+            for (int j = jCell; j < jCell + 2; j++)
             {
                 var unit = LevelData.GetUnitAtPosition(new Vector2I(i, j));
                 if (unit != null)
@@ -111,7 +107,7 @@ public partial class TurnManager : Node3D
         return count;
     }
 
-    private void DebugPrintCellScores(Dictionary<int, int> cellScores)
+    private void DebugPrintCellScores(int unitId, Dictionary<int, int> cellScores)
     {
         // Debug print cell scores
         int cellCount = LevelData.NUM_OF_ROWS * LevelData.NUM_OF_COLS;
@@ -127,15 +123,17 @@ public partial class TurnManager : Node3D
 
             if (cellScores.ContainsKey(i))
             {
-                lineStr += cellScores[i];
+                int score = cellScores[i];
+                string color = score > 0 ? "green" : score < 0 ? "red" : "yellow";
+                lineStr += $"[color={color}]{Mathf.Abs(score)}[/color]";
             }
             else
             {
-                lineStr += "0";
+                lineStr += i == unitId ? "[color=blue]X[/color]" : "0";
             }
             lineStr += "|";
         }
-        GD.Print("Unit utility scores:");
-        GD.Print(debugStr);
+        GD.PrintRich("[b]Unit utility scores:[/b]");
+        GD.PrintRich(debugStr);
     }
 }
