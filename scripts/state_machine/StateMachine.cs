@@ -7,13 +7,13 @@ public class StateMachine<TState>
 {
     public event Action<string> StateChanged;
 
+    internal enum Event { Entry, Process, Exit }
+    private Event stateEvent = Event.Entry;
     private Dictionary<TState, State> states = new Dictionary<TState, State>();
 
     public State CurrentState { get; private set; }
     private State NextState { get; set; }
 
-    internal enum Event { Entry, Process, Exit }
-    private Event stateEvent = Event.Entry;
 
     public StateMachine(TState entryState)
     {
@@ -163,7 +163,7 @@ public class StateMachine<TState>
 
         internal string FormatParents()
         {
-            return Key.ToString() + ((parent != null) ? $" : {parent.FormatParents()}" : "");
+            return ((parent != null) ? $"{parent.FormatParents()} -> " : "") + Key.ToString();
         }
 
         private Action onEntryCallback;

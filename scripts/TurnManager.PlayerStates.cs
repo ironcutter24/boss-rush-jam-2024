@@ -17,7 +17,7 @@ public partial class TurnManager : Node3D
             {
                 GD.Print("<<< Exited Player turn");
             })
-            .AddTransition(State.EnemyTurn, () => Input.IsKeyPressed(Key.A));
+            .AddTransition(State.EnemyAI, () => Input.IsKeyPressed(Key.A));
 
         sm.Configure(State.SelectUnit)
             .SubstateOf(State.PlayerTurn)

@@ -1,19 +1,13 @@
 using Godot;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public partial class LevelData : Node3D
 {
-    public struct CellData
-    {
-        public Unit unit = null;
-
-        public CellData() { }
-    }
-
-    private const int NUM_OF_ROWS = 8;
-    private const int NUM_OF_COLS = 8;
-    private const int CELL_SIZE = 1;
+    public const int NUM_OF_ROWS = 8;
+    public const int NUM_OF_COLS = 8;
+    public const int CELL_SIZE = 1;
 
     private AStar3D navGrid = new AStar3D();
 
@@ -33,6 +27,7 @@ public partial class LevelData : Node3D
     public CellData[,] Level = new CellData[NUM_OF_ROWS, NUM_OF_COLS];
 
     public static LevelData Instance { get; private set; }
+
 
     public override void _EnterTree()
     {
@@ -126,7 +121,7 @@ public partial class LevelData : Node3D
         string debugStr = string.Empty;
         for (int i = 0; i < NUM_OF_ROWS; i++)
         {
-            var lineStr = string.Empty;
+            var lineStr = "|";
             for (int j = 0; j < NUM_OF_COLS; j++)
             {
                 lineStr += (Level[i, j].unit != null ? 1 : 0) + "|";
@@ -217,25 +212,25 @@ public partial class LevelData : Node3D
         if (target == null) return false;
 
         var targetId = GetId(pos);
-        var hittableIds = GetHittableIds(navGrid, unit);
-        return hittableIds.Contains(targetId);
+        var hittableCells = GetHittableCells(unit);
+        return hittableCells.Where(pair => pair.id == targetId).Count() > 0;
     }
 
-    private static List<int> GetHittableIds(AStar3D aStar, Unit unit)
+    public List<(int id, int dist)> GetHittableCells(Unit unit)
     {
         if (unit.AttackDistance <= 0) return null;
 
-        var hittables = new List<int>();
-        hittables.AddRange(GetLineOfSightIds(aStar, unit, Vector2I.Up));
-        hittables.AddRange(GetLineOfSightIds(aStar, unit, Vector2I.Down));
-        hittables.AddRange(GetLineOfSightIds(aStar, unit, Vector2I.Right));
-        hittables.AddRange(GetLineOfSightIds(aStar, unit, Vector2I.Left));
+        var hittables = new List<(int, int)>();
+        hittables.AddRange(GetLineOfSightIds(navGrid, unit, Vector2I.Up));
+        hittables.AddRange(GetLineOfSightIds(navGrid, unit, Vector2I.Down));
+        hittables.AddRange(GetLineOfSightIds(navGrid, unit, Vector2I.Right));
+        hittables.AddRange(GetLineOfSightIds(navGrid, unit, Vector2I.Left));
         return hittables;
     }
 
-    private static List<int> GetLineOfSightIds(AStar3D aStar, Unit unit, Vector2I dir)
+    private static List<(int id, int dist)> GetLineOfSightIds(AStar3D aStar, Unit unit, Vector2I dir)
     {
-        var visibles = new List<int>();
+        var visibles = new List<(int, int)>();
         for (int i = 1; i <= unit.AttackDistance; i++)
         {
             var pos = unit.GridPosition + dir * i;
@@ -253,11 +248,11 @@ public partial class LevelData : Node3D
                 if (target.Faction == unit.Faction)
                     break;
 
-                visibles.Add(targetId);
+                visibles.Add((targetId, i));
                 break;
             }
 
-            visibles.Add(targetId);
+            visibles.Add((targetId, i));
         }
 
         return visibles;
@@ -275,7 +270,7 @@ public partial class LevelData : Node3D
 
     public Mesh GenerateHittableMesh(Unit unit)
     {
-        var hittables = GetHittableIds(navGrid, unit);
+        var hittables = GetHittableCells(unit).Select(pair => pair.id).ToList();
         return GenerateMeshFrom(hittables);
     }
 
@@ -320,6 +315,12 @@ public partial class LevelData : Node3D
     #endregion
 
     #region Helper methods
+
+    public int GetId(Vector3 worldPosition)
+    {
+        worldPosition -= GlobalPosition;
+        return GetId(Mathf.RoundToInt(worldPosition.X), Mathf.RoundToInt(worldPosition.Y));
+    }
 
     public static int GetId(Vector2I pos)
     {
@@ -408,5 +409,12 @@ public partial class LevelData : Node3D
     }
 
     #endregion
+
+    public struct CellData
+    {
+        public Unit unit = null;
+
+        public CellData() { }
+    }
 
 }

@@ -87,6 +87,12 @@ public partial class TurnManager : Node3D
         return GD.Load<Material>($"materials/fade_{color.ToString().ToLower()}_mat.tres");
     }
 
+    private List<Unit> GetPlayerUnits()
+    {
+        return GetTree().GetNodesInGroup(Unit.GetGroupFrom(FactionType.Player))
+            .OfType<Unit>().ToList();
+    }
+
     #endregion
 
 }
