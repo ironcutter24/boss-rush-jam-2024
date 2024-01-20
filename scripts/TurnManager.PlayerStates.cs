@@ -9,7 +9,7 @@ public partial class TurnManager : Node3D
         sm.Configure(State.PlayerTurn)
             .OnEntry(() =>
             {
-                ResetUnits(FactionType.Player);
+                ResetCurrentUnit();
                 ResetTurn(FactionType.Player);
                 GD.Print(">>> Entered Player turn");
             })
@@ -21,7 +21,7 @@ public partial class TurnManager : Node3D
 
         sm.Configure(State.SelectUnit)
             .SubstateOf(State.PlayerTurn)
-            .OnEntry(() => ResetUnits(FactionType.Player))
+            .OnEntry(() => ResetCurrentUnit())
             .AddTransition(State.UnitContext, () =>
             {
                 if (inputManager.CellSelected(out cursorGridPos))
@@ -65,6 +65,7 @@ public partial class TurnManager : Node3D
             .SubstateOf(State.PlayerTurn)
             .OnEntry(() =>
             {
+                currentUnit.ConsumeMovement();
                 currentTask = currentUnit.FollowPathTo(cursorGridPos.Value);
             })
             .OnExit(() => RefreshGrid())
@@ -90,7 +91,7 @@ public partial class TurnManager : Node3D
             .SubstateOf(State.PlayerTurn)
             .OnEntry(() =>
             {
-                currentUnit.HasAttack = false;
+                currentUnit.ConsumeAttack();
                 currentTask = currentUnit.Attack(LevelData.GetUnitAtPosition(cursorGridPos.Value));
             })
             .OnExit(() => RefreshGrid())

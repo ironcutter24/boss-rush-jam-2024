@@ -14,14 +14,14 @@ public abstract partial class Unit : CharacterBody3D
     public bool IsSelected { get; private set; } = false;
     private bool _hasMovement = true;
     public bool HasMovement => _hasMovement && HasAttack;
-    public bool HasAttack { get; set; } = true;
+    public bool HasAttack { get; private set; } = true;
     public Vector2I GridPosition => new Vector2I((int)Position.X, (int)Position.Z);
     public int GridId => LevelData.GetId(GridPosition.X, GridPosition.Y);
 
     public override void _EnterTree()
     {
         animTree = GetNode<AnimationTree>("AnimationTree");
-        AddToGroup($"{Faction.ToString().ToLower()}_units");
+        AddToGroup(GetGroupFrom(Faction));
     }
 
     public override void _Ready()
@@ -34,7 +34,7 @@ public abstract partial class Unit : CharacterBody3D
     {
         IsSelected = state;
         var mat = IsSelected ? GD.Load<Material>("res://materials/red_mat.tres") : null;
-        GetNode<MeshInstance3D>("MeshInstance3D").MaterialOverride = mat;
+        GetNode<MeshInstance3D>("Graphics/MeshInstance3D").MaterialOverride = mat;
     }
 
     public void ResetTurn()
@@ -57,8 +57,6 @@ public abstract partial class Unit : CharacterBody3D
 
     public async Task FollowPathTo(Vector2I pos)
     {
-        _hasMovement = false;
-
         Vector3[] path = LevelData.Instance.GetPath(this, pos);
 
         const float moveSpeed = 1 / 4f;
@@ -75,8 +73,23 @@ public abstract partial class Unit : CharacterBody3D
         return;
     }
 
+    public void ConsumeMovement()
+    {
+        _hasMovement = false;
+    }
+
+    public void ConsumeAttack()
+    {
+        HasAttack = false;
+    }
+
     private int GridDistance(Vector3 a, Vector3 b)
     {
         return Mathf.RoundToInt(Mathf.Max(Mathf.Abs(a.X - b.X), Mathf.Abs(a.Z - b.Z)));
+    }
+
+    public static StringName GetGroupFrom(FactionType faction)
+    {
+        return $"{faction.ToString().ToLower()}_units";
     }
 }

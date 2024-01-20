@@ -1,5 +1,7 @@
 using Godot;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 public partial class TurnManager : Node3D
@@ -7,17 +9,19 @@ public partial class TurnManager : Node3D
     public delegate TurnState TurnState();
 
     private Unit currentUnit;
+    private Unit currentTarget;
     private Task currentTask;
     private Vector2I? cursorGridPos;
     private InputManager inputManager;
     private LevelData levelData;
+    private List<Unit> enemyUnits = new List<Unit>();
 
     enum MeshColor { Red, Yellow, Green }
 
     enum State
     {
         PlayerTurn, SelectUnit, UnitContext, SelectMove, AwaitMove, SelectAttack, AwaitAttack,
-        EnemyTurn
+        EnemyTurn, EnemyAI, SelectSwap, AwaitSwap
     }
     StateMachine<State> sm = new StateMachine<State>(State.SelectUnit);
 
@@ -30,6 +34,9 @@ public partial class TurnManager : Node3D
 
     public override void _Ready()
     {
+        enemyUnits = GetTree().GetNodesInGroup(Unit.GetGroupFrom(FactionType.Enemy))
+            .OfType<Unit>().ToList();
+
         sm.StateChanged += s => GD.Print($"FSM >> Changed to: \"{s}\"");
         InitPlayerStates();
     }
@@ -37,21 +44,6 @@ public partial class TurnManager : Node3D
     public override void _Process(double delta)
     {
         sm.Process();
-    }
-
-    private void InitEnemyStates()
-    {
-        sm.Configure(State.EnemyTurn)
-            .OnEntry(() =>
-            {
-                ResetUnits(FactionType.Enemy);
-                ResetTurn(FactionType.Enemy);
-                GD.Print(">>> Entered Enemy turn");
-            })
-            .OnExit(() =>
-            {
-                GD.Print(">>> Exited Enemy turn");
-            });
     }
 
     #region Helper methods
@@ -73,7 +65,7 @@ public partial class TurnManager : Node3D
         }
     }
 
-    private void ResetUnits(FactionType faction)
+    private void ResetCurrentUnit()
     {
         currentUnit?.SetSelected(false);
         currentUnit = null;
@@ -81,18 +73,13 @@ public partial class TurnManager : Node3D
 
     private void ResetTurn(FactionType faction)
     {
-        GetTree().CallGroup(GetGroupFrom(faction), "ResetTurn");
+        GetTree().CallGroup(Unit.GetGroupFrom(faction), "ResetTurn");
     }
 
     private void RefreshGrid()
     {
         levelData.RefreshLevel();
         levelData.RefreshAStar();
-    }
-
-    private StringName GetGroupFrom(FactionType faction)
-    {
-        return $"{faction.ToString().ToLower()}_units";
     }
 
     private Material GetMaterialFrom(MeshColor color)

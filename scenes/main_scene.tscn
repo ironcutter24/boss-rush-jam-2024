@@ -129,11 +129,14 @@ skeleton = NodePath("../../..")
 
 [node name="Units" type="Node3D" parent="."]
 
-[node name="BaseUnitPlayer" parent="Units" instance=ExtResource("5_lyjas")]
-AttackDistance = 8
+[node name="PlayerBerserker" parent="Units" instance=ExtResource("5_lyjas")]
 
-[node name="BaseUnitPlayer2" parent="Units" instance=ExtResource("5_lyjas")]
+[node name="PlayerTank" parent="Units" instance=ExtResource("5_lyjas")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 4)
+
+[node name="PlayerHealer" parent="Units" instance=ExtResource("5_lyjas")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 1)
+AttackDistance = 8
 
 [node name="EnemySlime" parent="Units" groups=["enemy_units", "units"] instance=ExtResource("8_mg4li")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 5)

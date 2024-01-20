@@ -123,17 +123,22 @@ public partial class LevelData : Node3D
 
     public void RefreshAStar(Vector2I? currentPos = null)
     {
+        string debugStr = string.Empty;
         for (int i = 0; i < NUM_OF_ROWS; i++)
         {
+            var lineStr = string.Empty;
             for (int j = 0; j < NUM_OF_COLS; j++)
             {
+                lineStr += (Level[i, j].unit != null ? 1 : 0) + "|";
                 if (!navGrid.HasPoint(GetId(i, j))) continue;
 
                 bool isCurrentPos = currentPos.HasValue ? currentPos.Value.Equals(new Vector2I(i, j)) : false;
                 bool isWalkable = isCurrentPos || Level[i, j].unit == null;
                 navGrid.SetPointDisabled(GetId(i, j), !isWalkable);
             }
+            debugStr = lineStr + "\n" + debugStr;
         }
+        GD.Print(debugStr);
     }
 
     #endregion
@@ -170,16 +175,15 @@ public partial class LevelData : Node3D
         }
     }
 
-    private static List<int> GetReachableIds(AStar3D aStar, int id, int maxDist)
+    public List<int> GetReachableIds(Unit unit)
     {
-        string debug = "";
         var reachables = new List<int>();
-        foreach (int testId in GetBoundIds(id, maxDist))
+        foreach (int testId in GetBoundIds(unit.GridId, unit.MoveDistance))
         {
-            if (aStar.HasPoint(testId) && !aStar.IsPointDisabled(testId) && aStar.GetIdPath(id, testId).Length - 1 <= maxDist)
+            if (navGrid.HasPoint(testId) && !navGrid.IsPointDisabled(testId)
+            && navGrid.GetIdPath(unit.GridId, testId).Length - 1 <= unit.MoveDistance)
             {
                 reachables.Add(testId);
-                debug += $"{testId} - ";
             }
         }
         return reachables;
@@ -265,7 +269,7 @@ public partial class LevelData : Node3D
 
     public Mesh GenerateWalkableMesh(Unit unit)
     {
-        var walkables = GetReachableIds(navGrid, unit.GridId, unit.MoveDistance);
+        var walkables = GetReachableIds(unit);
         return GenerateMeshFrom(walkables);
     }
 
@@ -391,17 +395,6 @@ public partial class LevelData : Node3D
         {
             GD.Print(point);
             SpawnSphere(point, .4f);
-        }
-    }
-
-    private void DebugPrintReachables(int id, int maxDist)
-    {
-        SpawnSphere(GetWorldPos(id), .6f);
-        foreach (var testId in GetReachableIds(navGrid, id, maxDist))
-        {
-            var (i, j) = GetIndexes(testId);
-            var pos = GetWorldPos(i, j);
-            SpawnSphere(pos, .4f);
         }
     }
 
