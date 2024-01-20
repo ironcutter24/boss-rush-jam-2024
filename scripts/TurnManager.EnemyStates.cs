@@ -11,34 +11,75 @@ public partial class TurnManager : Node3D
         sm.Configure(State.EnemyTurn)
             .OnEntry(() =>
             {
-                ResetCurrentUnit();
-                ResetTurn(FactionType.Enemy);
                 GD.Print(">>> Entered Enemy turn");
             })
             .OnExit(() =>
             {
+                ResetCurrentUnit();
+                ResetTurn(FactionType.Enemy);
                 GD.Print("<<< Exited Enemy turn");
-            })
-            .AddTransition(State.SelectUnit, () => Input.IsKeyPressed(Key.P));
+            });
 
-        sm.Configure(State.EnemyAI)
+        sm.Configure(State.AIContext)
             .SubstateOf(State.EnemyTurn)
             .OnEntry(() =>
             {
-                // Debug run
-                RunUtilityDecisionMaker(enemyUnits[0]);
-            });
+                currentUnit = enemyUnits[0];
+            })
+            .AddTransition(State.AIShowWalkable, () => true);
+
+        sm.Configure(State.AIShowWalkable)
+            .SubstateOf(State.EnemyTurn)
+            .OnEntry(() =>
+            {
+                DisplayMesh(levelData.GenerateWalkableMesh(currentUnit), MeshColor.Green);
+                currentTask = AwaitShowcase();
+            })
+            .OnExit(() => DestroyChildren())
+            .AddTransition(State.AIMove, () => currentTask.IsCompleted && currentUnit.HasMovement)
+            .AddTransition(State.AIShowHittable, () => currentTask.IsCompleted && !currentUnit.HasMovement);
+
+        sm.Configure(State.AIMove)
+            .SubstateOf(State.EnemyTurn)
+            .OnEntry(() =>
+            {
+                cursorGridPos = RunUtilityDecisionMaker(currentUnit);
+                currentTask = currentUnit.FollowPathTo(cursorGridPos.Value);
+            })
+            .AddTransition(State.AIShowHittable, () => currentTask.IsCompleted);
+
+        sm.Configure(State.AIShowHittable)
+            .SubstateOf(State.EnemyTurn)
+            .OnEntry(() =>
+            {
+                DisplayMesh(levelData.GenerateHittableMesh(currentUnit), MeshColor.Red);
+                currentTask = AwaitShowcase();
+            })
+            .OnExit(() => DestroyChildren())
+            .AddTransition(State.AIAttack, () => currentTask.IsCompleted && currentUnit.HasAttack)
+            .AddTransition(State.AISwap, () => currentTask.IsCompleted && !currentUnit.HasAttack);
+
+        sm.Configure(State.AIAttack)
+            .SubstateOf(State.EnemyTurn)
+            .OnEntry(() =>
+            {
+                //currentTask = currentUnit.Attack();
+            })
+            .AddTransition(State.AISwap, () => true /*currentTask.IsCompleted*/);
+
+        sm.Configure(State.AISwap)
+            .SubstateOf(State.EnemyTurn)
+            .AddTransition(State.PlayerSelectUnit, () => true);
     }
 
-    private void RunUtilityDecisionMaker(Unit unit)
+    #region Utility-Based decision maker
+
+    private Vector2I RunUtilityDecisionMaker(Unit unit)
     {
         Dictionary<int, int> cellScores = new Dictionary<int, int>();
 
         var reachableIds = levelData.GetReachableIds(unit);
         reachableIds.ForEach(id => cellScores.Add(id, 0));
-
-        GD.Print("Reachables: " + reachableIds.Count);
-
 
         // Calculate nearby players for all valid movement cells
         // 0->0 1->2, 2->1, 3->0 etc...
@@ -58,15 +99,27 @@ public partial class TurnManager : Node3D
             UpdateScores(unit, playerUnit, ref cellScores);
         }
 
-        // Sort by score
-        cellScores.OrderBy(pair => pair.Key).ToDictionary(pair => pair.Key, pair => pair.Value);
-
-
-        // Move to last pair or pick random from highest scores
-
-
+        // Print matrix to console
+        GD.PrintRich("[b]Unit utility scores:[/b]");
         DebugPrintCellScores(unit.GridId, cellScores);
+
+        cellScores = ApplyKernel(cellScores, kernel, LevelData.NUM_OF_ROWS, LevelData.NUM_OF_COLS);
+
+        // Print matrix to console
+        GD.PrintRich("[b]Convolution:[/b]");
+        DebugPrintCellScores(unit.GridId, cellScores);
+
+        // Sort by score
+        cellScores = cellScores.OrderBy(pair => pair.Value).ToDictionary(pair => pair.Key, pair => pair.Value);
+
+        // Return grid position for highest score
+        var (i, j) = LevelData.GetIndexes(cellScores.Last().Key);
+        return new Vector2I(i, j);
     }
+
+    #endregion
+
+    #region AI helpers
 
     private void UpdateScores(Unit unit, Unit playerUnit, ref Dictionary<int, int> scores)
     {
@@ -107,6 +160,63 @@ public partial class TurnManager : Node3D
         return count;
     }
 
+    #endregion
+
+    #region Matrix operations
+
+    readonly int[,] kernel =
+    {
+        { 0, 0, 1, 0, 0},
+        { 0, 1, 2, 1, 0},
+        { 1, 2, 5, 2, 1},
+        { 0, 1, 2, 1, 0},
+        { 0, 0, 1, 0, 0}
+    };
+
+    private Dictionary<int, int> ApplyKernel(Dictionary<int, int> inputMatrix, int[,] kernel, int matrixHeight, int matrixWidth)
+    {
+        Dictionary<int, int> outputMatrix = new Dictionary<int, int>(inputMatrix.ToDictionary(entry => entry.Key, entry => entry.Value));
+        string debugStr = "";
+
+        foreach (var cell in inputMatrix)
+        {
+            // Grid coordinates for cell ID
+            var (x, y) = LevelData.GetIndexes(cell.Key);
+
+            debugStr += $"Grid pos: ({x}, {y})\n";
+
+            int sum = 0;
+            for (int i = 0; i < kernel.GetLength(0); i++)
+            {
+                for (int j = 0; j < kernel.GetLength(1); j++)
+                {
+                    // Grid coordinates with kernel offset
+                    int xMatrix = x - i + 2;
+                    int yMatrix = y - j + 2;
+
+                    if (LevelData.IsWithinBounds(xMatrix, yMatrix))
+                    {
+                        int val;
+                        var testId = LevelData.GetId(xMatrix, yMatrix);
+                        if (inputMatrix.TryGetValue(testId, out val))
+                        {
+                            debugStr += $"Kernel factors: \t{val}\t{kernel[i, j]}\n";
+                            sum += val * kernel[i, j];
+                        }
+                    }
+                }
+            }
+            debugStr += "-------------------\n";
+            outputMatrix[cell.Key] = sum;
+        }
+        //GD.Print(debugStr);
+        return outputMatrix;
+    }
+
+    #endregion
+
+    #region Debug methods
+
     private void DebugPrintCellScores(int unitId, Dictionary<int, int> cellScores)
     {
         // Debug print cell scores
@@ -133,7 +243,9 @@ public partial class TurnManager : Node3D
             }
             lineStr += "|";
         }
-        GD.PrintRich("[b]Unit utility scores:[/b]");
         GD.PrintRich(debugStr);
     }
+
+    #endregion
+
 }

@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 public partial class TurnManager : Node3D
 {
     public delegate TurnState TurnState();
+    
+    const float showcaseAwaitDuration = .6f;
 
     private Unit currentUnit;
     private Unit currentTarget;
@@ -20,10 +22,10 @@ public partial class TurnManager : Node3D
 
     enum State
     {
-        PlayerTurn, SelectUnit, UnitContext, SelectMove, AwaitMove, SelectAttack, AwaitAttack,
-        EnemyTurn, EnemyAI, SelectSwap, AwaitSwap
+        PlayerTurn, PlayerSelectUnit, PlayerUnitContext, PlayerSelectMove, PlayerAwaitMove, PlayerSelectAttack, PlayerAwaitAttack,
+        EnemyTurn, AIContext, AIShowWalkable, AIMove, AIShowHittable, AIAttack, AISwap
     }
-    StateMachine<State> sm = new StateMachine<State>(State.SelectUnit);
+    StateMachine<State> sm = new StateMachine<State>(State.PlayerSelectUnit);
 
 
     public override void _EnterTree()
@@ -45,6 +47,11 @@ public partial class TurnManager : Node3D
     public override void _Process(double delta)
     {
         sm.Process();
+    }
+
+    public static async Task AwaitShowcase()
+    {
+        await Task.Delay(TimeSpan.FromSeconds(showcaseAwaitDuration));
     }
 
     #region Helper methods

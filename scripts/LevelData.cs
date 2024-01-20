@@ -353,9 +353,14 @@ public partial class LevelData : Node3D
         return GlobalPosition + new Vector3(i, 0f, j) * CELL_SIZE;
     }
 
-    private static bool IsWithinBounds(Vector2I pos)
+    public static bool IsWithinBounds(Vector2I pos)
     {
         return pos.X >= 0 && pos.X < Instance.Level.GetLength(0) && pos.Y >= 0 && pos.Y < Instance.Level.GetLength(1);
+    }
+
+    public static bool IsWithinBounds(int i, int j)
+    {
+        return i >= 0 && i < Instance.Level.GetLength(0) && j >= 0 && j < Instance.Level.GetLength(1);
     }
 
     public static Unit GetUnitAtPosition(Vector2I pos)
