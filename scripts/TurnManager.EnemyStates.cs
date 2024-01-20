@@ -12,6 +12,7 @@ public partial class TurnManager : Node3D
             .OnEntry(() =>
             {
                 GD.Print(">>> Entered Enemy turn");
+
             })
             .OnExit(() =>
             {
@@ -46,6 +47,7 @@ public partial class TurnManager : Node3D
                 cursorGridPos = RunUtilityDecisionMaker(currentUnit);
                 currentTask = currentUnit.FollowPathTo(cursorGridPos.Value);
             })
+            .OnExit(() => RefreshGrid())
             .AddTransition(State.AIShowHittable, () => currentTask.IsCompleted);
 
         sm.Configure(State.AIShowHittable)
@@ -65,6 +67,7 @@ public partial class TurnManager : Node3D
             {
                 //currentTask = currentUnit.Attack();
             })
+            .OnExit(() => RefreshGrid())
             .AddTransition(State.AISwap, () => true /*currentTask.IsCompleted*/);
 
         sm.Configure(State.AISwap)
@@ -82,13 +85,13 @@ public partial class TurnManager : Node3D
         reachableIds.ForEach(id => cellScores.Add(id, 0));
 
         // Calculate nearby players for all valid movement cells
-        // 0->0 1->2, 2->1, 3->0 etc...
+        // 0->0 1->2, 2->0, 3->-2 etc...
         foreach (var id in reachableIds)
         {
             int nearby = CountNearbyUnits(id);
             if (nearby > 0)
             {
-                cellScores[id] += nearby;
+                cellScores[id] += (2 - nearby) * 2;
             }
         }
 
@@ -150,10 +153,12 @@ public partial class TurnManager : Node3D
         var (iCell, jCell) = LevelData.GetIndexes(cellId);
         for (int i = iCell - 1; i < iCell + 2; i++)
         {
-            for (int j = jCell; j < jCell + 2; j++)
+            for (int j = jCell - 1; j < jCell + 2; j++)
             {
+                if ((i - iCell + j - jCell) % 2 == 0) continue;
+
                 var unit = LevelData.GetUnitAtPosition(new Vector2I(i, j));
-                if (unit != null)
+                if (unit != null && unit.Faction == FactionType.Player)
                     count++;
             }
         }
@@ -164,13 +169,22 @@ public partial class TurnManager : Node3D
 
     #region Matrix operations
 
+    //readonly int[,] kernel =
+    //{
+    //    { 0, 0, 1, 0, 0},
+    //    { 0, 1, 2, 1, 0},
+    //    { 1, 2, 5, 2, 1},
+    //    { 0, 1, 2, 1, 0},
+    //    { 0, 0, 1, 0, 0}
+    //};
+
     readonly int[,] kernel =
     {
+        { 0, 0, 0, 0, 0},
         { 0, 0, 1, 0, 0},
-        { 0, 1, 2, 1, 0},
-        { 1, 2, 5, 2, 1},
-        { 0, 1, 2, 1, 0},
-        { 0, 0, 1, 0, 0}
+        { 0, 1, 3, 1, 0},
+        { 0, 0, 1, 0, 0},
+        { 0, 0, 0, 0, 0}
     };
 
     private Dictionary<int, int> ApplyKernel(Dictionary<int, int> inputMatrix, int[,] kernel, int matrixHeight, int matrixWidth)
