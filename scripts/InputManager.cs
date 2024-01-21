@@ -12,38 +12,6 @@ public partial class InputManager : Node3D
         marker = GetNode<Node3D>("Marker");
     }
 
-    public bool CellSelected(out Vector2I? pos)
-    {
-        pos = hitCellPos;
-        if (pos.HasValue && Input.IsActionJustPressed("select"))
-        {
-            return true;
-        }
-        return false;
-    }
-
-    public bool CellHover(out Vector2I? pos)
-    {
-        pos = hitCellPos;
-        if (pos.HasValue) return true;
-        else return false;
-    }
-
-    public bool Cancel()
-    {
-        return Input.IsActionJustPressed("cancel");
-    }
-
-    public bool Attack()
-    {
-        return Input.IsActionJustPressed("attack");
-    }
-
-    public bool EndTurn()
-    {
-        return Input.IsActionJustPressed("end_turn");
-    }
-
     public override void _PhysicsProcess(double delta)
     {
         var hits = CastRayFromScreen(1 << 8);  // Layer 9 -> "Ground"
@@ -73,6 +41,37 @@ public partial class InputManager : Node3D
         hitCellPos = null;
     }
 
+    #region Input Events
+
+    public bool CellSelected(out Vector2I? pos)
+    {
+        pos = hitCellPos;
+        if (pos.HasValue && Input.IsActionJustPressed("select"))
+        {
+            return true;
+        }
+        return false;
+    }
+
+    public bool Cancel()
+    {
+        return Input.IsActionJustPressed("cancel");
+    }
+
+    public bool Attack()
+    {
+        return Input.IsActionJustPressed("attack");
+    }
+
+    public bool EndTurn()
+    {
+        return Input.IsActionJustPressed("end_turn");
+    }
+
+    #endregion
+
+    #region Helpers
+
     private Dictionary CastRayFromScreen(uint mask = 1)
     {
         const float rayLength = 100f;
@@ -89,4 +88,7 @@ public partial class InputManager : Node3D
         var space = GetWorld3D().DirectSpaceState;
         return space.IntersectRay(rayQuery);
     }
+
+    #endregion
+
 }

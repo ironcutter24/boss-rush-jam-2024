@@ -1,5 +1,7 @@
 using Godot;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 public abstract partial class Unit : CharacterBody3D
@@ -86,6 +88,18 @@ public abstract partial class Unit : CharacterBody3D
     private int GridDistance(Vector3 a, Vector3 b)
     {
         return Mathf.RoundToInt(Mathf.Max(Mathf.Abs(a.X - b.X), Mathf.Abs(a.Z - b.Z)));
+    }
+
+    public static void ResetTurn(FactionType faction)
+    {
+        Global.Instance.Tree.CallGroup(Unit.GetGroupFrom(faction), "ResetTurn");
+    }
+
+    public static List<Unit> GetUnits(FactionType faction)
+    {
+        return Global.Instance.Tree
+            .GetNodesInGroup(GetGroupFrom(faction))
+            .OfType<Unit>().ToList();
     }
 
     public static StringName GetGroupFrom(FactionType faction)

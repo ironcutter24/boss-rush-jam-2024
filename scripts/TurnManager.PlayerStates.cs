@@ -3,9 +3,10 @@ using System;
 
 public partial class TurnManager : Node3D
 {
-
     private void InitPlayerStates()
     {
+        #region Base States
+
         sm.Configure(State.PlayerTurn)
             .OnEntry(() =>
             {
@@ -14,13 +15,18 @@ public partial class TurnManager : Node3D
             .OnExit(() =>
             {
                 ResetCurrentUnit();
-                ResetTurn(FactionType.Player);
+                Unit.ResetTurn(FactionType.Player);
                 GD.Print("<<< Exited Player turn");
-            })
-            .AddTransition(State.AIContext, () => Input.IsKeyPressed(Key.A));
+            });
+
+        sm.Configure(State.PlayerCanEndTurn)
+            .SubstateOf(State.PlayerTurn)
+            .AddTransition(State.AIContext, () => inputManager.EndTurn());
+
+        #endregion
 
         sm.Configure(State.PlayerSelectUnit)
-            .SubstateOf(State.PlayerTurn)
+            .SubstateOf(State.PlayerCanEndTurn)
             .OnEntry(() => ResetCurrentUnit())
             .AddTransition(State.PlayerUnitContext, () =>
             {
@@ -38,7 +44,7 @@ public partial class TurnManager : Node3D
             });
 
         sm.Configure(State.PlayerUnitContext)
-            .SubstateOf(State.PlayerTurn)
+            .SubstateOf(State.PlayerCanEndTurn)
             .OnEntry(() =>
             {
                 levelData.RefreshAStar(currentUnit.GridPosition);
@@ -49,9 +55,10 @@ public partial class TurnManager : Node3D
             .AddTransition(State.PlayerSelectUnit, () => inputManager.Cancel());
 
         sm.Configure(State.PlayerSelectMove)
-            .SubstateOf(State.PlayerTurn)
+            .SubstateOf(State.PlayerCanEndTurn)
             .OnEntry(() =>
             {
+                RefreshGrid();
                 DisplayMesh(levelData.GenerateWalkableMesh(currentUnit), MeshColor.Green);
             })
             .OnExit(() => DestroyChildren())
@@ -72,13 +79,13 @@ public partial class TurnManager : Node3D
                 currentUnit.ConsumeMovement();
                 currentTask = currentUnit.FollowPathTo(cursorGridPos.Value);
             })
-            .OnExit(() => RefreshGrid())
             .AddTransition(State.PlayerUnitContext, () => currentTask.IsCompleted);
 
         sm.Configure(State.PlayerSelectAttack)
-            .SubstateOf(State.PlayerTurn)
+            .SubstateOf(State.PlayerCanEndTurn)
             .OnEntry(() =>
             {
+                RefreshGrid();
                 DisplayMesh(levelData.GenerateHittableMesh(currentUnit), MeshColor.Red);
             })
             .OnExit(() => DestroyChildren())
@@ -98,8 +105,6 @@ public partial class TurnManager : Node3D
                 currentUnit.ConsumeAttack();
                 currentTask = currentUnit.Attack(LevelData.GetUnitAtPosition(cursorGridPos.Value));
             })
-            .OnExit(() => RefreshGrid())
             .AddTransition(State.PlayerSelectUnit, () => currentTask.IsCompleted);
     }
-
 }
