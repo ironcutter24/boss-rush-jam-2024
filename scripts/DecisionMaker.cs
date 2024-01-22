@@ -106,24 +106,6 @@ public static partial class DecisionMaker
 
     #region Helpers
 
-    private static int CountNearbyUnits(int cellId)
-    {
-        int count = 0;
-        var (iCell, jCell) = LevelData.GetIndexes(cellId);
-        for (int i = iCell - 1; i < iCell + 2; i++)
-        {
-            for (int j = jCell - 1; j < jCell + 2; j++)
-            {
-                if ((i - iCell + j - jCell) % 2 == 0) continue;
-
-                var unit = LevelData.GetUnitAtPosition(new Vector2I(i, j));
-                if (unit != null && unit.Faction == FactionType.Player)
-                    count++;
-            }
-        }
-        return count;
-    }
-
     private static KeyValuePair<int, int> GetKeyValuePairAt(Dictionary<int, int> data, int id)
     {
         return new KeyValuePair<int, int>(id, data[id]);
@@ -175,7 +157,7 @@ public static partial class DecisionMaker
             // 0->0 1->2, 2->0, 3->-2 etc...
             foreach (var id in scores.Keys)
             {
-                int nearby = CountNearbyUnits(id);
+                int nearby = LevelData.CountNearbyUnits(id);
                 if (nearby > 0)
                 {
                     scores[id] += (2 - nearby) * 4;

@@ -66,9 +66,13 @@ public partial class TurnManager : Node3D
             .SubstateOf(State.EnemyTurn)
             .OnEntry(() =>
             {
-                //currentTask = currentUnit.Attack();
+                var nearbyUnits = LevelData.GetNearbyUnits(currentUnit.GridId);
+                var rng = new RandomNumberGenerator();
+                var randIndex = rng.RandiRange(0, nearbyUnits.Count - 1);
+                var attackTarget = nearbyUnits[randIndex];
+                currentTask = currentUnit.Attack(attackTarget);
             })
-            .AddTransition(State.AISwap, () => true /*currentTask.IsCompleted*/);
+            .AddTransition(State.AISwap, () => currentTask.IsCompleted);
 
         sm.Configure(State.AISwap)
             .SubstateOf(State.EnemyTurn)

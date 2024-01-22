@@ -316,6 +316,31 @@ public partial class LevelData : Node3D
 
     #region Helper methods
 
+    public static int CountNearbyUnits(int cellId)
+    {
+        return GetNearbyUnits(cellId).Count;
+    }
+
+    public static List<Unit> GetNearbyUnits(int cellId)
+    {
+        List<Unit> units = new List<Unit>();
+        var (iCell, jCell) = GetIndexes(cellId);
+        for (int i = iCell - 1; i < iCell + 2; i++)
+        {
+            for (int j = jCell - 1; j < jCell + 2; j++)
+            {
+                if ((i - iCell + j - jCell) % 2 == 0) continue;
+
+                var unit = GetUnitAtPosition(new Vector2I(i, j));
+                if (unit != null && unit.Faction == FactionType.Player)
+                {
+                    units.Add(unit);
+                }
+            }
+        }
+        return units;
+    }
+
     public int GetId(Vector3 worldPosition)
     {
         worldPosition -= GlobalPosition;

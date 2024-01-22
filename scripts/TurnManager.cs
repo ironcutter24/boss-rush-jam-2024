@@ -7,8 +7,7 @@ public partial class TurnManager : Node3D
 {
     public delegate TurnState TurnState();
 
-    private Unit currentUnit;
-    private Unit currentTarget;
+    private Unit currentUnit, currentTarget;
     private Task currentTask;
     private Vector2I? cursorGridPos;
     private InputManager inputManager;
