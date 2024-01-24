@@ -2,6 +2,7 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using Utilities.Patterns;
 
 public partial class TurnManager : Node3D
 {

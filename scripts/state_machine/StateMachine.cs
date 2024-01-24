@@ -1,193 +1,68 @@
 using System;
-using System.Collections;
 using System.Collections.Generic;
-using Godot;
 
-public class StateMachine<TState>
+namespace Utilities.Patterns
 {
-    public event Action<string> StateChanged;
 
-    internal enum Event { Entry, Process, Exit }
-    private Event stateEvent = Event.Entry;
-    private Dictionary<TState, State> states = new Dictionary<TState, State>();
-
-    public State CurrentState { get; private set; }
-    private State NextState { get; set; }
-
-
-    public StateMachine(TState entryState)
+    public partial class StateMachine<TState>
     {
-        CurrentState = Configure(entryState);
-    }
+        public event Action<string> StateChanged;
 
-    public State Configure(TState stateKey)
-    {
-        State state;
-        if (states.TryGetValue(stateKey, out state))
-        {
-            return state;
-        }
-        else
-        {
-            state = new State(this, stateKey);
-            states.Add(stateKey, state);
-            return state;
-        }
-    }
+        private enum Event { Entry, Process, Exit }
+        private Event stateEvent = Event.Entry;
+        private Dictionary<TState, State> states = new Dictionary<TState, State>();
 
-    (int from, int to) depth = (int.MaxValue, int.MaxValue);
-    public void Process()
-    {
-        if (stateEvent == Event.Entry)
+        private State CurrentState { get; set; }
+        private State NextState { get; set; }
+
+
+        public StateMachine(TState entryState)
         {
-            StateChanged?.Invoke(CurrentState.FormatParents());
-            CurrentState.PerformOnEntry(depth.to);
+            CurrentState = Configure(entryState);
         }
 
-        CurrentState.PerformOnProcess();
-
-        NextState = CurrentState.PerformTransitionCheck();
-        if (NextState != null)
+        public State Configure(TState stateKey)
         {
-            State.HaveSharedParent(CurrentState, NextState, out depth);
-            GD.Print($"Depth: ({depth.from}, {depth.to})");
-            CurrentState.PerformOnExit(depth.from);
-            stateEvent = Event.Exit;
-            CurrentState = NextState;
-        }
-
-        if (stateEvent == Event.Entry) { stateEvent = Event.Process; }
-        if (stateEvent == Event.Exit) { stateEvent = Event.Entry; }
-    }
-
-    public class State
-    {
-        internal Dictionary<State, Func<bool>> transitions = new Dictionary<State, Func<bool>>();
-        private State parent;
-
-        public StateMachine<TState> OwnerMachine { get; private set; }
-        public TState Key { get; private set; }
-
-        public State(StateMachine<TState> owner, TState stateKey)
-        {
-            OwnerMachine = owner;
-            Key = stateKey;
-        }
-
-        #region State Configuration
-
-        public State SubstateOf(TState parentState)
-        {
-            parent = OwnerMachine.Configure(parentState);
-            return this;
-        }
-
-        public State AddTransition(TState nextState, Func<bool> condition)
-        {
-            State nextStateInstance = OwnerMachine.Configure(nextState);
-            Func<bool> existingCondition;
-            if (transitions.TryGetValue(nextStateInstance, out existingCondition))
+            if (states.TryGetValue(stateKey, out var state))
             {
-                transitions[nextStateInstance] = () => existingCondition() || condition();
+                return state;
             }
             else
             {
-                transitions.Add(nextStateInstance, condition);
+                state = new State(this, stateKey);
+                states.Add(stateKey, state);
+                return state;
             }
-            return this;
         }
 
-        #endregion
-
-        #region State Actions
-
-        internal void PerformOnEntry(int depth)
+        (int from, int to) depth = (int.MaxValue, int.MaxValue);
+        public void Process()
         {
-            if (depth > 1)
-                parent?.PerformOnEntry(depth - 1);
-
-            onEntryCallback?.Invoke();
-        }
-
-        internal void PerformOnProcess()
-        {
-            parent?.PerformOnProcess();
-            onProcessCallback?.Invoke();
-        }
-
-        internal State PerformTransitionCheck()
-        {
-            foreach (var pair in transitions)
+            if (stateEvent == Event.Entry)
             {
-                if (pair.Value.Invoke()) return pair.Key;
+                StateChanged?.Invoke(CurrentState.FormatParents());
+                CurrentState.PerformOnEntry(depth.to);
             }
-            return parent?.PerformTransitionCheck();
-        }
 
-        internal void PerformOnExit(int depth)
-        {
-            onExitCallback?.Invoke();
-            if (depth > 1)
-                parent?.PerformOnExit(depth - 1);
-        }
+            CurrentState.PerformOnProcess();
 
-        public static bool HaveSharedParent(State a, State b, out (int from, int to) depth)
-        {
-            State aParent = a;
-            State bParent = b;
-            depth = (-1, -1);
-
-            while (aParent != null)
+            NextState = CurrentState.PerformTransitionCheck();
+            if (NextState != null)
             {
-                bParent = b;
-                depth.to = 0;
-                depth.from++;
-
-                while (bParent != null)
-                {
-                    if (aParent == bParent)
-                    {
-                        return true; // Found a common ancestor
-                    }
-                    bParent = bParent.parent;
-                    depth.to++;
-                }
-                aParent = aParent.parent;
+                State.HaveSharedParent(CurrentState, NextState, out depth);
+                CurrentState.PerformOnExit(depth.from);
+                stateEvent = Event.Exit;
+                CurrentState = NextState;
             }
 
-            // Reset depth values to their maximum if no common ancestor is found
-            depth = (int.MaxValue, int.MaxValue);
-            return false;
+            if (stateEvent == Event.Entry) { stateEvent = Event.Process; }
+            if (stateEvent == Event.Exit) { stateEvent = Event.Entry; }
         }
 
-
-        internal string FormatParents()
+        public TState GetCurrentState()
         {
-            return ((parent != null) ? $"{parent.FormatParents()} -> " : "") + Key.ToString();
+            return CurrentState.Key;
         }
-
-        private Action onEntryCallback;
-        public State OnEntry(Action entryAction)
-        {
-            onEntryCallback = entryAction;
-            return this;
-        }
-
-        private Action onProcessCallback;
-        public State OnProcess(Action processAction)
-        {
-            onProcessCallback = processAction;
-            return this;
-        }
-
-        private Action onExitCallback;
-        public State OnExit(Action exitAction)
-        {
-            onExitCallback = exitAction;
-            return this;
-        }
-
-        #endregion
-
     }
+
 }
