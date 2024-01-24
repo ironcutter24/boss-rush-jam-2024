@@ -117,7 +117,7 @@ public static partial class DecisionMaker
 
     private static void DebugPrintCellScores(int unitId, Dictionary<int, int> cellScores, string description)
     {
-        GD.PrintRich($"[b]{description}:[/]");
+        GD.PrintRich($"[b]{description}:[/b]");
 
         // Debug print cell scores
         int cellCount = LevelData.NUM_OF_ROWS * LevelData.NUM_OF_COLS;

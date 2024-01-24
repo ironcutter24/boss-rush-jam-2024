@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 
 public partial class TurnManager : Node3D
 {
+    const float showcaseAwaitDuration = .6f;
+
     public delegate TurnState TurnState();
 
     private Unit currentUnit, currentTarget;
@@ -13,6 +15,7 @@ public partial class TurnManager : Node3D
     private InputManager inputManager;
     private LevelData levelData;
     private List<Unit> enemyUnits = new List<Unit>();
+    private int enemyIndex;
 
     enum MeshColor { Red, Yellow, Green }
     enum State
@@ -51,13 +54,14 @@ public partial class TurnManager : Node3D
 
     #region Helper methods
 
-    private void DisplayMesh(Mesh mesh, MeshColor color)
+    private MeshInstance3D DisplayMesh(Mesh mesh, MeshColor color)
     {
         var m = new MeshInstance3D();
         m.Mesh = mesh;
         m.MaterialOverride = GetMaterialFrom(color);
         m.Position = Vector3.Up * .05f;
         AddChild(m);
+        return m;
     }
 
     private void DestroyChildren()

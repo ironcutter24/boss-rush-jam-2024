@@ -1,18 +1,17 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 
 public partial class TurnManager : Node3D
 {
-    const float showcaseAwaitDuration = .6f;
-
     private void InitEnemyStates()
     {
         sm.Configure(State.EnemyTurn)
             .OnEntry(() =>
             {
+                enemyIndex = 0;
                 GD.Print(">>> Entered Enemy turn");
-
             })
             .OnExit(() =>
             {
@@ -25,8 +24,13 @@ public partial class TurnManager : Node3D
             .SubstateOf(State.EnemyTurn)
             .OnEntry(() =>
             {
-                currentUnit = enemyUnits[0];
+                if (enemyIndex < enemyUnits.Count)
+                {
+                    currentUnit = enemyUnits[enemyIndex];
+                }
+                enemyIndex++;
             })
+            .AddTransition(State.PlayerSelectUnit, () => enemyIndex > enemyUnits.Count)
             .AddTransition(State.AIShowWalkable, () => true);
 
         sm.Configure(State.AIShowWalkable)
@@ -67,11 +71,23 @@ public partial class TurnManager : Node3D
             .OnEntry(() =>
             {
                 var nearbyUnits = LevelData.GetNearbyUnits(currentUnit.GridId);
+                if (nearbyUnits.Count <= 0)
+                {
+                    currentTarget = null;
+                    return;
+                }
+
                 var rng = new RandomNumberGenerator();
                 var randIndex = rng.RandiRange(0, nearbyUnits.Count - 1);
                 currentTarget = nearbyUnits[randIndex];
 
                 // Display chosen target
+                Mesh m = levelData.GenerateMeshFrom(new List<int> { currentTarget.GridId });
+                DisplayMesh(m, MeshColor.Red);
+            })
+            .OnExit(() =>
+            {
+                DestroyChildren();
             })
             .AddTransition(State.AIAttack, () =>
             {
@@ -92,6 +108,7 @@ public partial class TurnManager : Node3D
                 }
                 return false;
             })
+            .AddTransition(State.AIContext, () => currentTarget == null)
             .AddTransition(State.AIAttack, () => inputManager.Cancel());
 
         sm.Configure(State.AIAttack)
@@ -101,7 +118,7 @@ public partial class TurnManager : Node3D
                 RefreshGrid();
                 currentTask = currentUnit.Attack(currentTarget);
             })
-            .AddTransition(State.PlayerSelectUnit, () => currentTask.IsCompleted);
+            .AddTransition(State.AIContext, () => currentTask.IsCompleted);
     }
 
     private static async Task AwaitShowcase()

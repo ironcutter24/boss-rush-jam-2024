@@ -274,7 +274,7 @@ public partial class LevelData : Node3D
         return GenerateMeshFrom(hittables);
     }
 
-    private Mesh GenerateMeshFrom(List<int> ids)
+    public Mesh GenerateMeshFrom(List<int> ids)
     {
         List<Vector3> allVertices = new List<Vector3>();
 
