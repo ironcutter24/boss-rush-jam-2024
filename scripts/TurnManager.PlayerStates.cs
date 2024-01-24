@@ -27,7 +27,11 @@ public partial class TurnManager : Node3D
 
         sm.Configure(State.PlayerSelectUnit)
             .SubstateOf(State.PlayerCanEndTurn)
-            .OnEntry(() => ResetCurrentUnit())
+            .OnEntry(() =>
+            {
+                ResetCurrentUnit();
+                RefreshGrid();
+            })
             .AddTransition(State.PlayerUnitContext, () =>
             {
                 if (inputManager.CellSelected(out cursorGridPos))
