@@ -23,7 +23,7 @@ public partial class TurnManager : Node3D
 
         // Enemy
         EnemyTurn,  // Base states
-        AIContext, AIShowWalkable, AIMove, AIShowHittable, AIAttack, AISwap
+        AIContext, AIShowWalkable, AIMove, AIShowHittable, AISelectSwap, AIAttack
     }
     StateMachine<State> sm = new StateMachine<State>(State.PlayerSelectUnit);
 

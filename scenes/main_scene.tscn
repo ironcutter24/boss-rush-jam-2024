@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://bja7jmhmj"]
+[gd_scene load_steps=21 format=3 uid="uid://bja7jmhmj"]
 
 [ext_resource type="Script" path="res://scripts/InputManager.cs" id="1_6df1n"]
 [ext_resource type="Script" path="res://scripts/TurnManager.cs" id="1_22vsh"]
@@ -30,6 +30,12 @@ uv1_scale = Vector3(2, 2, 1)
 [sub_resource type="BoxMesh" id="BoxMesh_rowki"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_xpqmo"]
+
+[sub_resource type="SphereMesh" id="SphereMesh_sp820"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_8rjem"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_acyx3"]
 
 [node name="main_scene" type="Node3D"]
 
@@ -131,12 +137,30 @@ skeleton = NodePath("../../..")
 
 [node name="PlayerBerserker" parent="Units" instance=ExtResource("5_lyjas")]
 
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Units/PlayerBerserker"]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 1.5, 0)
+mesh = SubResource("SphereMesh_sp820")
+
 [node name="PlayerTank" parent="Units" instance=ExtResource("5_lyjas")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 4)
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Units/PlayerTank"]
+transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 1.5, 0)
+mesh = SubResource("BoxMesh_8rjem")
 
 [node name="PlayerHealer" parent="Units" instance=ExtResource("5_lyjas")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 1)
 AttackDistance = 8
 
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Units/PlayerHealer"]
+transform = Transform3D(0.25, 0, 0, 0, 0.125, 0, 0, 0, 0.25, 0, 1.5, 0)
+mesh = SubResource("CylinderMesh_acyx3")
+
 [node name="EnemySlime" parent="Units" groups=["enemy_units", "units"] instance=ExtResource("8_mg4li")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 5)
+
+[node name="EnemySlime2" parent="Units" groups=["enemy_units", "units"] instance=ExtResource("8_mg4li")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 6)
+
+[node name="EnemySlime3" parent="Units" groups=["enemy_units", "units"] instance=ExtResource("8_mg4li")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 7)
