@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=3 uid="uid://bja7jmhmj"]
+[gd_scene load_steps=23 format=3 uid="uid://bja7jmhmj"]
 
 [ext_resource type="Script" path="res://scripts/InputManager.cs" id="1_6df1n"]
 [ext_resource type="Script" path="res://scripts/TurnManager.cs" id="1_22vsh"]
@@ -8,6 +8,8 @@
 [ext_resource type="Texture2D" uid="uid://drsdtllkrucgw" path="res://textures/Tile_04-512x512.png" id="4_hrwr1"]
 [ext_resource type="PackedScene" uid="uid://bobk7fgktpcc3" path="res://scenes/base_unit_player.tscn" id="5_lyjas"]
 [ext_resource type="PackedScene" uid="uid://d3ita488awasa" path="res://scenes/units/enemy_slime.tscn" id="8_mg4li"]
+[ext_resource type="EventAsset" uid="uid://dbalthcbefnr3" path="res://addons/FMOD/editor/resources/events/{67bd44df-7d43-4dc0-b52f-4769d8c77d0a}.tres" id="9_e3ugl"]
+[ext_resource type="BankAsset" uid="uid://bbsdutm1y0sjm" path="res://addons/FMOD/editor/resources/banks/{29842420-1baf-4e88-b38a-b37683d8f799}.tres" id="10_tvevl"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_1dibq"]
 
@@ -47,6 +49,14 @@ transform = Transform3D(-0.642788, 0.439385, -0.627507, 0, 0.819152, 0.573577, 0
 projection = 1
 current = true
 size = 11.0
+
+[node name="StudioBankLoader" type="StudioBankLoader" parent="Camera3D"]
+load_on = 1
+num_banks = 1
+bank_0 = ExtResource("10_tvevl")
+
+[node name="StudioListener3D" type="StudioListener3D" parent="Camera3D"]
+transform = Transform3D(-0.642788, 0, 0.766044, 0.439385, 0.819152, 0.368688, -0.627507, 0.573577, -0.526541, 0, -3.68618, -2.58109)
 
 [node name="TurnManager" type="Node3D" parent="."]
 script = ExtResource("1_22vsh")
@@ -164,3 +174,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 6)
 
 [node name="EnemySlime3" parent="Units" groups=["enemy_units", "units"] instance=ExtResource("8_mg4li")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 7)
+
+[node name="StudioEventEmitter3D" type="StudioEventEmitter3D" parent="."]
+play_event = 2
+event = ExtResource("9_e3ugl")

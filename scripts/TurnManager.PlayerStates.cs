@@ -37,7 +37,7 @@ public partial class TurnManager : Node3D
                 if (inputManager.CellSelected(out cursorGridPos))
                 {
                     Unit selectedUnit = levelData.GetUnitAt(cursorGridPos.Value);
-                    if (selectedUnit.Faction == FactionType.Enemy)
+                    if (selectedUnit == null || selectedUnit.Faction == FactionType.Enemy)
                         return false;
 
                     currentUnit = selectedUnit;

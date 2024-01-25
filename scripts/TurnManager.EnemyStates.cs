@@ -102,7 +102,7 @@ public partial class TurnManager : Node3D
                         Vector3 posApp = selectedUnit.Position;
                         selectedUnit.Position = currentTarget.Position;
                         currentTarget.Position = posApp;
-
+                        currentTarget = selectedUnit;
                         return true;
                     }
                 }
