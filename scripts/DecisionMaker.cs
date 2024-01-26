@@ -160,7 +160,7 @@ public static partial class DecisionMaker
                 int nearby = LevelData.CountNearbyUnits(id);
                 if (nearby > 0)
                 {
-                    scores[id] += (2 - nearby) * 4;
+                    scores[id] += (2 - nearby) * 6;
                 }
             }
         }
@@ -187,6 +187,7 @@ public static partial class DecisionMaker
                 var path = levelData.GetPath(unit, playerUnit.GridPosition);
                 if (path != null && path.Length > 0)
                 {
+                    GD.Print("Path to player len: " + path.Length);
                     for (int i = 1; i < path.Length; i++)  // Ignore first element == unit position
                     {
                         int id = levelData.GetId(path[i]);

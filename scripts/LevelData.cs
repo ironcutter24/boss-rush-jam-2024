@@ -142,9 +142,18 @@ public partial class LevelData : Node3D
 
     public Vector3[] GetPath(Unit unit, Vector2I pos)
     {
-        Vector3[] path;
-        IsReachable(unit, pos, out path);
-        return path;
+        int destId = GetId(pos);
+        if (navGrid.HasPoint(destId))
+        {
+            bool includeDestination = !navGrid.IsPointDisabled(destId);
+
+            if (!includeDestination) navGrid.SetPointDisabled(destId, false);
+            var path = navGrid.GetPointPath(unit.GridId, destId);
+            if (!includeDestination) navGrid.SetPointDisabled(destId, true);
+
+            return includeDestination ? path : path[..^1];
+        }
+        return null;
     }
 
     public bool IsReachable(Unit unit, Vector2I pos)
@@ -344,7 +353,7 @@ public partial class LevelData : Node3D
     public int GetId(Vector3 worldPosition)
     {
         worldPosition -= GlobalPosition;
-        return GetId(Mathf.RoundToInt(worldPosition.X), Mathf.RoundToInt(worldPosition.Y));
+        return GetId(Mathf.RoundToInt(worldPosition.X), Mathf.RoundToInt(worldPosition.Z));
     }
 
     public static int GetId(Vector2I pos)

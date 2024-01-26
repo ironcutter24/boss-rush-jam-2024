@@ -6,7 +6,7 @@ using Utilities.Patterns;
 
 public partial class TurnManager : Node3D
 {
-    const float showcaseAwaitDuration = .6f;
+    const float showcaseAwaitDuration = .8f;
 
     public delegate TurnState TurnState();
 
