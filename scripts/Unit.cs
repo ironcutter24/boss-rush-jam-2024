@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 public abstract partial class Unit : CharacterBody3D
 {
     private AnimationTree animTree;
+    private HealthBar3D healthBar;
 
     [Export] public FactionType Faction { get; private set; }
     [Export] public int AttackDistance { get; private set; } = 1;
@@ -23,12 +24,16 @@ public abstract partial class Unit : CharacterBody3D
     public override void _EnterTree()
     {
         animTree = GetNode<AnimationTree>("AnimationTree");
+        healthBar = GetNode<HealthBar3D>("Graphics/HealthBar3D");
+
         AddToGroup(GetGroupFrom(Faction));
     }
 
     public override void _Ready()
     {
         Health = MaxHealth;
+        healthBar.SetHealth(Health, MaxHealth);
+
         GD.Print(GridId);
     }
 
@@ -47,6 +52,7 @@ public abstract partial class Unit : CharacterBody3D
     public void ApplyDamage(int value)
     {
         Health = Mathf.Max(0, Health - value);
+        healthBar.SetHealth(Health, MaxHealth);
         if (Health <= 0)
         {
             Free();
