@@ -38,8 +38,7 @@ public partial class LevelData : Node3D
     {
         InitLevel();
         InitAStar();
-        RefreshLevel();
-        RefreshAStar();
+        RefreshGrid();
     }
 
     public Unit GetUnitAt(Vector2I pos)
@@ -103,7 +102,13 @@ public partial class LevelData : Node3D
 
     #region Board refresh
 
-    public void RefreshLevel()
+    public void RefreshGrid(Vector2I? currentPos = null)
+    {
+        RefreshLevel();
+        RefreshAStar(currentPos);
+    }
+
+    private void RefreshLevel()
     {
         for (int i = 0; i < NUM_OF_ROWS; i++)
         {
@@ -116,7 +121,7 @@ public partial class LevelData : Node3D
         }
     }
 
-    public void RefreshAStar(Vector2I? currentPos = null)
+    private void RefreshAStar(Vector2I? currentPos)
     {
         string debugStr = string.Empty;
         for (int i = 0; i < NUM_OF_ROWS; i++)

@@ -79,12 +79,6 @@ public partial class TurnManager : Node3D
         currentUnit = null;
     }
 
-    private void RefreshGrid()
-    {
-        levelData.RefreshLevel();
-        levelData.RefreshAStar();
-    }
-
     private Material GetMaterialFrom(MeshColor color)
     {
         return GD.Load<Material>($"graphics/materials/fade_{color.ToString().ToLower()}_mat.tres");

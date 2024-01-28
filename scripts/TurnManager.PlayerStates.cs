@@ -30,7 +30,7 @@ public partial class TurnManager : Node3D
             .OnEntry(() =>
             {
                 ResetCurrentUnit();
-                RefreshGrid();
+                levelData.RefreshGrid();
             })
             .AddTransition(State.PlayerUnitContext, () =>
             {
@@ -51,7 +51,7 @@ public partial class TurnManager : Node3D
             .SubstateOf(State.PlayerCanEndTurn)
             .OnEntry(() =>
             {
-                levelData.RefreshAStar(currentUnit.GridPosition);
+                levelData.RefreshGrid(currentUnit.GridPosition);
                 currentUnit.SetSelected(true);
             })
             .AddTransition(State.PlayerSelectMove, () => currentUnit.HasMovement)
@@ -64,7 +64,7 @@ public partial class TurnManager : Node3D
             .SubstateOf(State.PlayerCanEndTurn)
             .OnEntry(() =>
             {
-                RefreshGrid();
+                levelData.RefreshGrid();
                 DisplayMesh(levelData.GenerateWalkableMesh(currentUnit), MeshColor.Green);
             })
             .OnExit(() => DestroyChildren())
@@ -91,7 +91,7 @@ public partial class TurnManager : Node3D
             .SubstateOf(State.PlayerCanEndTurn)
             .OnEntry(() =>
             {
-                RefreshGrid();
+                levelData.RefreshGrid();
                 DisplayMesh(levelData.GenerateHittableMesh(currentUnit), MeshColor.Red);
             })
             .OnExit(() => DestroyChildren())

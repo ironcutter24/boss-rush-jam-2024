@@ -37,7 +37,7 @@ public partial class TurnManager : Node3D
             .SubstateOf(State.EnemyTurn)
             .OnEntry(() =>
             {
-                RefreshGrid();
+                levelData.RefreshGrid();
                 DisplayMesh(levelData.GenerateWalkableMesh(currentUnit), MeshColor.Green);
                 currentTask = AwaitShowcase();
             })
@@ -58,7 +58,7 @@ public partial class TurnManager : Node3D
             .SubstateOf(State.EnemyTurn)
             .OnEntry(() =>
             {
-                RefreshGrid();
+                levelData.RefreshGrid();
                 DisplayMesh(levelData.GenerateHittableMesh(currentUnit), MeshColor.Red);
                 currentTask = AwaitShowcase();
             })
@@ -115,7 +115,7 @@ public partial class TurnManager : Node3D
             .SubstateOf(State.EnemyTurn)
             .OnEntry(() =>
             {
-                RefreshGrid();
+                levelData.RefreshGrid();
                 currentTask = currentUnit.Attack(currentTarget);
             })
             .AddTransition(State.AIContext, () => currentTask.IsCompleted);
