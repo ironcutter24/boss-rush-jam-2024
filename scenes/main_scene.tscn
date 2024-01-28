@@ -1,15 +1,17 @@
-[gd_scene load_steps=23 format=3 uid="uid://bja7jmhmj"]
+[gd_scene load_steps=22 format=3 uid="uid://bja7jmhmj"]
 
-[ext_resource type="Script" path="res://scripts/InputManager.cs" id="1_6df1n"]
-[ext_resource type="Script" path="res://scripts/TurnManager.cs" id="1_22vsh"]
-[ext_resource type="Script" path="res://scripts/LevelData.cs" id="1_ke8qq"]
+[ext_resource type="Script" path="res://scripts/managers/InputManager.cs" id="1_6df1n"]
+[ext_resource type="Script" path="res://scripts/managers/TurnManager.cs" id="1_22vsh"]
+[ext_resource type="Script" path="res://scripts/entities/LevelData.cs" id="1_ke8qq"]
 [ext_resource type="PackedScene" uid="uid://bftwl3dsinhe0" path="res://scenes/obstacle_static.tscn" id="2_o73fg"]
 [ext_resource type="Material" uid="uid://bjlq2xxhujjic" path="res://graphics/materials/fade_yellow_mat.tres" id="3_sq4jo"]
 [ext_resource type="Texture2D" uid="uid://drsdtllkrucgw" path="res://graphics/textures/Tile_04-512x512.png" id="4_hrwr1"]
-[ext_resource type="PackedScene" uid="uid://bobk7fgktpcc3" path="res://scenes/base_unit_player.tscn" id="5_lyjas"]
 [ext_resource type="PackedScene" uid="uid://d3ita488awasa" path="res://scenes/units/enemy_slime.tscn" id="8_mg4li"]
+[ext_resource type="PackedScene" uid="uid://mho0kml2qi44" path="res://scenes/units/player_berserker.tscn" id="9_6wusg"]
 [ext_resource type="EventAsset" uid="uid://dbalthcbefnr3" path="res://addons/FMOD/editor/resources/events/{67bd44df-7d43-4dc0-b52f-4769d8c77d0a}.tres" id="9_e3ugl"]
+[ext_resource type="PackedScene" uid="uid://bp6ns7f5qgn3a" path="res://scenes/units/player_healer.tscn" id="10_0w05u"]
 [ext_resource type="BankAsset" uid="uid://bbsdutm1y0sjm" path="res://addons/FMOD/editor/resources/banks/{29842420-1baf-4e88-b38a-b37683d8f799}.tres" id="10_tvevl"]
+[ext_resource type="PackedScene" uid="uid://bd8e4f4bub57c" path="res://scenes/units/player_tank.tscn" id="11_rqe5l"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_1dibq"]
 
@@ -32,12 +34,6 @@ uv1_scale = Vector3(2, 2, 1)
 [sub_resource type="BoxMesh" id="BoxMesh_rowki"]
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_xpqmo"]
-
-[sub_resource type="SphereMesh" id="SphereMesh_sp820"]
-
-[sub_resource type="BoxMesh" id="BoxMesh_8rjem"]
-
-[sub_resource type="CylinderMesh" id="CylinderMesh_acyx3"]
 
 [node name="main_scene" type="Node3D"]
 
@@ -77,9 +73,8 @@ mesh = SubResource("BoxMesh_1dibq")
 skeleton = NodePath("../..")
 surface_material_override/0 = ExtResource("3_sq4jo")
 
-[node name="Level" type="Node3D" parent="." node_paths=PackedStringArray("ray")]
+[node name="Level" type="Node3D" parent="."]
 script = ExtResource("1_ke8qq")
-ray = NodePath("RayCast3D")
 
 [node name="RayCast3D" type="RayCast3D" parent="Level"]
 transform = Transform3D(1, 0, 0, 0, -1, 8.74228e-08, 0, -8.74228e-08, -1, 0, 0, 0)
@@ -150,32 +145,23 @@ skeleton = NodePath("../../..")
 
 [node name="Units" type="Node3D" parent="."]
 
-[node name="PlayerBerserker" parent="Units" instance=ExtResource("5_lyjas")]
+[node name="Players" type="Node3D" parent="Units"]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Units/PlayerBerserker"]
-transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 1.5, 0)
-mesh = SubResource("SphereMesh_sp820")
+[node name="PlayerBerserker" parent="Units/Players" instance=ExtResource("9_6wusg")]
 
-[node name="PlayerTank" parent="Units" instance=ExtResource("5_lyjas")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 4)
+[node name="PlayerHealer" parent="Units/Players" instance=ExtResource("10_0w05u")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 1)
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Units/PlayerTank"]
-transform = Transform3D(0.25, 0, 0, 0, 0.25, 0, 0, 0, 0.25, 0, 1.5, 0)
-mesh = SubResource("BoxMesh_8rjem")
+[node name="PlayerTank" parent="Units/Players" instance=ExtResource("11_rqe5l")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 4)
 
-[node name="PlayerHealer" parent="Units" instance=ExtResource("5_lyjas")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 1)
-AttackDistance = 8
+[node name="Enemies" type="Node3D" parent="Units"]
 
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Units/PlayerHealer"]
-transform = Transform3D(0.25, 0, 0, 0, 0.125, 0, 0, 0, 0.25, 0, 1.5, 0)
-mesh = SubResource("CylinderMesh_acyx3")
-
-[node name="EnemySlime" parent="Units" groups=["enemy_units", "units"] instance=ExtResource("8_mg4li")]
+[node name="EnemySlime" parent="Units/Enemies" groups=["enemy_units", "units"] instance=ExtResource("8_mg4li")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 5)
 
-[node name="EnemySlime2" parent="Units" groups=["enemy_units", "units"] instance=ExtResource("8_mg4li")]
+[node name="EnemySlime2" parent="Units/Enemies" groups=["enemy_units", "units"] instance=ExtResource("8_mg4li")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 6)
 
-[node name="EnemySlime3" parent="Units" groups=["enemy_units", "units"] instance=ExtResource("8_mg4li")]
+[node name="EnemySlime3" parent="Units/Enemies" groups=["enemy_units", "units"] instance=ExtResource("8_mg4li")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 7)

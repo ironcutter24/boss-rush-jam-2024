@@ -1,0 +1,7 @@
+[gd_scene load_steps=3 format=3 uid="uid://bp6ns7f5qgn3a"]
+
+[ext_resource type="PackedScene" uid="uid://bkh4eat12qt1o" path="res://scenes/units/base/base_unit.tscn" id="1_uqvc1"]
+[ext_resource type="Script" path="res://scripts/units/PlayerHealer.cs" id="2_2nbne"]
+
+[node name="PlayerHealer" instance=ExtResource("1_uqvc1")]
+script = ExtResource("2_2nbne")
