@@ -1,0 +1,23 @@
+[gd_resource type="ShaderMaterial" load_steps=6 format=3 uid="uid://cs6rja8nfblda"]
+
+[ext_resource type="Shader" path="res://graphics/materials/shaders/mold_mat.gdshader" id="1_2om1v"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_jludv"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_w4x8h"]
+noise = SubResource("FastNoiseLite_jludv")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_vka25"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_dua7p"]
+as_normal_map = true
+noise = SubResource("FastNoiseLite_vka25")
+
+[resource]
+render_priority = 0
+shader = ExtResource("1_2om1v")
+shader_parameter/color = Vector4(0.05, 0.05, 0.12, 1)
+shader_parameter/roughness = 0.56
+shader_parameter/height_scale = 0.1
+shader_parameter/noise = SubResource("NoiseTexture2D_w4x8h")
+shader_parameter/normalmap = SubResource("NoiseTexture2D_dua7p")

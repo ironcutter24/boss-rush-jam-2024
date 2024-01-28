@@ -43,7 +43,7 @@ public partial class InputManager : Node3D
 
     #region Input Events
 
-    public bool CellSelected(out Vector2I? pos)
+    public bool IsCellSelected(out Vector2I? pos)
     {
         pos = hitCellPos;
         if (pos.HasValue && Input.IsActionJustPressed("select"))
@@ -53,17 +53,27 @@ public partial class InputManager : Node3D
         return false;
     }
 
-    public bool Cancel()
+    public bool IsCancel()
     {
         return Input.IsActionJustPressed("cancel");
     }
 
-    public bool Attack()
+    public bool IsAttack()
     {
         return Input.IsActionJustPressed("attack");
     }
 
-    public bool EndTurn()
+    public bool IsSpecial()
+    {
+        return Input.IsActionJustPressed("special");
+    }
+
+    public bool IsReaction()
+    {
+        return Input.IsActionJustPressed("reaction");
+    }
+
+    public bool IsEndTurn()
     {
         return Input.IsActionJustPressed("end_turn");
     }

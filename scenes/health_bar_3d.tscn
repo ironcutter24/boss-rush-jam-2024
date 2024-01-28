@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bh5qm0csi1tp6"]
 
 [ext_resource type="Script" path="res://scripts/HealthBar3D.cs" id="1_mpmsf"]
-[ext_resource type="Texture2D" uid="uid://dfv02l88oucar" path="res://sprites/white_square.png" id="2_bfpb1"]
+[ext_resource type="Texture2D" uid="uid://dfv02l88oucar" path="res://graphics/sprites/white_square.png" id="2_bfpb1"]
 
 [node name="HealthBar3D" type="Sprite3D"]
 transform = Transform3D(0.3, 0, 0, 0, 0.06, 0, 0, 0, 1, 0, 1.2, 0)

@@ -91,7 +91,7 @@ public partial class TurnManager : Node3D
             })
             .AddTransition(State.AIAttack, () =>
             {
-                if (inputManager.CellSelected(out cursorGridPos))
+                if (inputManager.IsCellSelected(out cursorGridPos))
                 {
                     Unit selectedUnit = levelData.GetUnitAt(cursorGridPos.Value);
                     if (selectedUnit != null &&
@@ -109,7 +109,7 @@ public partial class TurnManager : Node3D
                 return false;
             })
             .AddTransition(State.AIContext, () => currentTarget == null)
-            .AddTransition(State.AIAttack, () => inputManager.Cancel());
+            .AddTransition(State.AIAttack, () => inputManager.IsCancel());
 
         sm.Configure(State.AIAttack)
             .SubstateOf(State.EnemyTurn)

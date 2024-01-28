@@ -29,8 +29,5 @@ transform = Transform3D(0.4, 0, 0, 0, 0.5, 0, 0, 0, 0.4, 0, 0.5, 0)
 mesh = SubResource("CapsuleMesh_rdu23")
 skeleton = NodePath("../..")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-
 [node name="AnimationTree" type="AnimationTree" parent="."]
 tree_root = SubResource("AnimationRootNode_6pr8b")
-anim_player = NodePath("../AnimationPlayer")

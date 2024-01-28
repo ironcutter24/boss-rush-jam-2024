@@ -21,7 +21,7 @@ public partial class TurnManager : Node3D
 
         sm.Configure(State.PlayerCanEndTurn)
             .SubstateOf(State.PlayerTurn)
-            .AddTransition(State.AIContext, () => inputManager.EndTurn());
+            .AddTransition(State.AIContext, () => inputManager.IsEndTurn());
 
         #endregion
 
@@ -34,7 +34,7 @@ public partial class TurnManager : Node3D
             })
             .AddTransition(State.PlayerUnitContext, () =>
             {
-                if (inputManager.CellSelected(out cursorGridPos))
+                if (inputManager.IsCellSelected(out cursorGridPos))
                 {
                     Unit selectedUnit = levelData.GetUnitAt(cursorGridPos.Value);
                     if (selectedUnit == null || selectedUnit.Faction == FactionType.Enemy)
@@ -55,8 +55,10 @@ public partial class TurnManager : Node3D
                 currentUnit.SetSelected(true);
             })
             .AddTransition(State.PlayerSelectMove, () => currentUnit.HasMovement)
-            .AddTransition(State.PlayerSelectAttack, () => inputManager.Attack() && currentUnit.HasAttack)
-            .AddTransition(State.PlayerSelectUnit, () => inputManager.Cancel());
+            .AddTransition(State.PlayerSelectAttack, () => inputManager.IsAttack() && currentUnit.HasAttack)
+            //.AddTransition(, () => inputManager.IsSpecial() && currentUnit.HasAttack)
+            //.AddTransition(, () => inputManager.IsReaction() && currentUnit.HasAttack)
+            .AddTransition(State.PlayerSelectUnit, () => inputManager.IsCancel());
 
         sm.Configure(State.PlayerSelectMove)
             .SubstateOf(State.PlayerCanEndTurn)
@@ -68,13 +70,13 @@ public partial class TurnManager : Node3D
             .OnExit(() => DestroyChildren())
             .AddTransition(State.PlayerAwaitMove, () =>
             {
-                return inputManager.CellSelected(out cursorGridPos)
+                return inputManager.IsCellSelected(out cursorGridPos)
                     && cursorGridPos.HasValue
                     && cursorGridPos.Value != currentUnit.GridPosition
                     && levelData.IsReachable(currentUnit, cursorGridPos.Value);
             })
-            .AddTransition(State.PlayerSelectAttack, () => inputManager.Attack() && currentUnit.HasAttack)
-            .AddTransition(State.PlayerSelectUnit, () => inputManager.Cancel());
+            .AddTransition(State.PlayerSelectAttack, () => inputManager.IsAttack() && currentUnit.HasAttack)
+            .AddTransition(State.PlayerSelectUnit, () => inputManager.IsCancel());
 
         sm.Configure(State.PlayerAwaitMove)
             .SubstateOf(State.PlayerTurn)
@@ -95,12 +97,12 @@ public partial class TurnManager : Node3D
             .OnExit(() => DestroyChildren())
             .AddTransition(State.PlayerAwaitAttack, () =>
             {
-                return inputManager.CellSelected(out cursorGridPos)
+                return inputManager.IsCellSelected(out cursorGridPos)
                     && levelData.IsHittable(currentUnit, cursorGridPos.Value);
             })
-            .AddTransition(State.PlayerUnitContext, () => inputManager.Attack())
-            .AddTransition(State.PlayerUnitContext, () => inputManager.Cancel() && currentUnit.HasMovement)
-            .AddTransition(State.PlayerSelectUnit, () => inputManager.Cancel() && !currentUnit.HasMovement);
+            .AddTransition(State.PlayerUnitContext, () => inputManager.IsAttack())
+            .AddTransition(State.PlayerUnitContext, () => inputManager.IsCancel() && currentUnit.HasMovement)
+            .AddTransition(State.PlayerSelectUnit, () => inputManager.IsCancel() && !currentUnit.HasMovement);
 
         sm.Configure(State.PlayerAwaitAttack)
             .SubstateOf(State.PlayerTurn)

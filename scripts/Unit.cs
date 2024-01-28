@@ -40,7 +40,7 @@ public abstract partial class Unit : CharacterBody3D
     public void SetSelected(bool state)
     {
         IsSelected = state;
-        var mat = IsSelected ? GD.Load<Material>("res://materials/red_mat.tres") : null;
+        var mat = IsSelected ? GD.Load<Material>("res://graphics/materials/red_mat.tres") : null;
         GetNode<MeshInstance3D>("Graphics/MeshInstance3D").MaterialOverride = mat;
     }
 

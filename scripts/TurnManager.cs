@@ -87,7 +87,7 @@ public partial class TurnManager : Node3D
 
     private Material GetMaterialFrom(MeshColor color)
     {
-        return GD.Load<Material>($"materials/fade_{color.ToString().ToLower()}_mat.tres");
+        return GD.Load<Material>($"graphics/materials/fade_{color.ToString().ToLower()}_mat.tres");
     }
 
     #endregion

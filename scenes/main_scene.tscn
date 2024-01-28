@@ -4,8 +4,8 @@
 [ext_resource type="Script" path="res://scripts/TurnManager.cs" id="1_22vsh"]
 [ext_resource type="Script" path="res://scripts/LevelData.cs" id="1_ke8qq"]
 [ext_resource type="PackedScene" uid="uid://bftwl3dsinhe0" path="res://scenes/obstacle_static.tscn" id="2_o73fg"]
-[ext_resource type="Material" uid="uid://bjlq2xxhujjic" path="res://materials/fade_yellow_mat.tres" id="3_sq4jo"]
-[ext_resource type="Texture2D" uid="uid://drsdtllkrucgw" path="res://textures/Tile_04-512x512.png" id="4_hrwr1"]
+[ext_resource type="Material" uid="uid://bjlq2xxhujjic" path="res://graphics/materials/fade_yellow_mat.tres" id="3_sq4jo"]
+[ext_resource type="Texture2D" uid="uid://drsdtllkrucgw" path="res://graphics/textures/Tile_04-512x512.png" id="4_hrwr1"]
 [ext_resource type="PackedScene" uid="uid://bobk7fgktpcc3" path="res://scenes/base_unit_player.tscn" id="5_lyjas"]
 [ext_resource type="PackedScene" uid="uid://d3ita488awasa" path="res://scenes/units/enemy_slime.tscn" id="8_mg4li"]
 [ext_resource type="EventAsset" uid="uid://dbalthcbefnr3" path="res://addons/FMOD/editor/resources/events/{67bd44df-7d43-4dc0-b52f-4769d8c77d0a}.tres" id="9_e3ugl"]
@@ -56,6 +56,11 @@ num_banks = 1
 bank_0 = ExtResource("10_tvevl")
 
 [node name="StudioListener3D" type="StudioListener3D" parent="Camera3D"]
+transform = Transform3D(-0.642788, 0, 0.766044, 0.439385, 0.819152, 0.368688, -0.627507, 0.573577, -0.526541, 0, -3.68618, -2.58109)
+
+[node name="OSTEventEmitter3D" type="StudioEventEmitter3D" parent="Camera3D"]
+play_event = 2
+event = ExtResource("9_e3ugl")
 transform = Transform3D(-0.642788, 0, 0.766044, 0.439385, 0.819152, 0.368688, -0.627507, 0.573577, -0.526541, 0, -3.68618, -2.58109)
 
 [node name="TurnManager" type="Node3D" parent="."]
@@ -174,7 +179,3 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 6)
 
 [node name="EnemySlime3" parent="Units" groups=["enemy_units", "units"] instance=ExtResource("8_mg4li")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 7)
-
-[node name="StudioEventEmitter3D" type="StudioEventEmitter3D" parent="."]
-play_event = 2
-event = ExtResource("9_e3ugl")
