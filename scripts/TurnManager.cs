@@ -40,8 +40,6 @@ public partial class TurnManager : Node3D
 
     public override void _Ready()
     {
-        enemyUnits = Unit.GetUnits(FactionType.Enemy);
-
         InitPlayerStates();
         InitEnemyStates();
 

@@ -10,6 +10,7 @@ public partial class TurnManager : Node3D
         sm.Configure(State.EnemyTurn)
             .OnEntry(() =>
             {
+                enemyUnits = Unit.GetUnits(FactionType.Enemy);
                 enemyIndex = 0;
                 GD.Print(">>> Entered Enemy turn");
             })
@@ -24,6 +25,7 @@ public partial class TurnManager : Node3D
             .SubstateOf(State.EnemyTurn)
             .OnEntry(() =>
             {
+                enemyUnits = Unit.GetUnits(FactionType.Enemy);
                 if (enemyIndex < enemyUnits.Count)
                 {
                     currentUnit = enemyUnits[enemyIndex];
