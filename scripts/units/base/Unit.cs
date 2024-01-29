@@ -79,6 +79,10 @@ public abstract partial class Unit : CharacterBody3D
         {
             Free();
         }
+        else
+        {
+            _ = SetAnimationTrigger("hurt");
+        }
     }
 
     public void ConsumeMovement()
@@ -103,6 +107,7 @@ public abstract partial class Unit : CharacterBody3D
         const float duration = .1f;
 
         graphics.LookAt(target.GlobalPosition);
+        _ = SetAnimationTrigger("attack");
 
         Tween tween = CreateTween();
         var targetPos = (target.GlobalPosition - graphics.GlobalPosition).Normalized() * .5f;
@@ -143,5 +148,13 @@ public abstract partial class Unit : CharacterBody3D
     }
 
     #endregion
+
+    private async Task SetAnimationTrigger(string condition)
+    {
+        var path = $"parameters/conditions/{condition}";
+        animTree.Set(path, true);
+        await Task.Delay(200);
+        animTree.SetDeferred(path, false);
+    }
 
 }
