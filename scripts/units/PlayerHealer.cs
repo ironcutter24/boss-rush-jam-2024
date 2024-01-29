@@ -9,13 +9,19 @@ public partial class PlayerHealer : PlayerUnit
         await SimpleAttack(target);
     }
 
-    public override Task Reaction()
+    public override async Task Special(Unit target)
     {
-        throw new NotImplementedException();
+        const int healingAmount = 1;
+
+        target.ApplyHealing(healingAmount);
+        await GDTask.NextFrame();
     }
 
-    public override Task Special()
+    public override async Task Reaction(PlayerUnit swappedUnit, EnemyUnit attackingUnit)
     {
-        throw new NotImplementedException();
+        const int healingAmount = 1;
+
+        swappedUnit.ApplyHealing(healingAmount);
+        await GDTask.NextFrame();
     }
 }

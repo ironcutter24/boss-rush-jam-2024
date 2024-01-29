@@ -10,12 +10,12 @@ public partial class TurnManager : Node3D
         sm.Configure(State.PlayerTurn)
             .OnEntry(() =>
             {
+                Unit.ResetTurn(FactionType.Player);
                 GD.Print(">>> Entered Player turn");
             })
             .OnExit(() =>
             {
                 ResetCurrentUnit();
-                Unit.ResetTurn(FactionType.Player);
                 GD.Print("<<< Exited Player turn");
             });
 
@@ -55,9 +55,9 @@ public partial class TurnManager : Node3D
                 currentUnit.SetSelected(true);
             })
             .AddTransition(State.PlayerSelectMove, () => currentUnit.HasMovement)
-            .AddTransition(State.PlayerSelectAttack, () => inputManager.IsAttack() && currentUnit.HasAttack)
-            //.AddTransition(, () => inputManager.IsSpecial() && currentUnit.HasAttack)
-            //.AddTransition(, () => inputManager.IsReaction() && currentUnit.HasAttack)
+            .AddTransition(State.PlayerSelectAttack, () => inputManager.IsAttack() && currentUnit.HasAction)
+            //.AddTransition(, () => inputManager.IsSpecial() && currentUnit.HasAction)
+            .AddTransition(State.PlayerAwaitReaction, () => inputManager.IsReaction() && currentUnit.HasAction)
             .AddTransition(State.PlayerSelectUnit, () => inputManager.IsCancel());
 
         sm.Configure(State.PlayerSelectMove)
@@ -75,7 +75,8 @@ public partial class TurnManager : Node3D
                     && cursorGridPos.Value != currentUnit.GridPosition
                     && levelData.IsReachable(currentUnit, cursorGridPos.Value);
             })
-            .AddTransition(State.PlayerSelectAttack, () => inputManager.IsAttack() && currentUnit.HasAttack)
+            .AddTransition(State.PlayerSelectAttack, () => inputManager.IsAttack() && currentUnit.HasAction)
+            .AddTransition(State.PlayerAwaitReaction, () => inputManager.IsReaction() && currentUnit.HasAction)
             .AddTransition(State.PlayerSelectUnit, () => inputManager.IsCancel());
 
         sm.Configure(State.PlayerAwaitMove)
@@ -108,9 +109,18 @@ public partial class TurnManager : Node3D
             .SubstateOf(State.PlayerTurn)
             .OnEntry(() =>
             {
-                currentUnit.ConsumeAttack();
+                currentUnit.ConsumeAction();
                 currentTask = currentUnit.Attack(LevelData.GetUnitAtPosition(cursorGridPos.Value));
             })
             .AddTransition(State.PlayerSelectUnit, () => currentTask.IsCompleted);
+
+        sm.Configure(State.PlayerAwaitReaction)
+            .SubstateOf(State.PlayerTurn)
+            .OnEntry(() =>
+            {
+                currentUnit.ConsumeAction();
+                currentTask = (currentUnit as PlayerUnit).PlanReaction();
+            })
+            .AddTransition(State.PlayerUnitContext, () => currentTask.IsCompleted);
     }
 }

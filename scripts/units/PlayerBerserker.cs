@@ -9,13 +9,13 @@ public partial class PlayerBerserker : PlayerUnit
         await AnimatedAttack(target);
     }
 
-    public override Task Reaction()
+    public override Task Special(Unit target)
     {
         throw new NotImplementedException();
     }
 
-    public override Task Special()
+    public override async Task Reaction(PlayerUnit swappedUnit, EnemyUnit attackingUnit)
     {
-        throw new NotImplementedException();
+        await AnimatedAttack(attackingUnit);
     }
 }

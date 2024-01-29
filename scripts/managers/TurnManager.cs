@@ -23,11 +23,12 @@ public partial class TurnManager : Node3D
     {
         // Player
         PlayerTurn, PlayerCanEndTurn,  // Base states
-        PlayerSelectUnit, PlayerUnitContext, PlayerSelectMove, PlayerAwaitMove, PlayerSelectAttack, PlayerAwaitAttack,
+        PlayerSelectUnit, PlayerUnitContext, PlayerSelectMove, PlayerAwaitMove,
+        PlayerSelectAttack, PlayerAwaitAttack, PlayerAwaitReaction,
 
         // Enemy
         EnemyTurn,  // Base states
-        AIContext, AIShowWalkable, AIMove, AIShowHittable, AISelectSwap, AIAttack
+        AIContext, AIShowWalkable, AIMove, AIShowHittable, AISelectSwap, AIAwaitReaction, AIAttack
     }
     StateMachine<State> sm = new StateMachine<State>(State.PlayerSelectUnit);
 

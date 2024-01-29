@@ -65,8 +65,8 @@ public partial class TurnManager : Node3D
                 currentTask = AwaitShowcase();
             })
             .OnExit(() => DestroyChildren())
-            .AddTransition(State.AISelectSwap, () => currentTask.IsCompleted && currentUnit.HasAttack)
-            .AddTransition(State.AIContext, () => currentTask.IsCompleted && !currentUnit.HasAttack);
+            .AddTransition(State.AISelectSwap, () => currentTask.IsCompleted && currentUnit.HasAction)
+            .AddTransition(State.AIContext, () => currentTask.IsCompleted && !currentUnit.HasAction);
 
         sm.Configure(State.AISelectSwap)
             .SubstateOf(State.EnemyTurn)
@@ -91,7 +91,7 @@ public partial class TurnManager : Node3D
             {
                 DestroyChildren();
             })
-            .AddTransition(State.AIAttack, () =>
+            .AddTransition(State.AIAwaitReaction, () =>
             {
                 if (inputManager.IsCellSelected(out cursorGridPos))
                 {
@@ -101,10 +101,25 @@ public partial class TurnManager : Node3D
                         selectedUnit != currentTarget)
                     {
                         // Swap selectedUnit with currentTarget
-                        Vector3 posApp = selectedUnit.Position;
-                        selectedUnit.Position = currentTarget.Position;
-                        currentTarget.Position = posApp;
-                        currentTarget = selectedUnit;
+                        var swapTarget = selectedUnit as PlayerUnit;
+                        var swapOwner = currentTarget as PlayerUnit;
+
+                        Vector3 appPos = swapTarget.Position;
+                        swapTarget.Position = swapOwner.Position;
+                        swapOwner.Position = appPos;
+                        currentTarget = swapTarget;
+
+                        //levelData.RefreshGrid();
+
+                        if (swapTarget.IsReactionPlanned && currentUnit is EnemyUnit)
+                        {
+                            currentTask = swapTarget.Reaction(swapOwner, currentUnit as EnemyUnit);
+                        }
+                        else
+                        {
+                            currentTask = null;
+                        }
+
                         return true;
                     }
                 }
@@ -113,14 +128,26 @@ public partial class TurnManager : Node3D
             .AddTransition(State.AIContext, () => currentTarget == null)
             .AddTransition(State.AIAttack, () => inputManager.IsCancel());
 
+        sm.Configure(State.AIAwaitReaction)
+            .SubstateOf(State.EnemyTurn)
+            .AddTransition(State.AIAttack, () =>
+            {
+                var unit = currentTarget as PlayerUnit;
+                return unit != null && !unit.IsReactionPlanned;
+            })
+            .AddTransition(State.AIAttack, () => currentTask != null && currentTask.IsCompleted);
+
         sm.Configure(State.AIAttack)
             .SubstateOf(State.EnemyTurn)
             .OnEntry(() =>
             {
+                if (!currentUnit.HasAction) return;
+
                 levelData.RefreshGrid();
                 currentTask = currentUnit.Attack(currentTarget);
             })
-            .AddTransition(State.AIContext, () => currentTask.IsCompleted);
+            .AddTransition(State.AIContext, () => currentTask.IsCompleted)
+            .AddTransition(State.AIContext, () => !currentUnit.HasAction);
     }
 
     private static async Task AwaitShowcase()

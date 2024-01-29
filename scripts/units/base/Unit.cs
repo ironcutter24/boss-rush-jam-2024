@@ -19,8 +19,8 @@ public abstract partial class Unit : CharacterBody3D
     public abstract FactionType Faction { get; }
     public int Health { get; private set; }
     public bool IsSelected { get; private set; } = false;
-    public bool HasMovement => _hasMovement && HasAttack;
-    public bool HasAttack { get; private set; } = true;
+    public bool HasMovement => _hasMovement && HasAction;
+    public bool HasAction { get; private set; } = true;
 
     public int GridId => LevelData.GetId(GridPosition.X, GridPosition.Y);
     public Vector2I GridPosition => new Vector2I((int)Position.X, (int)Position.Z);
@@ -74,8 +74,7 @@ public abstract partial class Unit : CharacterBody3D
 
     public void ApplyDamage(int value)
     {
-        Health = Mathf.Max(0, Health - value);
-        healthBar.SetHealth(Health, MaxHealth);
+        AddToHealth(-Mathf.Abs(value));
         if (Health <= 0)
         {
             Free();
@@ -87,19 +86,30 @@ public abstract partial class Unit : CharacterBody3D
         }
     }
 
+    public void ApplyHealing(int value)
+    {
+        AddToHealth(Mathf.Abs(value));
+    }
+
+    private void AddToHealth(int value)
+    {
+        Health = Mathf.Max(0, Health + value);
+        healthBar.SetHealth(Health, MaxHealth);
+    }
+
     public void ConsumeMovement()
     {
         _hasMovement = false;
     }
 
-    public void ConsumeAttack()
+    public void ConsumeAction()
     {
-        HasAttack = false;
+        HasAction = false;
     }
 
-    public void ResetTurn()
+    public virtual void ResetTurn()
     {
-        _hasMovement = HasAttack = true;
+        _hasMovement = HasAction = true;
     }
 
     #region Attack methods
