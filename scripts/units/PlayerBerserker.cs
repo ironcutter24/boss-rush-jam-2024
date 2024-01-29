@@ -6,7 +6,7 @@ public partial class PlayerBerserker : PlayerUnit
 {
     public override async Task Attack(Unit target)
     {
-        await SimpleAttack(target);
+        await AnimatedAttack(target);
     }
 
     public override Task Reaction()

@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://bkh4eat12qt1o"]
+[gd_scene load_steps=7 format=3 uid="uid://bkh4eat12qt1o"]
 
 [ext_resource type="Script" path="res://scripts/units/EnemyUnit.cs" id="1_imn2a"]
 [ext_resource type="PackedScene" uid="uid://bh5qm0csi1tp6" path="res://scenes/health_bar_3d.tscn" id="2_ehfqo"]
@@ -8,6 +8,22 @@ radius = 0.2
 height = 1.0
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_rdu23"]
+
+[sub_resource type="Animation" id="Animation_7euv8"]
+resource_name = "hurt_spring"
+length = 0.7
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Graphics")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 0.0631879, 1, -0.1, 0, 0.1, 0.159785, 1, 0.1, 0, -0.1, 0.29266, 1, -0.1, 0, 0.1, 0.509002, 1, 0.1, 0, -0.1, 0.7, 1, 0, 0, 0)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_tamyp"]
+_data = {
+"hurt_spring": SubResource("Animation_7euv8")
+}
 
 [node name="BaseUnit" type="CharacterBody3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 2)
@@ -28,3 +44,8 @@ mesh = SubResource("CapsuleMesh_rdu23")
 skeleton = NodePath("../..")
 
 [node name="AnimationTree" type="AnimationTree" parent="."]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_tamyp")
+}

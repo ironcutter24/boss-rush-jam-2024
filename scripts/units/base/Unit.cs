@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 public abstract partial class Unit : CharacterBody3D
 {
     private bool _hasMovement = true;
+    private AnimationPlayer animFX;
     private AnimationTree animTree;
     private HealthBar3D healthBar;
     private Node3D graphics;
@@ -26,6 +27,7 @@ public abstract partial class Unit : CharacterBody3D
 
     public override void _EnterTree()
     {
+        animFX = GetNode<AnimationPlayer>("AnimationPlayer");
         animTree = GetNode<AnimationTree>("AnimationTree");
         healthBar = GetNode<HealthBar3D>("Graphics/HealthBar3D");
         graphics = GetNode<Node3D>("Graphics");
@@ -42,7 +44,6 @@ public abstract partial class Unit : CharacterBody3D
     }
 
     public abstract Task Attack(Unit target);
-
 
     public async Task FollowPathTo(Vector2I pos)
     {
@@ -82,6 +83,7 @@ public abstract partial class Unit : CharacterBody3D
         else
         {
             _ = SetAnimationTrigger("hurt");
+            animFX.Play("hurt_spring");
         }
     }
 
@@ -104,21 +106,42 @@ public abstract partial class Unit : CharacterBody3D
 
     protected async Task SimpleAttack(Unit target)
     {
-        const float duration = .1f;
+        const float moveTime = .1f;
+        const float attackTime = .1f;
 
         graphics.LookAt(target.GlobalPosition);
-        _ = SetAnimationTrigger("attack");
 
         Tween tween = CreateTween();
         var targetPos = (target.GlobalPosition - graphics.GlobalPosition).Normalized() * .5f;
-        tween.TweenProperty(graphics, "position", targetPos, duration);
-        tween.TweenProperty(graphics, "position", Vector3.Zero, duration).SetDelay(duration);
+        tween.TweenProperty(graphics, "position", targetPos, moveTime);
+        tween.TweenProperty(graphics, "position", Vector3.Zero, moveTime).SetDelay(attackTime + moveTime);
 
-        await GDTask.DelaySeconds(duration);  // Wait for go duration
+        await GDTask.DelaySeconds(moveTime);  // Wait for go duration
+
+        _ = SetAnimationTrigger("attack");
         target.ApplyDamage(1);
-        await GDTask.DelaySeconds(duration * 2);  // Wait for delay + return duration
+        await GDTask.DelaySeconds(attackTime + moveTime);  // Wait for attack + return duration
+    }
 
-        return;
+    protected async Task AnimatedAttack(Unit target)
+    {
+        const float moveTime = .1f;
+        const float attackTime = 1f;
+
+        graphics.LookAt(target.GlobalPosition);
+
+        Tween tween = CreateTween();
+        var targetPos = (target.GlobalPosition - graphics.GlobalPosition).Normalized() * .5f;
+        tween.TweenProperty(graphics, "position", targetPos, moveTime);
+        tween.TweenProperty(graphics, "position", Vector3.Zero, moveTime).SetDelay(attackTime + moveTime);
+
+        await GDTask.DelaySeconds(moveTime);  // Wait for go duration
+
+        _ = SetAnimationTrigger("attack");
+        await GDTask.DelaySeconds(attackTime * .5f);
+        target.ApplyDamage(1);
+        await GDTask.DelaySeconds(attackTime * .5f);
+        await GDTask.DelaySeconds(moveTime);  // Wait for return duration
     }
 
     #endregion
@@ -154,7 +177,7 @@ public abstract partial class Unit : CharacterBody3D
         var path = $"parameters/conditions/{condition}";
         animTree.Set(path, true);
         await Task.Delay(200);
-        animTree.SetDeferred(path, false);
+        animTree.Set(path, false);
     }
 
 }
