@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://bja7jmhmj"]
+[gd_scene load_steps=27 format=3 uid="uid://bja7jmhmj"]
 
 [ext_resource type="Script" path="res://scripts/managers/InputManager.cs" id="1_6df1n"]
 [ext_resource type="Script" path="res://scripts/managers/TurnManager.cs" id="1_22vsh"]
@@ -12,6 +12,10 @@
 [ext_resource type="PackedScene" uid="uid://bp6ns7f5qgn3a" path="res://scenes/units/player_healer.tscn" id="10_0w05u"]
 [ext_resource type="BankAsset" uid="uid://bbsdutm1y0sjm" path="res://addons/FMOD/editor/resources/banks/{29842420-1baf-4e88-b38a-b37683d8f799}.tres" id="10_tvevl"]
 [ext_resource type="PackedScene" uid="uid://bd8e4f4bub57c" path="res://scenes/units/player_tank.tscn" id="11_rqe5l"]
+[ext_resource type="PackedScene" uid="uid://dn2oelgp4jfb0" path="res://scenes/health_bar.tscn" id="13_34d3n"]
+[ext_resource type="Script" path="res://scripts/HUD/UnitHUD.cs" id="14_gkq63"]
+[ext_resource type="Texture2D" uid="uid://dfv02l88oucar" path="res://graphics/sprites/white_square.png" id="14_y64no"]
+[ext_resource type="PackedScene" uid="uid://rcq3nk3j2ih6" path="res://scenes/UI/action_info.tscn" id="15_qpco8"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_1dibq"]
 
@@ -35,32 +39,42 @@ uv1_scale = Vector3(2, 2, 1)
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_xpqmo"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m1cfv"]
+corner_radius_top_left = 4
+corner_radius_top_right = 4
+corner_radius_bottom_right = 4
+corner_radius_bottom_left = 4
+
 [node name="main_scene" type="Node3D"]
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.5, -0.612372, 0.612372, 0, 0.707107, 0.707107, -0.866025, 0.353553, -0.353553, 0, 2, 0)
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(-0.642788, 0.439385, -0.627507, 0, 0.819152, 0.573577, 0.766045, 0.368688, -0.526541, 0, 4.5, 0)
+[node name="Node3D" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 1)
+
+[node name="Camera3D" type="Camera3D" parent="Node3D"]
+transform = Transform3D(-0.642788, 0.439385, -0.627507, 0, 0.819152, 0.573576, 0.766044, 0.368688, -0.526541, 0, 4.6, 0)
 projection = 1
 current = true
-size = 11.0
+size = 10.0
 
-[node name="StudioBankLoader" type="StudioBankLoader" parent="Camera3D"]
+[node name="StudioBankLoader" type="StudioBankLoader" parent="Node3D/Camera3D"]
 load_on = 1
 num_banks = 1
 bank_0 = ExtResource("10_tvevl")
 
-[node name="StudioListener3D" type="StudioListener3D" parent="Camera3D"]
+[node name="StudioListener3D" type="StudioListener3D" parent="Node3D/Camera3D"]
 transform = Transform3D(-0.642788, 0, 0.766044, 0.439385, 0.819152, 0.368688, -0.627507, 0.573577, -0.526541, 0, -3.68618, -2.58109)
 
-[node name="OSTEventEmitter3D" type="StudioEventEmitter3D" parent="Camera3D"]
+[node name="OSTEventEmitter3D" type="StudioEventEmitter3D" parent="Node3D/Camera3D"]
 play_event = 2
 event = ExtResource("9_e3ugl")
 transform = Transform3D(-0.642788, 0, 0.766044, 0.439385, 0.819152, 0.368688, -0.627507, 0.573577, -0.526541, 0, -3.68618, -2.58109)
 
-[node name="TurnManager" type="Node3D" parent="."]
+[node name="TurnManager" type="Node3D" parent="." node_paths=PackedStringArray("unitHUD")]
 script = ExtResource("1_22vsh")
+unitHUD = NodePath("../CanvasLayer/UnitHUD")
 
 [node name="InputManager" type="Node3D" parent="."]
 script = ExtResource("1_6df1n")
@@ -165,3 +179,116 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 6)
 
 [node name="EnemySlime3" parent="Units/Enemies" groups=["enemy_units", "units"] instance=ExtResource("8_mg4li")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 7)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_top = -34.0
+offset_bottom = -17.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 4
+
+[node name="HealthBar" parent="CanvasLayer/Control" instance=ExtResource("13_34d3n")]
+custom_minimum_size = Vector2(600, 8)
+layout_mode = 1
+anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
+
+[node name="UnitHUD" type="Panel" parent="CanvasLayer" node_paths=PackedStringArray("attackInfo", "specialInfo", "reactionInfo", "unit")]
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -438.0
+offset_top = -322.5
+offset_right = -45.0
+offset_bottom = 322.5
+grow_horizontal = 0
+grow_vertical = 2
+script = ExtResource("14_gkq63")
+attackInfo = NodePath("VBoxContainer/AttackInfo")
+specialInfo = NodePath("VBoxContainer/SpecialInfo")
+reactionInfo = NodePath("VBoxContainer/ReactionInfo")
+unit = NodePath("../../Units/Players/PlayerHealer")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/UnitHUD"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 14.0
+offset_top = 14.0
+offset_right = -13.0
+offset_bottom = -6.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="UnitInfo" type="Panel" parent="CanvasLayer/UnitHUD/VBoxContainer"]
+custom_minimum_size = Vector2(240, 124)
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_m1cfv")
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/UnitHUD/VBoxContainer/UnitInfo"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 11.0
+offset_top = 10.0
+offset_right = -266.0
+offset_bottom = -8.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("14_y64no")
+expand_mode = 1
+
+[node name="Name" type="RichTextLabel" parent="CanvasLayer/UnitHUD/VBoxContainer/UnitInfo"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 108.0
+offset_top = 8.0
+offset_right = -11.0
+offset_bottom = 40.0
+grow_horizontal = 2
+bbcode_enabled = true
+text = "[b]Unit name[/b]
+"
+scroll_active = false
+
+[node name="Description" type="RichTextLabel" parent="CanvasLayer/UnitHUD/VBoxContainer/UnitInfo"]
+layout_mode = 1
+anchors_preset = 10
+anchor_right = 1.0
+offset_left = 114.0
+offset_top = 30.0
+offset_right = -11.0
+offset_bottom = 54.0
+grow_horizontal = 2
+bbcode_enabled = true
+text = "[color=yellow]Berserker[/color]"
+scroll_active = false
+
+[node name="AttackInfo" parent="CanvasLayer/UnitHUD/VBoxContainer" instance=ExtResource("15_qpco8")]
+layout_mode = 2
+
+[node name="SpecialInfo" parent="CanvasLayer/UnitHUD/VBoxContainer" instance=ExtResource("15_qpco8")]
+layout_mode = 2
+
+[node name="ReactionInfo" parent="CanvasLayer/UnitHUD/VBoxContainer" instance=ExtResource("15_qpco8")]
+layout_mode = 2

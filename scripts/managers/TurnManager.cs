@@ -18,6 +18,8 @@ public partial class TurnManager : Node3D
     private List<Unit> enemyUnits = new List<Unit>();
     private int enemyIndex;
 
+    [Export] private UnitHUD unitHUD;
+
     enum MeshColor { Red, Yellow, Green }
     enum State
     {

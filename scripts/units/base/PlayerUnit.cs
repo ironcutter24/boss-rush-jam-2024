@@ -4,6 +4,10 @@ using System.Threading.Tasks;
 
 public abstract partial class PlayerUnit : Unit
 {
+    [Export(PropertyHint.MultilineText)] public string AttackDescription { get; private set; }
+    [Export(PropertyHint.MultilineText)] public string SpecialDescription { get; private set; }
+    [Export(PropertyHint.MultilineText)] public string ReactionDescription { get; private set; }
+
     public bool IsReactionPlanned { get; private set; } = false;
 
     public override FactionType Faction => FactionType.Player;

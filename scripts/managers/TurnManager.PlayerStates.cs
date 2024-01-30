@@ -53,6 +53,8 @@ public partial class TurnManager : Node3D
             {
                 levelData.RefreshGrid(currentUnit.GridPosition);
                 currentUnit.SetSelected(true);
+
+                unitHUD.Initialize(currentUnit as PlayerUnit);
             })
             .AddTransition(State.PlayerSelectMove, () => currentUnit.HasMovement)
             .AddTransition(State.PlayerSelectAttack, () => inputManager.IsAttack() && currentUnit.HasAction)
