@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="boss-rush-jam-2024"
+config/name="Lab Escape"
 run/main_scene="res://scenes/main_scene.tscn"
 config/features=PackedStringArray("4.2", "C#", "Mobile")
 config/icon="res://icon.svg"

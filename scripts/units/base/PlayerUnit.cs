@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 public abstract partial class PlayerUnit : Unit
 {
+    [Export] public string CharacterName { get; private set; }
+    [Export] public string CharacterClass { get; private set; }
     [Export(PropertyHint.MultilineText)] public string AttackDescription { get; private set; }
     [Export(PropertyHint.MultilineText)] public string SpecialDescription { get; private set; }
     [Export(PropertyHint.MultilineText)] public string ReactionDescription { get; private set; }

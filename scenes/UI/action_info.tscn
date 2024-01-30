@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://scripts/HUD/ActionInfo.cs" id="1_476gq"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m1cfv"]
+bg_color = Color(0.313726, 0.313726, 0.313726, 1)
 corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
@@ -40,6 +41,4 @@ offset_right = -10.0
 offset_bottom = 152.0
 grow_horizontal = 2
 bbcode_enabled = true
-text = "Description, damage etc.
-
-[i]Reactions can be used after swapping with an attacked unit, and expire at the beginning of player's turn.[/i]"
+text = "Description, damage etc."

@@ -31,6 +31,8 @@ public partial class TurnManager : Node3D
             {
                 ResetCurrentUnit();
                 levelData.RefreshGrid();
+
+                unitHUD.Initialize();
             })
             .AddTransition(State.PlayerUnitContext, () =>
             {

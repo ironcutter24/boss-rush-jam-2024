@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=3 uid="uid://bja7jmhmj"]
+[gd_scene load_steps=28 format=3 uid="uid://bja7jmhmj"]
 
 [ext_resource type="Script" path="res://scripts/managers/InputManager.cs" id="1_6df1n"]
 [ext_resource type="Script" path="res://scripts/managers/TurnManager.cs" id="1_22vsh"]
@@ -15,6 +15,7 @@
 [ext_resource type="PackedScene" uid="uid://dn2oelgp4jfb0" path="res://scenes/health_bar.tscn" id="13_34d3n"]
 [ext_resource type="Script" path="res://scripts/HUD/UnitHUD.cs" id="14_gkq63"]
 [ext_resource type="Texture2D" uid="uid://dfv02l88oucar" path="res://graphics/sprites/white_square.png" id="14_y64no"]
+[ext_resource type="Script" path="res://scripts/UnitInfo.cs" id="15_1om27"]
 [ext_resource type="PackedScene" uid="uid://rcq3nk3j2ih6" path="res://scenes/UI/action_info.tscn" id="15_qpco8"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_1dibq"]
@@ -40,6 +41,7 @@ uv1_scale = Vector3(2, 2, 1)
 [sub_resource type="CylinderMesh" id="CylinderMesh_xpqmo"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_m1cfv"]
+bg_color = Color(0.313726, 0.313726, 0.313726, 1)
 corner_radius_top_left = 4
 corner_radius_top_right = 4
 corner_radius_bottom_right = 4
@@ -208,7 +210,7 @@ offset_top = 0.0
 offset_right = 0.0
 offset_bottom = 0.0
 
-[node name="UnitHUD" type="Panel" parent="CanvasLayer" node_paths=PackedStringArray("attackInfo", "specialInfo", "reactionInfo", "unit")]
+[node name="UnitHUD" type="Panel" parent="CanvasLayer" node_paths=PackedStringArray("unitInfo", "attackInfo", "specialInfo", "reactionInfo", "unit")]
 anchors_preset = 6
 anchor_left = 1.0
 anchor_top = 0.5
@@ -221,6 +223,7 @@ offset_bottom = 322.5
 grow_horizontal = 0
 grow_vertical = 2
 script = ExtResource("14_gkq63")
+unitInfo = NodePath("VBoxContainer/UnitInfo")
 attackInfo = NodePath("VBoxContainer/AttackInfo")
 specialInfo = NodePath("VBoxContainer/SpecialInfo")
 reactionInfo = NodePath("VBoxContainer/ReactionInfo")
@@ -238,10 +241,14 @@ offset_bottom = -6.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="UnitInfo" type="Panel" parent="CanvasLayer/UnitHUD/VBoxContainer"]
+[node name="UnitInfo" type="Panel" parent="CanvasLayer/UnitHUD/VBoxContainer" node_paths=PackedStringArray("picture", "nameLabel", "descriptionLabel")]
 custom_minimum_size = Vector2(240, 124)
 layout_mode = 2
 theme_override_styles/panel = SubResource("StyleBoxFlat_m1cfv")
+script = ExtResource("15_1om27")
+picture = NodePath("TextureRect")
+nameLabel = NodePath("Name")
+descriptionLabel = NodePath("Description")
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer/UnitHUD/VBoxContainer/UnitInfo"]
 layout_mode = 1
@@ -278,10 +285,11 @@ anchor_right = 1.0
 offset_left = 114.0
 offset_top = 30.0
 offset_right = -11.0
-offset_bottom = 54.0
+offset_bottom = 116.0
 grow_horizontal = 2
 bbcode_enabled = true
-text = "[color=yellow]Berserker[/color]"
+text = "Class: N/A
+Speed: N/A"
 scroll_active = false
 
 [node name="AttackInfo" parent="CanvasLayer/UnitHUD/VBoxContainer" instance=ExtResource("15_qpco8")]
