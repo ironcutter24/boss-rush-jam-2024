@@ -135,11 +135,13 @@ public static partial class DecisionMaker
             {
                 int score = cellScores[i];
                 string color = (i == unitId ? "blue" : (score > 0 ? "green" : (score < 0 ? "red" : "yellow")));
+
+                lineStr += Mathf.Abs(score / 10) < 1 ? " " : "";
                 lineStr += $"[color={color}]{Mathf.Abs(score)}[/color]";
             }
             else
             {
-                lineStr += "0";
+                lineStr += " 0";
             }
             lineStr += "|";
         }
@@ -160,7 +162,7 @@ public static partial class DecisionMaker
                 int nearby = LevelData.CountNearbyUnits(id);
                 if (nearby > 0)
                 {
-                    scores[id] += (2 - nearby) * 6;
+                    scores[id] += (2 - nearby) * 10;
                 }
             }
         }
