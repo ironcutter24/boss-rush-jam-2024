@@ -1,6 +1,6 @@
 [gd_scene load_steps=13 format=3 uid="uid://b53idlah53xpg"]
 
-[ext_resource type="Texture2D" uid="uid://uxeleburxc5n" path="res://graphics/models/CrazyMan_Animazioni_Mold_Man_Crazy_Man_BaseColor.png" id="1_waix8"]
+[ext_resource type="Texture2D" uid="uid://uxeleburxc5n" path="res://graphics/models/characters/CrazyMan_Animazioni_Mold_Man_Crazy_Man_BaseColor.png" id="1_waix8"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6h1qf"]
 resource_name = "lambert4"

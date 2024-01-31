@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://bkh4eat12qt1o" path="res://scenes/units/base/base_unit.tscn" id="1_qclih"]
 [ext_resource type="Script" path="res://scripts/units/PlayerBerserker.cs" id="2_kglkj"]
-[ext_resource type="Texture2D" uid="uid://bvam7lupj66ua" path="res://graphics/models/Bambino_Melee_Animazioni_BabyLong_BabyLong_BaseColor.png" id="3_58paa"]
+[ext_resource type="Texture2D" uid="uid://bvam7lupj66ua" path="res://graphics/models/characters/Bambino_Melee_Animazioni_BabyLong_BabyLong_BaseColor.png" id="3_58paa"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_hgd12"]
 resource_name = "Babyshort"

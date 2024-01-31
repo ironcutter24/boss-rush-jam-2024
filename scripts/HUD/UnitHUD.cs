@@ -10,8 +10,6 @@ public partial class UnitHUD : Panel
     [Export] private ActionInfo specialInfo;
     [Export] private ActionInfo reactionInfo;
 
-    [Export] private PlayerUnit unit;
-
     public override void _Ready()
     {
         Initialize();

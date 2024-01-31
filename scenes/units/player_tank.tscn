@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://bkh4eat12qt1o" path="res://scenes/units/base/base_unit.tscn" id="1_hefan"]
 [ext_resource type="Script" path="res://scripts/units/PlayerTank.cs" id="2_h4dws"]
-[ext_resource type="Texture2D" uid="uid://b7pmsiyhco2pl" path="res://graphics/models/Bambino_Tank_Animazioni_BabyCasco_BabyCasco_BaseColor.png" id="3_kd4cp"]
+[ext_resource type="Texture2D" uid="uid://b7pmsiyhco2pl" path="res://graphics/models/characters/Bambino_Tank_Animazioni_BabyCasco_BabyCasco_BaseColor.png" id="3_kd4cp"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_sxqe4"]
 resource_name = "Materiale"
