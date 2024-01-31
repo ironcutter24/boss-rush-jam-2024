@@ -10,3 +10,4 @@ CharacterClass = "Healer"
 AttackDescription = "Simple [color=orange]ranged attack[/color] with [color=yellow]unlimited range[/color]. Blocked by obstacles and units."
 SpecialDescription = "Heal a friendly unit for [color=green]1 health[/color]."
 ReactionDescription = "On swap: heal this unit and the swapped unit for [color=green]1 health[/color]."
+_attackDistance = 10

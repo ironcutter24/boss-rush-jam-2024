@@ -12,9 +12,17 @@ public abstract partial class Unit : CharacterBody3D
     private HealthBar3D healthBar;
     private Node3D graphics;
 
-    [Export] public int AttackDistance { get; private set; } = 1;
-    [Export] public int MoveDistance { get; private set; } = 3;
     [Export] public int MaxHealth { get; private set; } = 3;
+
+    [ExportGroup("Unit parameters")]
+    [Export] private int _attackDamage = 1;
+    [Export] private int _attackDistance = 1;
+    [Export] private int _moveDistance = 3;
+
+    public virtual int AttackDamage => _attackDamage;
+    public virtual int AttackDistance => _attackDistance;
+    public virtual int MoveDistance => _moveDistance;
+
 
     public abstract FactionType Faction { get; }
     public int Health { get; private set; }
@@ -129,7 +137,7 @@ public abstract partial class Unit : CharacterBody3D
         await GDTask.DelaySeconds(moveTime);  // Wait for go duration
 
         _ = SetAnimationTrigger("attack");
-        target.ApplyDamage(1);
+        target.ApplyDamage(AttackDamage);
         await GDTask.DelaySeconds(attackTime + moveTime);  // Wait for attack + return duration
     }
 
@@ -149,7 +157,7 @@ public abstract partial class Unit : CharacterBody3D
 
         _ = SetAnimationTrigger("attack");
         await GDTask.DelaySeconds(attackTime * .5f);
-        target.ApplyDamage(1);
+        target.ApplyDamage(AttackDamage);
         await GDTask.DelaySeconds(attackTime * .5f);
         await GDTask.DelaySeconds(moveTime);  // Wait for return duration
     }
