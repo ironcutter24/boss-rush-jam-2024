@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://bja7jmhmj"]
+[gd_scene load_steps=29 format=3 uid="uid://bja7jmhmj"]
 
 [ext_resource type="Script" path="res://scripts/managers/InputManager.cs" id="1_6df1n"]
 [ext_resource type="Script" path="res://scripts/managers/TurnManager.cs" id="1_22vsh"]
@@ -17,6 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://dfv02l88oucar" path="res://graphics/sprites/white_square.png" id="14_y64no"]
 [ext_resource type="Script" path="res://scripts/UnitInfo.cs" id="15_1om27"]
 [ext_resource type="PackedScene" uid="uid://rcq3nk3j2ih6" path="res://scenes/UI/action_info.tscn" id="15_qpco8"]
+[ext_resource type="PackedScene" uid="uid://b53idlah53xpg" path="res://scenes/props/crazy_man.tscn" id="18_mqhts"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_1dibq"]
 
@@ -52,24 +53,24 @@ corner_radius_bottom_left = 4
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(-0.5, -0.612372, 0.612372, 0, 0.707107, 0.707107, -0.866025, 0.353553, -0.353553, 0, 2, 0)
 
-[node name="Node3D" type="Node3D" parent="."]
+[node name="CameraRoot" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 1)
 
-[node name="Camera3D" type="Camera3D" parent="Node3D"]
+[node name="Camera3D" type="Camera3D" parent="CameraRoot"]
 transform = Transform3D(-0.642788, 0.439385, -0.627507, 0, 0.819152, 0.573576, 0.766044, 0.368688, -0.526541, 0, 4.6, 0)
 projection = 1
 current = true
 size = 10.0
 
-[node name="StudioBankLoader" type="StudioBankLoader" parent="Node3D/Camera3D"]
+[node name="StudioBankLoader" type="StudioBankLoader" parent="CameraRoot/Camera3D"]
 load_on = 1
 num_banks = 1
 bank_0 = ExtResource("10_tvevl")
 
-[node name="StudioListener3D" type="StudioListener3D" parent="Node3D/Camera3D"]
+[node name="StudioListener3D" type="StudioListener3D" parent="CameraRoot/Camera3D"]
 transform = Transform3D(-0.642788, 0, 0.766044, 0.439385, 0.819152, 0.368688, -0.627507, 0.573577, -0.526541, 0, -3.68618, -2.58109)
 
-[node name="OSTEventEmitter3D" type="StudioEventEmitter3D" parent="Node3D/Camera3D"]
+[node name="OSTEventEmitter3D" type="StudioEventEmitter3D" parent="CameraRoot/Camera3D"]
 play_event = 2
 event = ExtResource("9_e3ugl")
 transform = Transform3D(-0.642788, 0, 0.766044, 0.439385, 0.819152, 0.368688, -0.627507, 0.573577, -0.526541, 0, -3.68618, -2.58109)
@@ -133,6 +134,7 @@ skeleton = NodePath("../..")
 
 [node name="WallLeft" type="MeshInstance3D" parent="Level/Walls"]
 transform = Transform3D(8, 0, 0, 0, 1, 0, 0, 0, 0.5, 3.5, 0, 7.75)
+visible = false
 mesh = SubResource("BoxMesh_rowki")
 skeleton = NodePath("../..")
 
@@ -300,3 +302,6 @@ layout_mode = 2
 
 [node name="ReactionInfo" parent="CanvasLayer/UnitHUD/VBoxContainer" instance=ExtResource("15_qpco8")]
 layout_mode = 2
+
+[node name="CrazyMan" parent="." instance=ExtResource("18_mqhts")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3.5, 0, 9)
