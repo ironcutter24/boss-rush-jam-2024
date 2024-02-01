@@ -1,0 +1,20 @@
+[gd_resource type="StandardMaterial3D" load_steps=7 format=3 uid="uid://bj0q1b17ld43p"]
+
+[ext_resource type="Texture2D" uid="uid://cwidu7ikfvrf0" path="res://graphics/models/Room/Muro_Metallo/ROOM 2_Muro_Metallo_BaseColor.png" id="1_3uxjk"]
+[ext_resource type="Texture2D" uid="uid://dhcuvouh6wkot" path="res://graphics/models/Room/Muro_Metallo/ROOM 2_Muro_Metallo_Metallic.png" id="2_1sf23"]
+[ext_resource type="Texture2D" uid="uid://5kg0g1q8cr6r" path="res://graphics/models/Room/Muro_Metallo/ROOM 2_Muro_Metallo_AO_).png" id="2_sp51q"]
+[ext_resource type="Texture2D" uid="uid://dk18cnwwvg6dx" path="res://graphics/models/Room/Muro_Metallo/ROOM 2_Muro_Metallo_Normal.png" id="3_gmowk"]
+[ext_resource type="Texture2D" uid="uid://ctuouxvmutxt7" path="res://graphics/models/Room/Muro_Metallo/ROOM 2_Muro_Metallo_Height.png" id="3_pth53"]
+[ext_resource type="Texture2D" uid="uid://cw1art5olcw4c" path="res://graphics/models/Room/Muro_Metallo/ROOM 2_Muro_Metallo_Roughness.png" id="4_uy1uo"]
+
+[resource]
+albedo_texture = ExtResource("1_3uxjk")
+metallic = 1.0
+metallic_texture = ExtResource("2_1sf23")
+roughness_texture = ExtResource("4_uy1uo")
+normal_enabled = true
+normal_texture = ExtResource("3_gmowk")
+ao_enabled = true
+ao_texture = ExtResource("2_sp51q")
+heightmap_scale = 1.0
+heightmap_texture = ExtResource("3_pth53")

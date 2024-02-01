@@ -1,0 +1,20 @@
+[gd_resource type="StandardMaterial3D" load_steps=7 format=3 uid="uid://g2ui5w8vnrfp"]
+
+[ext_resource type="Texture2D" uid="uid://c7tna4eicym6c" path="res://graphics/models/Room/Playground/ROOM 2_PLAYGROUND_BaseColor.png" id="1_e8jdv"]
+[ext_resource type="Texture2D" uid="uid://b8ivesej1dpt4" path="res://graphics/models/Room/Playground/ROOM 2_PLAYGROUND_AO_).png" id="2_lh6de"]
+[ext_resource type="Texture2D" uid="uid://dxrmdaolfkn6a" path="res://graphics/models/Room/Playground/ROOM 2_PLAYGROUND_Height.png" id="3_cmjrx"]
+[ext_resource type="Texture2D" uid="uid://cdn1538smtfaf" path="res://graphics/models/Room/Playground/ROOM 2_PLAYGROUND_Metallic.png" id="4_trtra"]
+[ext_resource type="Texture2D" uid="uid://bfqimrv0gjeob" path="res://graphics/models/Room/Playground/ROOM 2_PLAYGROUND_Normal.png" id="5_4wscx"]
+[ext_resource type="Texture2D" uid="uid://n8hwuufseat1" path="res://graphics/models/Room/Playground/ROOM 2_PLAYGROUND_Roughness.png" id="6_pkiqo"]
+
+[resource]
+albedo_texture = ExtResource("1_e8jdv")
+metallic = 1.0
+metallic_texture = ExtResource("4_trtra")
+roughness_texture = ExtResource("6_pkiqo")
+normal_enabled = true
+normal_texture = ExtResource("5_4wscx")
+ao_enabled = true
+ao_texture = ExtResource("2_lh6de")
+heightmap_scale = 0.2
+heightmap_texture = ExtResource("3_cmjrx")

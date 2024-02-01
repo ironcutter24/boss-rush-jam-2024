@@ -1,0 +1,20 @@
+[gd_resource type="StandardMaterial3D" load_steps=7 format=3 uid="uid://ccpxf5fiknjky"]
+
+[ext_resource type="Texture2D" uid="uid://ymolaux73c17" path="res://graphics/models/Room/Pavimentino_Montanti/ROOM 2_Pavimentino_Montanti_BaseColor.png" id="1_efk8d"]
+[ext_resource type="Texture2D" uid="uid://15gnoxb37cr3" path="res://graphics/models/Room/Pavimentino_Montanti/ROOM 2_Pavimentino_Montanti_AO_).png" id="2_0lt6b"]
+[ext_resource type="Texture2D" uid="uid://by44iovnilv57" path="res://graphics/models/Room/Pavimentino_Montanti/ROOM 2_Pavimentino_Montanti_Height.png" id="3_ccmd5"]
+[ext_resource type="Texture2D" uid="uid://cx6n5ttkbchy0" path="res://graphics/models/Room/Pavimentino_Montanti/ROOM 2_Pavimentino_Montanti_Metallic.png" id="4_8du87"]
+[ext_resource type="Texture2D" uid="uid://bhi3nsilm6djh" path="res://graphics/models/Room/Pavimentino_Montanti/ROOM 2_Pavimentino_Montanti_Normal.png" id="5_2j0nc"]
+[ext_resource type="Texture2D" uid="uid://dyvm2vwp834j5" path="res://graphics/models/Room/Pavimentino_Montanti/ROOM 2_Pavimentino_Montanti_Roughness.png" id="6_u4d75"]
+
+[resource]
+albedo_texture = ExtResource("1_efk8d")
+metallic = 1.0
+metallic_texture = ExtResource("4_8du87")
+roughness_texture = ExtResource("6_u4d75")
+normal_enabled = true
+normal_texture = ExtResource("5_2j0nc")
+ao_enabled = true
+ao_texture = ExtResource("2_0lt6b")
+heightmap_scale = 1.0
+heightmap_texture = ExtResource("3_ccmd5")
