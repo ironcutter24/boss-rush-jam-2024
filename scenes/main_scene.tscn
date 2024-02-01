@@ -347,9 +347,15 @@ _data = {
 
 [node name="main_scene" type="Node3D"]
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(-0.983553, -0.12822, -0.127214, -0.170251, 0.893334, 0.415895, 0.0603179, 0.430713, -0.900471, 0, 2, 0)
+[node name="Lights" type="Node3D" parent="."]
+
+[node name="OmniLight3D" type="OmniLight3D" parent="Lights"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 2.5, 4)
 shadow_enabled = true
+
+[node name="SpotLight3D" type="SpotLight3D" parent="Lights"]
+transform = Transform3D(-0.51461, 0.457178, -0.725372, 0.0385281, 0.857465, 0.513099, 0.856558, 0.236099, -0.458874, 2.51263, 1.57278, 7.94677)
+spot_angle = 30.0
 
 [node name="CameraRoot" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2, 0, 1)

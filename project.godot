@@ -96,7 +96,3 @@ end_turn={
 3d_physics/layer_9="Ground"
 3d_physics/layer_11="StaticObstacle"
 3d_physics/layer_12="MovableObstacle"
-
-[rendering]
-
-renderer/rendering_method="mobile"
