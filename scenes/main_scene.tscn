@@ -16,7 +16,7 @@
 [ext_resource type="BankAsset" uid="uid://bbsdutm1y0sjm" path="res://addons/FMOD/editor/resources/banks/{29842420-1baf-4e88-b38a-b37683d8f799}.tres" id="10_tvevl"]
 [ext_resource type="Material" uid="uid://ccpxf5fiknjky" path="res://graphics/models/Room/Materials/pavimentino_mat.tres" id="11_q3o8k"]
 [ext_resource type="PackedScene" uid="uid://bd8e4f4bub57c" path="res://scenes/units/player_tank.tscn" id="11_rqe5l"]
-[ext_resource type="PackedScene" uid="uid://dn2oelgp4jfb0" path="res://scenes/health_bar.tscn" id="13_34d3n"]
+[ext_resource type="PackedScene" uid="uid://dn2oelgp4jfb0" path="res://scenes/UI/health_bar.tscn" id="13_34d3n"]
 [ext_resource type="PackedScene" uid="uid://dxb7j44lv1iul" path="res://scenes/UI/unit_hud.tscn" id="14_51rk4"]
 [ext_resource type="PackedScene" uid="uid://b53idlah53xpg" path="res://scenes/props/crazy_man.tscn" id="18_mqhts"]
 [ext_resource type="Texture2D" uid="uid://ymolaux73c17" path="res://graphics/models/Room/Pavimentino_Montanti/ROOM 2_Pavimentino_Montanti_BaseColor.png" id="21_odwv1"]
