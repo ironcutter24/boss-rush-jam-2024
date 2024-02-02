@@ -1,8 +1,9 @@
-[gd_scene load_steps=27 format=3 uid="uid://d3ita488awasa"]
+[gd_scene load_steps=28 format=3 uid="uid://d3ita488awasa"]
 
 [ext_resource type="PackedScene" uid="uid://bkh4eat12qt1o" path="res://scenes/units/base/base_unit.tscn" id="1_qevcm"]
 [ext_resource type="Material" uid="uid://cs6rja8nfblda" path="res://graphics/materials/mold_mat.tres" id="2_mr5uq"]
 [ext_resource type="Texture2D" uid="uid://ffpb5egycij0" path="res://graphics/models/characters/MoldMan_Animazioni_Mold_Man_lambert1_BaseColor.png" id="3_34yff"]
+[ext_resource type="Script" path="res://scripts/entities/ShrinkAnim.cs" id="3_q5qo7"]
 [ext_resource type="Texture2D" uid="uid://comtqqhg08nwd" path="res://graphics/models/characters/MoldMan_Animazioni_Mold_Man_lambert1_Normal.png" id="4_lbjg2"]
 
 [sub_resource type="SphereMesh" id="SphereMesh_5hqw1"]
@@ -2289,17 +2290,19 @@ useSimpleAttack = true
 showWhilePossessed = [NodePath("Graphics/MoldMan_Animazioni")]
 hideWhilePossessed = []
 
-[node name="SphereMesh" type="MeshInstance3D" parent="Graphics" index="1"]
+[node name="SphereMesh" type="MeshInstance3D" parent="Graphics" index="1" node_paths=PackedStringArray("unitInstance")]
 transform = Transform3D(0.7, 0, 0, 0, 0.4, 0, 0, 0, 0.7, 0, 0, 0)
 mesh = SubResource("SphereMesh_5hqw1")
 skeleton = NodePath("../..")
 surface_material_override/0 = ExtResource("2_mr5uq")
+script = ExtResource("3_q5qo7")
+unitInstance = NodePath("../..")
 
 [node name="MeshInstance3D" parent="Graphics" index="2"]
 visible = false
 
 [node name="MoldMan_Animazioni" type="Node3D" parent="Graphics" index="3"]
-transform = Transform3D(-0.2, 0, -1.74846e-08, 0, 0.2, 0, 1.74846e-08, 0, -0.2, 0, 0, 0)
+transform = Transform3D(-0.23, 0, -3.4729e-08, 0, 0.23, 0, 3.4729e-08, 0, -0.23, 0, 0, 0)
 
 [node name="Mold Man Rig" type="Node3D" parent="Graphics/MoldMan_Animazioni" index="0"]
 

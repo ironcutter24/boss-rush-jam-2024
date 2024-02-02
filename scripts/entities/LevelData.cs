@@ -138,7 +138,7 @@ public partial class LevelData : Node3D
             }
             debugStr = lineStr + "\n" + debugStr;
         }
-        GD.Print(debugStr);
+        //GD.Print(debugStr);
     }
 
     #endregion

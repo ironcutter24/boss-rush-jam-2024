@@ -4,6 +4,9 @@ using System.Threading.Tasks;
 
 public partial class EnemyUnit : Unit
 {
+    public event Action Possessed;
+    public event Action Unpossessed;
+
     [Export] private bool useSimpleAttack = false;
     [Export] private Node3D[] showWhilePossessed;
     [Export] private Node3D[] hideWhilePossessed;
@@ -38,6 +41,8 @@ public partial class EnemyUnit : Unit
     public async Task SetPossessed(bool state)
     {
         IsPossessed = state;
+        (IsPossessed ? Possessed : Unpossessed)?.Invoke();
+
         animTree.Set("parameters/conditions/possessed", IsPossessed);
         animTree.Set("parameters/conditions/not_possessed", !IsPossessed);
 

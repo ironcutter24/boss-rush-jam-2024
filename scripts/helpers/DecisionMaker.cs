@@ -22,7 +22,7 @@ public static partial class DecisionMaker
         ScoreEvaluator.NearbyPlayerUnits(ref cellScores);
 
         // Matrix convolution with before/after debug print
-        DebugPrintCellScores(unit.GridId, cellScores, "Unit utility scores");
+        //DebugPrintCellScores(unit.GridId, cellScores, "Unit utility scores");
         cellScores = ApplyKernel(cellScores, kernel, LevelData.NUM_OF_ROWS, LevelData.NUM_OF_COLS);
         DebugPrintCellScores(unit.GridId, cellScores, "Scores convolution");
 
