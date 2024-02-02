@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 
 public partial class EnemyUnit : Unit
 {
+    [Export] private bool useSimpleAttack = false;
+
     [ExportGroup("Boss parameters")]
     [Export] private int _bossAttackDamage = 2;
     [Export] private int _bossAttackDistance = 1;
@@ -18,15 +20,17 @@ public partial class EnemyUnit : Unit
 
     public override async Task Attack(Unit target)
     {
-        await SimpleAttack(target);
+        if (!IsPossessed && useSimpleAttack)
+            await SimpleAttack(target);
+        else
+            await AnimatedAttack(target);
     }
 
     public async Task SetPossessed(bool state)
     {
         IsPossessed = state;
-
-        // TODO: Start animation transition
-
+        animTree.Set("parameters/conditions/possessed", IsPossessed);
+        animTree.Set("parameters/conditions/not_possessed", !IsPossessed);
         await Task.Delay(1000);
     }
 }

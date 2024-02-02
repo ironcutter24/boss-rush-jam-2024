@@ -83,6 +83,8 @@ public partial class TurnManager : Node3D
                 var randIndex = rng.RandiRange(0, nearbyUnits.Count - 1);
                 currentTarget = nearbyUnits[randIndex];
 
+                currentUnit.FaceTowards(currentTarget);
+
                 // Display chosen target
                 Mesh m = levelData.GenerateMeshFrom(new List<int> { currentTarget.GridId });
                 DisplayMesh(m, MeshColor.Red);

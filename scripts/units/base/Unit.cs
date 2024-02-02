@@ -8,9 +8,9 @@ public abstract partial class Unit : CharacterBody3D
 {
     private bool _hasMovement = true;
     private AnimationPlayer animFX;
-    private AnimationTree animTree;
     private HealthBar3D healthBar;
     private Node3D graphics;
+    protected AnimationTree animTree;
 
     [Export] public int MaxHealth { get; private set; } = 3;
 
@@ -127,7 +127,7 @@ public abstract partial class Unit : CharacterBody3D
         const float moveTime = .1f;
         const float attackTime = .1f;
 
-        graphics.LookAt(target.GlobalPosition);
+        FaceTowards(target);
 
         Tween tween = CreateTween();
         var targetPos = (target.GlobalPosition - graphics.GlobalPosition).Normalized() * .5f;
@@ -146,7 +146,7 @@ public abstract partial class Unit : CharacterBody3D
         const float moveTime = .1f;
         const float attackTime = 1f;
 
-        graphics.LookAt(target.GlobalPosition);
+        FaceTowards(target);
 
         Tween tween = CreateTween();
         var targetPos = (target.GlobalPosition - graphics.GlobalPosition).Normalized() * .5f;
@@ -165,6 +165,11 @@ public abstract partial class Unit : CharacterBody3D
     #endregion
 
     #region Helpers
+
+    public void FaceTowards(Unit unit)
+    {
+        graphics.LookAt(unit.GlobalPosition);
+    }
 
     private static int GridDistance(Vector3 a, Vector3 b)
     {
