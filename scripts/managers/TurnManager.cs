@@ -15,7 +15,7 @@ public partial class TurnManager : Node3D
     private Vector2I? cursorGridPos;
     private InputManager inputManager;
     private LevelData levelData;
-    private List<Unit> enemyUnits = new List<Unit>();
+    private EnemyUnit[] enemyUnits;
     private int enemyIndex;
 
     [Export] private UnitHUD unitHUD;
@@ -30,7 +30,7 @@ public partial class TurnManager : Node3D
 
         // Enemy
         EnemyTurn,  // Base states
-        AIContext, AIShowWalkable, AIMove, AIShowHittable, AISelectSwap, AIAwaitReaction, AIAttack
+        AIInit, AIContext, AIShowWalkable, AIMove, AIShowHittable, AISelectSwap, AIAwaitReaction, AIAttack
     }
     StateMachine<State> sm = new StateMachine<State>(State.PlayerSelectUnit);
 
@@ -58,6 +58,8 @@ public partial class TurnManager : Node3D
 
     private MeshInstance3D DisplayMesh(Mesh mesh, MeshColor color)
     {
+        if (mesh == null) return null;
+
         var m = new MeshInstance3D();
         m.Mesh = mesh;
         m.MaterialOverride = GetMaterialFrom(color);

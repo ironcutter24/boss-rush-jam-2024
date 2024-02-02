@@ -298,6 +298,8 @@ public partial class LevelData : Node3D
             allVertices.AddRange(GetQuadVertices(new Vector3(i, 0, j)));
         }
 
+        if (allVertices.Count == 0) return null;
+
         // Initialize the ArrayMesh.
         var arrMesh = new ArrayMesh();
         var arrays = new Godot.Collections.Array();

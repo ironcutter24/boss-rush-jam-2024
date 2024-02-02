@@ -5,6 +5,8 @@ using System.Threading.Tasks;
 public partial class EnemyUnit : Unit
 {
     [Export] private bool useSimpleAttack = false;
+    [Export] private Node3D[] showWhilePossessed;
+    [Export] private Node3D[] hideWhilePossessed;
 
     [ExportGroup("Boss parameters")]
     [Export] private int _bossAttackDamage = 2;
@@ -17,6 +19,13 @@ public partial class EnemyUnit : Unit
     public override int MoveDistance => IsPossessed ? _bossMoveDistance : base.MoveDistance;
 
     public override FactionType Faction => FactionType.Enemy;
+
+    public override void _Ready()
+    {
+        base._Ready();
+        RefreshVisibility();
+        GD.Print("Possessed: " + IsPossessed);
+    }
 
     public override async Task Attack(Unit target)
     {
@@ -31,6 +40,18 @@ public partial class EnemyUnit : Unit
         IsPossessed = state;
         animTree.Set("parameters/conditions/possessed", IsPossessed);
         animTree.Set("parameters/conditions/not_possessed", !IsPossessed);
+
+        if (IsPossessed) RefreshVisibility();
         await Task.Delay(1000);
+        if (!IsPossessed) RefreshVisibility();
+    }
+
+    private void RefreshVisibility()
+    {
+        foreach (var item in showWhilePossessed)
+            item.Visible = IsPossessed;
+
+        foreach (var item in hideWhilePossessed)
+            item.Visible = !IsPossessed;
     }
 }

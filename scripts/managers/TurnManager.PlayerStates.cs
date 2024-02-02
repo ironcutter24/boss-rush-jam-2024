@@ -21,7 +21,7 @@ public partial class TurnManager : Node3D
 
         sm.Configure(State.PlayerCanEndTurn)
             .SubstateOf(State.PlayerTurn)
-            .AddTransition(State.AIContext, () => inputManager.IsEndTurn());
+            .AddTransition(State.AIInit, () => inputManager.IsEndTurn());
 
         #endregion
 

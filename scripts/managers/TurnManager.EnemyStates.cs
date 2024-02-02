@@ -2,15 +2,34 @@ using Godot;
 using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using System.Linq;
 
 public partial class TurnManager : Node3D
 {
+    private async Task BossTransitionAsync()
+    {
+        var nextPossessedUnit = enemyUnits.MaxBy(unit => LevelData.CountNearbyUnits(unit.GridId));
+        var possessedUnit = enemyUnits.FirstOrDefault(unit => unit.IsPossessed);
+        if (possessedUnit != nextPossessedUnit)
+        {
+            if (possessedUnit != null)
+            {
+                await possessedUnit.SetPossessed(false);
+            }
+            await GDTask.DelaySeconds(.4f);
+            await nextPossessedUnit.SetPossessed(true);
+        }
+    }
+
+
     private void InitEnemyStates()
     {
+        #region Base States
+
         sm.Configure(State.EnemyTurn)
             .OnEntry(() =>
             {
-                enemyUnits = Unit.GetUnits(FactionType.Enemy);
+                enemyUnits = GetEnemyUnits();
                 enemyIndex = 0;
                 GD.Print(">>> Entered Enemy turn");
             })
@@ -21,18 +40,28 @@ public partial class TurnManager : Node3D
                 GD.Print("<<< Exited Enemy turn");
             });
 
+        #endregion
+
+        sm.Configure(State.AIInit)
+            .SubstateOf(State.EnemyTurn)
+            .OnEntry(() =>
+            {
+                currentTask = BossTransitionAsync();
+            })
+            .AddTransition(State.AIContext, () => currentTask.IsCompleted);
+
         sm.Configure(State.AIContext)
             .SubstateOf(State.EnemyTurn)
             .OnEntry(() =>
             {
-                enemyUnits = Unit.GetUnits(FactionType.Enemy);
-                if (enemyIndex < enemyUnits.Count)
+                enemyUnits = GetEnemyUnits();
+                if (enemyIndex < enemyUnits.Length)
                 {
                     currentUnit = enemyUnits[enemyIndex];
                 }
                 enemyIndex++;
             })
-            .AddTransition(State.PlayerSelectUnit, () => enemyIndex > enemyUnits.Count)
+            .AddTransition(State.PlayerSelectUnit, () => enemyIndex > enemyUnits.Length)
             .AddTransition(State.AIShowWalkable, () => true);
 
         sm.Configure(State.AIShowWalkable)
@@ -150,6 +179,11 @@ public partial class TurnManager : Node3D
             })
             .AddTransition(State.AIContext, () => currentTask.IsCompleted)
             .AddTransition(State.AIContext, () => !currentUnit.HasAction);
+    }
+
+    private static EnemyUnit[] GetEnemyUnits()
+    {
+        return Unit.GetUnits(FactionType.Enemy).OfType<EnemyUnit>().ToArray();
     }
 
     private static async Task AwaitShowcase()

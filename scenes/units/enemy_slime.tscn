@@ -2247,7 +2247,7 @@ advance_mode = 2
 advance_condition = &"possessed"
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_wjuin"]
-xfade_time = 0.2
+xfade_time = 0.8
 advance_mode = 2
 
 [sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_14pgw"]
@@ -2281,11 +2281,13 @@ states/Lower/position = Vector2(418, 176)
 states/Pulse/node = SubResource("AnimationNodeAnimation_yynkv")
 states/Pulse/position = Vector2(550, 83)
 states/Rise/node = SubResource("AnimationNodeAnimation_r0hxx")
-states/Rise/position = Vector2(418, 77)
+states/Rise/position = Vector2(418, 76)
 transitions = ["Start", "Rise", SubResource("AnimationNodeStateMachineTransition_wcebq"), "Rise", "Pulse", SubResource("AnimationNodeStateMachineTransition_wjuin"), "Pulse", "Attack", SubResource("AnimationNodeStateMachineTransition_14pgw"), "Attack", "Pulse", SubResource("AnimationNodeStateMachineTransition_ovj12"), "Pulse", "Lower", SubResource("AnimationNodeStateMachineTransition_uksps"), "Lower", "Rise", SubResource("AnimationNodeStateMachineTransition_t2slc"), "Start", "Lower", SubResource("AnimationNodeStateMachineTransition_h7rig")]
 
-[node name="EnemySlime" instance=ExtResource("1_qevcm")]
+[node name="EnemySlime" node_paths=PackedStringArray("showWhilePossessed", "hideWhilePossessed") instance=ExtResource("1_qevcm")]
 useSimpleAttack = true
+showWhilePossessed = [NodePath("Graphics/MoldMan_Animazioni")]
+hideWhilePossessed = []
 
 [node name="SphereMesh" type="MeshInstance3D" parent="Graphics" index="1"]
 transform = Transform3D(0.7, 0, 0, 0, 0.4, 0, 0, 0, 0.7, 0, 0, 0)
