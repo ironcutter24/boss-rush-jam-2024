@@ -1,7 +1,7 @@
 shader_type spatial;
 render_mode specular_toon;
 
-uniform vec4 color = vec4(0.1, 0.1, 0.2, 1.0);
+uniform vec4 color : source_color = vec4(0.1, 0.1, 0.2, 1.0);
 uniform float roughness = 0.4;
 uniform float height_scale = 0.1;
 uniform sampler2D noise;

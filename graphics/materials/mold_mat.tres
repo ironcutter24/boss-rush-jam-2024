@@ -16,8 +16,8 @@ noise = SubResource("FastNoiseLite_vka25")
 [resource]
 render_priority = 0
 shader = ExtResource("1_2om1v")
-shader_parameter/color = Vector4(0.05, 0.05, 0.12, 1)
-shader_parameter/roughness = 0.56
+shader_parameter/color = Color(0.133333, 0.141176, 0.152941, 1)
+shader_parameter/roughness = 0.5
 shader_parameter/height_scale = 0.1
 shader_parameter/noise = SubResource("NoiseTexture2D_w4x8h")
 shader_parameter/normalmap = SubResource("NoiseTexture2D_dua7p")

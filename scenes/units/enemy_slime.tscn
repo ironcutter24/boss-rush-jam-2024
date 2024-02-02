@@ -2285,13 +2285,12 @@ states/Rise/node = SubResource("AnimationNodeAnimation_r0hxx")
 states/Rise/position = Vector2(418, 76)
 transitions = ["Start", "Rise", SubResource("AnimationNodeStateMachineTransition_wcebq"), "Rise", "Pulse", SubResource("AnimationNodeStateMachineTransition_wjuin"), "Pulse", "Attack", SubResource("AnimationNodeStateMachineTransition_14pgw"), "Attack", "Pulse", SubResource("AnimationNodeStateMachineTransition_ovj12"), "Pulse", "Lower", SubResource("AnimationNodeStateMachineTransition_uksps"), "Lower", "Rise", SubResource("AnimationNodeStateMachineTransition_t2slc"), "Start", "Lower", SubResource("AnimationNodeStateMachineTransition_h7rig")]
 
-[node name="EnemySlime" node_paths=PackedStringArray("showWhilePossessed", "hideWhilePossessed") instance=ExtResource("1_qevcm")]
+[node name="EnemySlime" node_paths=PackedStringArray("showWhilePossessed") instance=ExtResource("1_qevcm")]
 useSimpleAttack = true
 showWhilePossessed = [NodePath("Graphics/MoldMan_Animazioni")]
-hideWhilePossessed = []
 
 [node name="SphereMesh" type="MeshInstance3D" parent="Graphics" index="1" node_paths=PackedStringArray("unitInstance")]
-transform = Transform3D(0.7, 0, 0, 0, 0.4, 0, 0, 0, 0.7, 0, 0, 0)
+transform = Transform3D(0.6, 0, 0, 0, 0.4, 0, 0, 0, 0.6, 0, 0, 0)
 mesh = SubResource("SphereMesh_5hqw1")
 skeleton = NodePath("../..")
 surface_material_override/0 = ExtResource("2_mr5uq")

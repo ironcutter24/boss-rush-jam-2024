@@ -4,7 +4,7 @@ using System;
 public partial class ShrinkAnim : MeshInstance3D
 {
     const float duration = .6f;
-    const float scale = .6f;
+    const float scale = .65f;
 
     private Vector3 startScale;
 
