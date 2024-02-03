@@ -1,0 +1,67 @@
+[gd_scene load_steps=12 format=3 uid="uid://dvjw0orc6ss8q"]
+
+[ext_resource type="Texture2D" uid="uid://dknslnn24s80l" path="res://addons/kenney_particle_pack/dirt_02.png" id="1_4y5nr"]
+
+[sub_resource type="Curve" id="Curve_r76d1"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.50152, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_gwgcw"]
+curve = SubResource("Curve_r76d1")
+
+[sub_resource type="Gradient" id="Gradient_jr0g5"]
+offsets = PackedFloat32Array(0.00208551, 0.323253, 1)
+colors = PackedColorArray(0.24893, 2.63215e-07, 5.41471e-08, 1, 0.301105, 1.65449e-07, 7.21961e-08, 1, 1, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_q65b1"]
+gradient = SubResource("Gradient_jr0g5")
+
+[sub_resource type="CurveTexture" id="CurveTexture_o35qw"]
+
+[sub_resource type="Curve" id="Curve_gx816"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.505572, 0.495191), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_p7nay"]
+curve = SubResource("Curve_gx816")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_sqdp3"]
+particle_flag_rotate_y = true
+emission_shape = 1
+emission_sphere_radius = 0.25
+angle_min = -90.0
+angle_max = 90.0
+angular_velocity_min = -100.0
+angular_velocity_max = 100.0
+radial_velocity_min = -0.5
+radial_velocity_max = 1.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.2
+scale_max = 0.7
+scale_curve = SubResource("CurveTexture_p7nay")
+color = Color(1, 0, 0, 1)
+color_ramp = SubResource("GradientTexture1D_q65b1")
+alpha_curve = SubResource("CurveTexture_gwgcw")
+emission_curve = SubResource("CurveTexture_o35qw")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mkytr"]
+transparency = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("1_4y5nr")
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_hlaix"]
+material = SubResource("StandardMaterial3D_mkytr")
+orientation = 2
+
+[node name="HitCharacter" type="GPUParticles3D"]
+amount = 12
+lifetime = 0.25
+explosiveness = 0.5
+process_material = SubResource("ParticleProcessMaterial_sqdp3")
+draw_pass_1 = SubResource("PlaneMesh_hlaix")

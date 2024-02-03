@@ -1,0 +1,51 @@
+[gd_scene load_steps=11 format=3 uid="uid://bcoaca7ldfqwy"]
+
+[ext_resource type="Texture2D" uid="uid://jjv4hptcc71a" path="res://addons/kenney_particle_pack/twirl_03.png" id="1_fuup7"]
+
+[sub_resource type="Curve" id="Curve_uveud"]
+_data = [Vector2(0.00257069, 0.00567675), 0.0, 0.0, 0, 0, Vector2(0.500428, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_vuboc"]
+curve = SubResource("Curve_uveud")
+
+[sub_resource type="Curve" id="Curve_o52fb"]
+max_value = 121.27
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.0625536, 60.7437), 0.0, 0.0, 0, 0, Vector2(0.895458, 61.2147), 0.0, 0.0, 0, 0, Vector2(0.987146, 75.3454), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_hfu5l"]
+curve = SubResource("Curve_o52fb")
+
+[sub_resource type="Gradient" id="Gradient_q8p6i"]
+offsets = PackedFloat32Array(0, 0.220369, 0.66813, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0.117647, 0.345098, 1, 1, 1, 0, 0.592157, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_s11gy"]
+gradient = SubResource("Gradient_q8p6i")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_lohp3"]
+particle_flag_rotate_y = true
+angular_velocity_min = 10.0
+angular_velocity_max = 10.0
+angular_velocity_curve = SubResource("CurveTexture_hfu5l")
+gravity = Vector3(0, 0, 0)
+color_ramp = SubResource("GradientTexture1D_s11gy")
+alpha_curve = SubResource("CurveTexture_vuboc")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_h58sx"]
+transparency = 1
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("1_fuup7")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_pxhxg"]
+material = SubResource("StandardMaterial3D_h58sx")
+
+[node name="Slash_vfx" type="GPUParticles3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.0124104)
+emitting = false
+amount = 2
+lifetime = 0.2
+one_shot = true
+process_material = SubResource("ParticleProcessMaterial_lohp3")
+draw_pass_1 = SubResource("PlaneMesh_pxhxg")

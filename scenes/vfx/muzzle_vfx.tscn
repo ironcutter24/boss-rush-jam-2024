@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=3 uid="uid://cs3w3gvswyvlx"]
+
+[ext_resource type="Material" uid="uid://mds8whbyrr4q" path="res://graphics/materials/VFX/Muzzle_Mat.tres" id="1_8it8c"]
+[ext_resource type="Material" uid="uid://bumxuubj6juy0" path="res://graphics/materials/VFX/Muzzle_vfx_Mat.tres" id="2_r674k"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_wxxjt"]
+material = ExtResource("2_r674k")
+orientation = 2
+
+[node name="Muzzle_vfx" type="GPUParticles3D"]
+amount = 2
+lifetime = 0.3
+process_material = ExtResource("1_8it8c")
+draw_pass_1 = SubResource("PlaneMesh_wxxjt")

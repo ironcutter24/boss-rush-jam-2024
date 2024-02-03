@@ -1,0 +1,12 @@
+[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://cxdhtoosa7u1g"]
+
+[ext_resource type="Texture2D" uid="uid://bftx48tmgunvk" path="res://addons/kenney_particle_pack/rotated/spark_06_rotated.png" id="1_rdqv3"]
+
+[resource]
+transparency = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("1_rdqv3")
+uv1_triplanar_sharpness = 0.378929
+uv2_offset = Vector3(1, 1, 1)
+billboard_keep_scale = true
