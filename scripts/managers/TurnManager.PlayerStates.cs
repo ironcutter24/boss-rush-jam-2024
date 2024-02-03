@@ -25,6 +25,8 @@ public partial class TurnManager : Node3D
 
         #endregion
 
+        #region Unit selection / context
+
         sm.Configure(State.PlayerSelectUnit)
             .SubstateOf(State.PlayerCanEndTurn)
             .OnEntry(() =>
@@ -60,9 +62,13 @@ public partial class TurnManager : Node3D
             })
             .AddTransition(State.PlayerSelectMove, () => currentUnit.HasMovement)
             .AddTransition(State.PlayerSelectAttack, () => inputManager.IsAttack() && currentUnit.HasAction)
-            //.AddTransition(, () => inputManager.IsSpecial() && currentUnit.HasAction)
+            .AddTransition(State.PlayerSelectSpecial, () => inputManager.IsSpecial() && currentUnit.HasAction)
             .AddTransition(State.PlayerAwaitReaction, () => inputManager.IsReaction() && currentUnit.HasAction)
             .AddTransition(State.PlayerSelectUnit, () => inputManager.IsCancel());
+
+        #endregion
+
+        #region Movement
 
         sm.Configure(State.PlayerSelectMove)
             .SubstateOf(State.PlayerCanEndTurn)
@@ -92,6 +98,10 @@ public partial class TurnManager : Node3D
             })
             .AddTransition(State.PlayerUnitContext, () => currentTask.IsCompleted);
 
+        #endregion
+
+        #region Attack
+
         sm.Configure(State.PlayerSelectAttack)
             .SubstateOf(State.PlayerCanEndTurn)
             .OnEntry(() =>
@@ -118,6 +128,31 @@ public partial class TurnManager : Node3D
             })
             .AddTransition(State.PlayerSelectUnit, () => currentTask.IsCompleted);
 
+        #endregion
+
+        #region Special
+
+        sm.Configure(State.PlayerSelectSpecial)
+            .SubstateOf(State.PlayerCanEndTurn)
+            .OnEntry(() =>
+            {
+                // TODO: add selection logic
+                //currentTarget = 
+            })
+            .AddTransition(State.PlayerAwaitSpecial, () => true);  // TODO: add conditions
+
+        sm.Configure(State.PlayerAwaitSpecial)
+            .OnEntry(() =>
+            {
+                var playerUnit = currentUnit as PlayerUnit;
+                currentTask = playerUnit.Special(currentTarget);
+            })
+            .AddTransition(State.PlayerSelectUnit, () => currentTask.IsCompleted);
+
+        #endregion
+
+        #region Reaction
+
         sm.Configure(State.PlayerAwaitReaction)
             .SubstateOf(State.PlayerTurn)
             .OnEntry(() =>
@@ -126,5 +161,8 @@ public partial class TurnManager : Node3D
                 currentTask = (currentUnit as PlayerUnit).PlanReaction();
             })
             .AddTransition(State.PlayerUnitContext, () => currentTask.IsCompleted);
+
+        #endregion
+
     }
 }

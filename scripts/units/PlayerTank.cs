@@ -9,13 +9,15 @@ public partial class PlayerTank : PlayerUnit
         await AnimatedAttack(target);
     }
 
-    public override Task Special(Unit target)
+    public override async Task Special(Unit target)
     {
-        throw new NotImplementedException();
+        _ = SetAnimationTrigger("special");
+        await GDTask.NextFrame();
     }
 
     public override async Task Reaction(PlayerUnit swappedUnit, EnemyUnit attackingUnit)
     {
+        _ = SetAnimationTrigger("reaction");
         attackingUnit.ConsumeAction();
         await GDTask.NextFrame();
     }

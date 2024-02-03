@@ -21,7 +21,8 @@ public abstract partial class PlayerUnit : Unit
     {
         IsReactionPlanned = true;
 
-        // Play reaction preparation animation / particles
+        // TODO: Play reaction preparation animation / particles
+
         await GDTask.DelaySeconds(1f);
     }
 

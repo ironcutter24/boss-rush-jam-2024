@@ -6,22 +6,6 @@ using System.Linq;
 
 public partial class TurnManager : Node3D
 {
-    private async Task BossTransitionAsync()
-    {
-        var nextPossessedUnit = enemyUnits.MaxBy(unit => LevelData.CountNearbyUnits(unit.GridId));
-        var possessedUnit = enemyUnits.FirstOrDefault(unit => unit.IsPossessed);
-        if (possessedUnit != nextPossessedUnit)
-        {
-            if (possessedUnit != null)
-            {
-                await possessedUnit.SetPossessed(false);
-            }
-            await GDTask.DelaySeconds(.4f);
-            await nextPossessedUnit.SetPossessed(true);
-        }
-    }
-
-
     private void InitEnemyStates()
     {
         #region Base States
@@ -41,6 +25,8 @@ public partial class TurnManager : Node3D
             });
 
         #endregion
+
+        #region AI init / context
 
         sm.Configure(State.AIInit)
             .SubstateOf(State.EnemyTurn)
@@ -64,6 +50,10 @@ public partial class TurnManager : Node3D
             .AddTransition(State.PlayerSelectUnit, () => enemyIndex > enemyUnits.Length)
             .AddTransition(State.AIShowWalkable, () => true);
 
+        #endregion
+
+        #region Movement
+
         sm.Configure(State.AIShowWalkable)
             .SubstateOf(State.EnemyTurn)
             .OnEntry(() =>
@@ -84,6 +74,10 @@ public partial class TurnManager : Node3D
                 currentTask = currentUnit.FollowPathTo(cursorGridPos.Value);
             })
             .AddTransition(State.AIShowHittable, () => currentTask.IsCompleted);
+
+        #endregion
+
+        #region Attack / swap
 
         sm.Configure(State.AIShowHittable)
             .SubstateOf(State.EnemyTurn)
@@ -179,6 +173,30 @@ public partial class TurnManager : Node3D
             })
             .AddTransition(State.AIContext, () => currentTask.IsCompleted)
             .AddTransition(State.AIContext, () => !currentUnit.HasAction);
+
+        #endregion
+    }
+
+    #region Helpers
+
+    private async Task BossTransitionAsync()
+    {
+        var nextPossessedUnit = enemyUnits.MaxBy(unit => LevelData.CountNearbyUnits(unit.GridId));
+        var possessedUnit = enemyUnits.FirstOrDefault(unit => unit.IsPossessed);
+        if (possessedUnit != nextPossessedUnit)
+        {
+            if (possessedUnit != null)
+            {
+                await possessedUnit.SetPossessed(false);
+            }
+            await GDTask.DelaySeconds(.4f);
+            await nextPossessedUnit.SetPossessed(true);
+        }
+    }
+
+    private static async Task AwaitShowcase()
+    {
+        await Task.Delay(TimeSpan.FromSeconds(showcaseAwaitDuration));
     }
 
     private static EnemyUnit[] GetEnemyUnits()
@@ -186,8 +204,6 @@ public partial class TurnManager : Node3D
         return Unit.GetUnits(FactionType.Enemy).OfType<EnemyUnit>().ToArray();
     }
 
-    private static async Task AwaitShowcase()
-    {
-        await Task.Delay(TimeSpan.FromSeconds(showcaseAwaitDuration));
-    }
+    #endregion
+
 }

@@ -25,8 +25,11 @@ public partial class TurnManager : Node3D
     {
         // Player
         PlayerTurn, PlayerCanEndTurn,  // Base states
-        PlayerSelectUnit, PlayerUnitContext, PlayerSelectMove, PlayerAwaitMove,
-        PlayerSelectAttack, PlayerAwaitAttack, PlayerAwaitReaction,
+        PlayerSelectUnit, PlayerUnitContext,
+        PlayerSelectMove, PlayerAwaitMove,
+        PlayerSelectSpecial, PlayerAwaitSpecial,
+        PlayerSelectAttack, PlayerAwaitAttack,
+        PlayerAwaitReaction,
 
         // Enemy
         EnemyTurn,  // Base states

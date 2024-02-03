@@ -195,7 +195,7 @@ public abstract partial class Unit : CharacterBody3D
 
     #endregion
 
-    private async Task SetAnimationTrigger(string condition)
+    protected async Task SetAnimationTrigger(string condition)
     {
         var path = $"parameters/conditions/{condition}";
         animTree.Set(path, true);
