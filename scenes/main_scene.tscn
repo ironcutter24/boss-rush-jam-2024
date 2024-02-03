@@ -395,9 +395,10 @@ play_event = 2
 event = ExtResource("9_e3ugl")
 transform = Transform3D(-0.642788, 0, 0.766044, 0.439385, 0.819152, 0.368688, -0.627507, 0.573577, -0.526541, 0, -3.68618, -2.58109)
 
-[node name="TurnManager" type="Node3D" parent="." node_paths=PackedStringArray("unitHUD")]
+[node name="TurnManager" type="Node3D" parent="." node_paths=PackedStringArray("unitHUD", "hintLabel")]
 script = ExtResource("1_22vsh")
 unitHUD = NodePath("../CanvasLayer/UnitHUD")
+hintLabel = NodePath("../CanvasLayer/Control/RichTextLabel")
 
 [node name="InputManager" type="Node3D" parent="."]
 script = ExtResource("1_6df1n")
@@ -588,6 +589,22 @@ offset_left = 0.0
 offset_top = 0.0
 offset_right = 0.0
 offset_bottom = 0.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -291.0
+offset_top = -50.0
+offset_right = 292.0
+offset_bottom = -24.0
+grow_horizontal = 2
+grow_vertical = 0
+bbcode_enabled = true
+text = "[center]Hint text box[/center]"
 
 [node name="UnitHUD" parent="CanvasLayer" instance=ExtResource("14_51rk4")]
 

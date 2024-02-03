@@ -19,6 +19,7 @@ public partial class TurnManager : Node3D
     private int enemyIndex;
 
     [Export] private UnitHUD unitHUD;
+    [Export] private RichTextLabel hintLabel;
 
     enum MeshColor { Red, Yellow, Green }
     enum State
@@ -50,11 +51,17 @@ public partial class TurnManager : Node3D
         InitEnemyStates();
 
         sm.StateChanged += s => GD.Print($"FSM >> Changed to: \"{s}\"");
+        sm.StateChanged += s => SetHint("");
     }
 
     public override void _Process(double delta)
     {
         sm.Process();
+    }
+
+    private void SetHint(string text)
+    {
+        hintLabel.Text = $"[center]{text}[/center]";
     }
 
     #region Helper methods

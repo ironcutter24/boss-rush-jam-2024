@@ -74,6 +74,8 @@ public partial class TurnManager : Node3D
             .SubstateOf(State.PlayerCanEndTurn)
             .OnEntry(() =>
             {
+                SetHint("Select a tile to move to.");
+
                 levelData.RefreshGrid();
                 DisplayMesh(levelData.GenerateWalkableMesh(currentUnit), MeshColor.Green);
             })
@@ -106,6 +108,8 @@ public partial class TurnManager : Node3D
             .SubstateOf(State.PlayerCanEndTurn)
             .OnEntry(() =>
             {
+                SetHint("Select a unit to attack.");
+
                 levelData.RefreshGrid();
                 DisplayMesh(levelData.GenerateHittableMesh(currentUnit), MeshColor.Red);
             })

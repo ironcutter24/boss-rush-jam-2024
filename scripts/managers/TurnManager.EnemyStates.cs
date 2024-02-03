@@ -95,6 +95,8 @@ public partial class TurnManager : Node3D
             .SubstateOf(State.EnemyTurn)
             .OnEntry(() =>
             {
+                SetHint("Select a friendly unit to swap with, or cancel to continue.");
+
                 var nearbyUnits = LevelData.GetNearbyUnits(currentUnit.GridId);
                 if (nearbyUnits.Count <= 0)
                 {
