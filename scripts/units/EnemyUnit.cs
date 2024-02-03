@@ -11,6 +11,7 @@ public partial class EnemyUnit : Unit
     [Export] private bool useSimpleAttack = false;
     [Export] private Node3D[] showWhilePossessed;
     [Export] private Node3D[] hideWhilePossessed;
+    [Export] protected GpuParticles3D PossessionVFX { get; private set; }
 
     [ExportGroup("Boss parameters")]
     [Export] private int _bossAttackDamage = 2;
@@ -46,12 +47,22 @@ public partial class EnemyUnit : Unit
         IsPossessed = state;
         (IsPossessed ? Possessed : Unpossessed)?.Invoke();
 
+        Tween tween = CreateTween();
+        tween.TweenProperty(PossessionVFX, "scale", Vector3.Zero, .6f);
+
         animTree.Set("parameters/conditions/possessed", IsPossessed);
         animTree.Set("parameters/conditions/not_possessed", !IsPossessed);
 
         if (IsPossessed) RefreshVisibility();
         await Task.Delay(1000);
+        PossessionVFX.Visible = false;
         if (!IsPossessed) RefreshVisibility();
+    }
+
+    public void SetNextPossessed()
+    {
+        PossessionVFX.Scale = Vector3.One;
+        PossessionVFX.Visible = true;
     }
 
     private void RefreshVisibility()

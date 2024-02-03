@@ -1,7 +1,8 @@
-[gd_scene load_steps=28 format=3 uid="uid://d3ita488awasa"]
+[gd_scene load_steps=29 format=3 uid="uid://d3ita488awasa"]
 
 [ext_resource type="PackedScene" uid="uid://bkh4eat12qt1o" path="res://scenes/units/base/base_unit.tscn" id="1_qevcm"]
 [ext_resource type="Material" uid="uid://cs6rja8nfblda" path="res://graphics/materials/mold_mat.tres" id="2_mr5uq"]
+[ext_resource type="PackedScene" uid="uid://2na512rokwqi" path="res://scenes/vfx/Possession_vfx.tscn" id="2_ylv2r"]
 [ext_resource type="Texture2D" uid="uid://ffpb5egycij0" path="res://graphics/models/characters/MoldMan_Animazioni_Mold_Man_lambert1_BaseColor.png" id="3_34yff"]
 [ext_resource type="Script" path="res://scripts/entities/ShrinkAnim.cs" id="3_q5qo7"]
 [ext_resource type="Texture2D" uid="uid://comtqqhg08nwd" path="res://graphics/models/characters/MoldMan_Animazioni_Mold_Man_lambert1_Normal.png" id="4_lbjg2"]
@@ -2285,9 +2286,13 @@ states/Rise/node = SubResource("AnimationNodeAnimation_r0hxx")
 states/Rise/position = Vector2(418, 76)
 transitions = ["Start", "Rise", SubResource("AnimationNodeStateMachineTransition_wcebq"), "Rise", "Pulse", SubResource("AnimationNodeStateMachineTransition_wjuin"), "Pulse", "Attack", SubResource("AnimationNodeStateMachineTransition_14pgw"), "Attack", "Pulse", SubResource("AnimationNodeStateMachineTransition_ovj12"), "Pulse", "Lower", SubResource("AnimationNodeStateMachineTransition_uksps"), "Lower", "Rise", SubResource("AnimationNodeStateMachineTransition_t2slc"), "Start", "Lower", SubResource("AnimationNodeStateMachineTransition_h7rig")]
 
-[node name="EnemySlime" node_paths=PackedStringArray("showWhilePossessed") instance=ExtResource("1_qevcm")]
+[node name="EnemySlime" node_paths=PackedStringArray("showWhilePossessed", "PossessionVFX") instance=ExtResource("1_qevcm")]
 useSimpleAttack = true
 showWhilePossessed = [NodePath("Graphics/MoldMan_Animazioni")]
+PossessionVFX = NodePath("Graphics/VFX/PossessionVfx")
+
+[node name="PossessionVfx" parent="Graphics/VFX" index="2" instance=ExtResource("2_ylv2r")]
+visible = false
 
 [node name="SphereMesh" type="MeshInstance3D" parent="Graphics" index="1" node_paths=PackedStringArray("unitInstance")]
 transform = Transform3D(0.6, 0, 0, 0, 0.4, 0, 0, 0, 0.6, 0, 0, 0)
@@ -2463,7 +2468,7 @@ libraries = {
 "": SubResource("AnimationLibrary_86w0d")
 }
 
-[node name="AnimationTree" parent="." index="2"]
+[node name="AnimationTree" parent="." index="3"]
 root_node = NodePath("../Graphics/MoldMan_Animazioni")
 libraries = {
 "": SubResource("AnimationLibrary_86w0d")

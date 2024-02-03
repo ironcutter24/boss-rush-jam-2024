@@ -20,6 +20,8 @@ public partial class TurnManager : Node3D
             .OnExit(() =>
             {
                 ResetCurrentUnit();
+                PickNextPossessedUnit();
+
                 Unit.ResetTurn(FactionType.Enemy);
                 GD.Print("<<< Exited Enemy turn");
             });
@@ -190,16 +192,16 @@ public partial class TurnManager : Node3D
 
     private async Task BossTransitionAsync()
     {
-        var nextPossessedUnit = enemyUnits.MaxBy(unit => LevelData.CountNearbyUnits(unit.GridId));
+        EnemyUnit nextPossessed = nextPossessedUnit as EnemyUnit;
         var possessedUnit = enemyUnits.FirstOrDefault(unit => unit.IsPossessed);
-        if (possessedUnit != nextPossessedUnit)
+        if (possessedUnit != nextPossessed)
         {
             if (possessedUnit != null)
             {
                 await possessedUnit.SetPossessed(false);
             }
             await GDTask.DelaySeconds(.4f);
-            await nextPossessedUnit.SetPossessed(true);
+            await nextPossessed.SetPossessed(true);
         }
     }
 
@@ -214,5 +216,20 @@ public partial class TurnManager : Node3D
     }
 
     #endregion
+
+    private void PickNextPossessedUnit()
+    {
+        enemyUnits = GetEnemyUnits();
+
+        var rng = new RandomNumberGenerator();
+        var randIndex = rng.RandiRange(0, enemyUnits.Length - 1);
+        nextPossessedUnit = enemyUnits[randIndex];
+
+        var currentPossessedUnit = enemyUnits.Where(item => item.IsPossessed).FirstOrDefault();
+        if (nextPossessedUnit != currentPossessedUnit)
+        {
+            (nextPossessedUnit as EnemyUnit).SetNextPossessed();
+        }
+    }
 
 }

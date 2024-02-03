@@ -9,7 +9,7 @@ public partial class TurnManager : Node3D
 
     public delegate TurnState TurnState();
 
-    private Unit currentUnit, currentTarget;
+    private Unit currentUnit, currentTarget, nextPossessedUnit;
     private Task currentTask;
     private Vector2I? cursorGridPos;
     private InputManager inputManager;
@@ -48,6 +48,8 @@ public partial class TurnManager : Node3D
     {
         InitPlayerStates();
         InitEnemyStates();
+
+        PickNextPossessedUnit();
 
         sm.StateChanged += s => GD.Print($"FSM >> Changed to: \"{s}\"");
         sm.StateChanged += s => SetHint("");
