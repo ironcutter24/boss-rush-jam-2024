@@ -6,6 +6,9 @@ public abstract partial class PlayerUnit : Unit
 {
     private UnitIcons3D unitIcons;
 
+    [Export] public bool HasSpecialSelection { get; private set; } = false;
+    [Export] public int SpecialDistance { get; private set; } = 0;
+
     [ExportGroup("Meta data")]
     [Export] public string CharacterName { get; private set; }
     [Export] public string CharacterClass { get; private set; }

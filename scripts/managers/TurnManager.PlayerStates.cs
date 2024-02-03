@@ -91,6 +91,7 @@ public partial class TurnManager : Node3D
                     && levelData.IsReachable(currentUnit, cursorGridPos.Value);
             })
             .AddTransition(State.PlayerSelectAttack, () => inputManager.IsAttack() && currentUnit.HasAction)
+            .AddTransition(State.PlayerSelectSpecial, () => inputManager.IsSpecial() && currentUnit.HasAction)
             .AddTransition(State.PlayerAwaitReaction, () => inputManager.IsReaction() && currentUnit.HasAction)
             .AddTransition(State.PlayerSelectUnit, () => inputManager.IsCancel());
 
@@ -111,7 +112,7 @@ public partial class TurnManager : Node3D
             .SubstateOf(State.PlayerCanEndTurn)
             .OnEntry(() =>
             {
-                SetHint("Select a unit to attack.");
+                SetHint("Select a unit in range to attack.");
 
                 levelData.RefreshGrid();
                 DisplayMesh(levelData.GenerateHittableMesh(currentUnit), MeshColor.Red);
@@ -143,14 +144,47 @@ public partial class TurnManager : Node3D
             .SubstateOf(State.PlayerCanEndTurn)
             .OnEntry(() =>
             {
-                // TODO: add selection logic
-                //currentTarget = 
+                SetHint("Select a unit in range to use your special action on it.");
+
+                var playerUnit = currentUnit as PlayerUnit;
+                levelData.RefreshGrid();
+                var ids = levelData.GetIdsWithMaxDistance(playerUnit, playerUnit.SpecialDistance);
+                DisplayMesh(levelData.GenerateMeshFrom(ids), MeshColor.Yellow);
             })
-            .AddTransition(State.PlayerAwaitSpecial, () => true);  // TODO: add conditions
+            .OnExit(() => DestroyChildren())
+            .AddTransition(State.PlayerAwaitSpecial, () =>
+            {
+                bool canTransition = !(currentUnit as PlayerUnit).HasSpecialSelection;
+                if (canTransition) currentTarget = currentUnit;
+                return canTransition;
+            })
+            .AddTransition(State.PlayerAwaitSpecial, () =>
+            {
+                GD.Print($"CurrentUnit: {currentUnit != null}");
+
+                var playerUnit = currentUnit as PlayerUnit;
+                if (inputManager.IsCellSelected(out cursorGridPos)
+                    && cursorGridPos.HasValue
+                    && levelData.IsAirDistanceTarget(playerUnit, playerUnit.SpecialDistance, LevelData.GetId(cursorGridPos.Value))
+                    )
+                {
+                    var target = LevelData.GetUnitAtPosition(cursorGridPos.Value);
+                    if (target.Faction == FactionType.Player)
+                    {
+                        currentTarget = target;
+                        return true;
+                    }
+                }
+                return false;
+            })
+            .AddTransition(State.PlayerUnitContext, () => inputManager.IsCancel() && currentUnit.HasMovement)
+            .AddTransition(State.PlayerSelectUnit, () => inputManager.IsCancel() && !currentUnit.HasMovement);
 
         sm.Configure(State.PlayerAwaitSpecial)
+            .SubstateOf(State.PlayerTurn)
             .OnEntry(() =>
             {
+                currentUnit.ConsumeAction();
                 var playerUnit = currentUnit as PlayerUnit;
                 currentTask = playerUnit.Special(currentTarget);
             })

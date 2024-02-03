@@ -12,6 +12,8 @@ public partial class LevelData : Node3D
     private AStar3D navGrid = new AStar3D();
     private RayCast3D ray;
 
+    public int GridSize => NUM_OF_ROWS * NUM_OF_COLS;
+
     /*
      * Grid in game world:
      * 
@@ -270,6 +272,35 @@ public partial class LevelData : Node3D
         }
 
         return visibles;
+    }
+
+    #endregion
+
+    #region Special validation
+
+    public bool IsAirDistanceTarget(Unit unit, int distance, int id)
+    {
+        var reachables = GetIdsWithMaxDistance(unit, distance);
+        return reachables.Contains(id);
+    }
+
+    public List<int> GetIdsWithMaxDistance(Unit unit, int distance)
+    {
+        var reachables = new List<int>();
+        var a = unit.GridPosition;
+        for (int i = 0; i < GridSize; i++)
+        {
+            if (navGrid.HasPoint(i))
+            {
+                var b = navGrid.GetPointPosition(i);
+                var sum = Mathf.Abs(b.X - a.X) + Mathf.Abs(b.Z - a.Y);
+                if (Mathf.Abs(sum) <= distance)
+                {
+                    reachables.Add(i);
+                }
+            }
+        }
+        return reachables;
     }
 
     #endregion
