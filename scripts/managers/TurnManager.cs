@@ -61,6 +61,10 @@ public partial class TurnManager : Node3D
 
     private void SetHint(string text)
     {
+        if (!text.Contains("\n"))
+        {
+            text = "\n" + text;
+        }
         hintLabel.Text = $"[center]{text}[/center]";
     }
 

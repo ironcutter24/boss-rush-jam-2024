@@ -56,6 +56,8 @@ public partial class TurnManager : Node3D
             .SubstateOf(State.PlayerCanEndTurn)
             .OnEntry(() =>
             {
+                SetHint("Press an action key to perform the corresponding action.");
+
                 levelData.RefreshGrid(currentUnit.GridPosition);
                 currentUnit.SetSelected(true);
 
@@ -75,7 +77,7 @@ public partial class TurnManager : Node3D
             .SubstateOf(State.PlayerCanEndTurn)
             .OnEntry(() =>
             {
-                SetHint("Select a tile to move to.");
+                SetHint("Select a tile to move to or press an action button.\nYou won't be able to move after performing an action.");
 
                 levelData.RefreshGrid();
                 DisplayMesh(levelData.GenerateWalkableMesh(currentUnit), MeshColor.Green);

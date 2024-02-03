@@ -6,6 +6,7 @@ public partial class EnemyUnit : Unit
 {
     public event Action Possessed;
     public event Action Unpossessed;
+    public event Action<int> BossDamaged;
 
     [Export] private bool useSimpleAttack = false;
     [Export] private Node3D[] showWhilePossessed;
@@ -28,6 +29,8 @@ public partial class EnemyUnit : Unit
         base._Ready();
         RefreshVisibility();
         GD.Print("Possessed: " + IsPossessed);
+
+        Damaged += ForwardBossDamage;
     }
 
     public override async Task Attack(Unit target)
@@ -58,5 +61,13 @@ public partial class EnemyUnit : Unit
 
         foreach (var item in hideWhilePossessed)
             item.Visible = !IsPossessed;
+    }
+
+    void ForwardBossDamage(int damage)
+    {
+        if (IsPossessed)
+        {
+            BossDamaged?.Invoke(damage);
+        }
     }
 }

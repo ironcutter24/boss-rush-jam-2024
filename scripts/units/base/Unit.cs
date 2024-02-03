@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 
 public abstract partial class Unit : CharacterBody3D
 {
+    public event Action<int> Damaged;
+
     private bool _hasMovement = true;
     private AnimationPlayer animFX;
     private HealthBar3D healthBar;
@@ -78,11 +80,14 @@ public abstract partial class Unit : CharacterBody3D
     public void SetSelected(bool state)
     {
         IsSelected = state;
-        if (IsSelected && selectionVFXInstance == null)
+        if (IsSelected)
         {
-            selectionVFXInstance = SelectionVFX.Instantiate<GpuParticles3D>();
-            selectionVFXInstance.Position = Vector3.Zero;
-            AddChild(selectionVFXInstance);
+            if(selectionVFXInstance == null)
+            {
+                selectionVFXInstance = SelectionVFX.Instantiate<GpuParticles3D>();
+                selectionVFXInstance.Position = Vector3.Zero;
+                AddChild(selectionVFXInstance);
+            }
         }
         else
         {
@@ -97,7 +102,9 @@ public abstract partial class Unit : CharacterBody3D
 
     public void ApplyDamage(int value)
     {
-        AddToHealth(-Mathf.Abs(value));
+        int delta = -Mathf.Abs(value);
+        AddToHealth(delta);
+        Damaged?.Invoke(delta);
         if (Health <= 0)
         {
             Free();

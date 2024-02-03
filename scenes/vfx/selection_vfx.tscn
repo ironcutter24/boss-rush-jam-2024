@@ -50,6 +50,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.141625, 0)
 amount = 3
 lifetime = 0.74
 visibility_aabb = AABB(-0.5, -0.2, -0.5, 1, 1, 1)
+local_coords = true
 transform_align = 2
 process_material = SubResource("ParticleProcessMaterial_f52x1")
 draw_pass_1 = SubResource("PlaneMesh_tmi25")

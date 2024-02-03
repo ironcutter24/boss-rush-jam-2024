@@ -20,6 +20,12 @@ public partial class HealthBar : ProgressBar
 
     public override void _Ready()
     {
+        var playerUnits = Unit.GetUnits(FactionType.Enemy);
+        foreach (EnemyUnit unit in playerUnits)
+        {
+            unit.BossDamaged += ApplyDamage;
+        }
+
         Value = deltaBar.Value = deltaTargetValue = 100;
         deltaTimer.Timeout += () => deltaTargetValue = Value;
 
@@ -50,6 +56,7 @@ public partial class HealthBar : ProgressBar
 
     public void ApplyDamage(int damage)
     {
+        damage = Mathf.Abs(damage);
         var newValue = Mathf.Clamp(Value - damage, MinValue, MaxValue);
         if (newValue != Value)
         {
