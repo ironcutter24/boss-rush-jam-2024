@@ -1,0 +1,63 @@
+[gd_scene load_steps=13 format=3 uid="uid://dpd0x1bgpg0k6"]
+
+[ext_resource type="Texture2D" uid="uid://brh4c14xk7m16" path="res://addons/kenney_particle_pack/scorch_01.png" id="1_ojmm3"]
+
+[sub_resource type="Curve" id="Curve_3yvk3"]
+_data = [Vector2(0.059867, 0), 0.0, 0.0, 0, 0, Vector2(0.503326, 0.994579), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_twkbx"]
+curve = SubResource("Curve_3yvk3")
+
+[sub_resource type="Gradient" id="Gradient_gfyrv"]
+colors = PackedColorArray(1, 0.462745, 0.34902, 1, 0.890196, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_1rtt7"]
+gradient = SubResource("Gradient_gfyrv")
+
+[sub_resource type="Curve" id="Curve_7fijh"]
+max_value = 8.81
+_data = [Vector2(0.00886918, 0.0133444), 0.0, 0.0, 0, 0, Vector2(0.509978, 8.24649), 0.0, 0.0, 0, 0, Vector2(0.968958, 0.0350292), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_1jyll"]
+curve = SubResource("Curve_7fijh")
+
+[sub_resource type="Curve" id="Curve_bwkhs"]
+_data = [Vector2(0, 0.00250208), 0.0, 0.0, 0, 0, Vector2(0.498891, 0.783153), 0.0, 0.0, 0, 0, Vector2(0.991131, 0.994579), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_slygt"]
+curve = SubResource("Curve_bwkhs")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_o7vx5"]
+particle_flag_rotate_y = true
+emission_shape = 1
+emission_sphere_radius = 0.5
+gravity = Vector3(0, 0, 0)
+scale_min = 0.3
+scale_curve = SubResource("CurveTexture_slygt")
+color_ramp = SubResource("GradientTexture1D_1rtt7")
+alpha_curve = SubResource("CurveTexture_twkbx")
+emission_curve = SubResource("CurveTexture_1jyll")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_of0t7"]
+transparency = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("1_ojmm3")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_gayt8"]
+lightmap_size_hint = Vector2i(12, 12)
+material = SubResource("StandardMaterial3D_of0t7")
+orientation = 2
+
+[node name="ExplosionVFX" type="GPUParticles3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.2104, 2.84307, 5.52347)
+amount = 20
+lifetime = 0.3
+transform_align = 1
+trail_enabled = true
+trail_lifetime = 0.33
+process_material = SubResource("ParticleProcessMaterial_o7vx5")
+draw_pass_1 = SubResource("PlaneMesh_gayt8")

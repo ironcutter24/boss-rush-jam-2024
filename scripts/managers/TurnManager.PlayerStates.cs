@@ -31,6 +31,7 @@ public partial class TurnManager : Node3D
             .SubstateOf(State.PlayerCanEndTurn)
             .OnEntry(() =>
             {
+                SetHint("Select a friendly unit to control.");
                 ResetCurrentUnit();
                 levelData.RefreshGrid();
 

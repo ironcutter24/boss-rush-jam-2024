@@ -555,12 +555,15 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 4)
 
 [node name="EnemySlime" parent="Units/Enemies" groups=["enemy_units", "units"] instance=ExtResource("8_mg4li")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 5)
+SelectionVFX = null
 
 [node name="EnemySlime2" parent="Units/Enemies" groups=["enemy_units", "units"] instance=ExtResource("8_mg4li")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 6)
+SelectionVFX = null
 
 [node name="EnemySlime3" parent="Units/Enemies" groups=["enemy_units", "units"] instance=ExtResource("8_mg4li")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 7)
+SelectionVFX = null
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

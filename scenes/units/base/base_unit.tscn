@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://bkh4eat12qt1o"]
+[gd_scene load_steps=8 format=3 uid="uid://bkh4eat12qt1o"]
 
 [ext_resource type="Script" path="res://scripts/units/EnemyUnit.cs" id="1_imn2a"]
+[ext_resource type="PackedScene" uid="uid://d2hq64bnuces" path="res://scenes/vfx/selection_vfx.tscn" id="2_2nad0"]
 [ext_resource type="PackedScene" uid="uid://bh5qm0csi1tp6" path="res://scenes/UI/health_bar_3d.tscn" id="2_ehfqo"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_s1wp0"]
@@ -31,6 +32,7 @@ collision_layer = 2049
 script = ExtResource("1_imn2a")
 showWhilePossessed = []
 hideWhilePossessed = []
+SelectionVFX = ExtResource("2_2nad0")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)

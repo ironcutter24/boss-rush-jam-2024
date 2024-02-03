@@ -1,0 +1,55 @@
+[gd_scene load_steps=11 format=3 uid="uid://d2hq64bnuces"]
+
+[ext_resource type="Texture2D" uid="uid://6csvbgtf3grf" path="res://addons/kenney_particle_pack/circle_02.png" id="1_8k2yy"]
+
+[sub_resource type="Curve" id="Curve_j1vda"]
+_data = [Vector2(0.0501931, 0), 0.0, 0.0, 0, 0, Vector2(0.46332, 0.433571), 0.0, 0.0, 0, 0, Vector2(0.588803, 0.438214), 0.0, 0.0, 0, 0, Vector2(0.959459, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_4xx4f"]
+curve = SubResource("Curve_j1vda")
+
+[sub_resource type="Gradient" id="Gradient_7vclk"]
+offsets = PackedFloat32Array(0, 0.438776, 0.532653, 1)
+colors = PackedColorArray(0, 0, 1, 1, 0.0352941, 1, 0.0352941, 1, 0.0258969, 1, 0.292151, 1, 0, 1, 1, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ev4yq"]
+gradient = SubResource("Gradient_7vclk")
+
+[sub_resource type="Curve" id="Curve_2ayq0"]
+min_value = -1.0
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_8dhh4"]
+curve = SubResource("Curve_2ayq0")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_f52x1"]
+particle_flag_align_y = true
+particle_flag_rotate_y = true
+particle_flag_damping_as_friction = true
+gravity = Vector3(0, 1, 0)
+color_ramp = SubResource("GradientTexture1D_ev4yq")
+alpha_curve = SubResource("CurveTexture_4xx4f")
+hue_variation_curve = SubResource("CurveTexture_8dhh4")
+anim_speed_min = 1.0
+anim_speed_max = 1.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_1eksm"]
+transparency = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("1_8k2yy")
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_tmi25"]
+material = SubResource("StandardMaterial3D_1eksm")
+size = Vector2(1, 1)
+
+[node name="SelectionVFX" type="GPUParticles3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.141625, 0)
+amount = 3
+lifetime = 0.74
+visibility_aabb = AABB(-0.5, -0.2, -0.5, 1, 1, 1)
+transform_align = 2
+process_material = SubResource("ParticleProcessMaterial_f52x1")
+draw_pass_1 = SubResource("PlaneMesh_tmi25")

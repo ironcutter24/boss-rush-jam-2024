@@ -10,8 +10,10 @@ public abstract partial class Unit : CharacterBody3D
     private AnimationPlayer animFX;
     private HealthBar3D healthBar;
     private Node3D graphics;
+    private GpuParticles3D selectionVFXInstance;
     protected AnimationTree animTree;
 
+    [Export] private PackedScene SelectionVFX { get; set; }
     [Export] public int MaxHealth { get; private set; } = 3;
 
     [ExportGroup("Unit parameters")]
@@ -76,8 +78,21 @@ public abstract partial class Unit : CharacterBody3D
     public void SetSelected(bool state)
     {
         IsSelected = state;
-        var mat = IsSelected ? GD.Load<Material>("res://graphics/materials/red_mat.tres") : null;
-        GetNode<MeshInstance3D>("Graphics/MeshInstance3D").MaterialOverride = mat;
+        if (IsSelected && selectionVFXInstance == null)
+        {
+            selectionVFXInstance = SelectionVFX.Instantiate<GpuParticles3D>();
+            selectionVFXInstance.Position = Vector3.Zero;
+            AddChild(selectionVFXInstance);
+        }
+        else
+        {
+            selectionVFXInstance?.Free();
+            selectionVFXInstance = null;
+        }
+
+        // Test color
+        //var mat = IsSelected ? GD.Load<Material>("res://graphics/materials/red_mat.tres") : null;
+        //GetNode<MeshInstance3D>("Graphics/MeshInstance3D").MaterialOverride = mat;
     }
 
     public void ApplyDamage(int value)
