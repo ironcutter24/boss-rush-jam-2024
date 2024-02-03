@@ -16,6 +16,9 @@ public abstract partial class PlayerUnit : Unit
     [Export(PropertyHint.MultilineText)] public string SpecialDescription { get; private set; }
     [Export(PropertyHint.MultilineText)] public string ReactionDescription { get; private set; }
 
+    public int BuffTurns { get; private set; } = 0;
+    public override int AttackDamage => base.AttackDamage * (BuffTurns > 0 ? 2 : 1);
+
     public bool IsReactionPlanned { get; private set; } = false;
     public bool HasReactionCharge => unitIcons.HasChargeLeft;
 
@@ -47,6 +50,12 @@ public abstract partial class PlayerUnit : Unit
         base.ResetTurn();
         IsReactionPlanned = false;
         ReactionVFX.Visible = false;
+        BuffTurns = Mathf.Max(BuffTurns - 1, 0);
         unitIcons.Reset();
+    }
+
+    public void ApplyBuffFor(int playerTurns)
+    {
+        BuffTurns = playerTurns;
     }
 }

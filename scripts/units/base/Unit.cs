@@ -81,10 +81,6 @@ public abstract partial class Unit : CharacterBody3D
     {
         IsSelected = state;
         SelectionVFX.Visible = IsSelected;
-
-        // Test color
-        //var mat = IsSelected ? GD.Load<Material>("res://graphics/materials/red_mat.tres") : null;
-        //GetNode<MeshInstance3D>("Graphics/MeshInstance3D").MaterialOverride = mat;
     }
 
     public void ApplyDamage(int value)
