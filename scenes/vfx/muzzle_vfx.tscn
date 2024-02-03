@@ -8,7 +8,9 @@ material = ExtResource("2_r674k")
 orientation = 2
 
 [node name="Muzzle_vfx" type="GPUParticles3D"]
+emitting = false
 amount = 2
 lifetime = 0.3
+one_shot = true
 process_material = ExtResource("1_8it8c")
 draw_pass_1 = SubResource("PlaneMesh_wxxjt")

@@ -1,50 +1,7 @@
-[gd_scene load_steps=12 format=3 uid="uid://c6sll4jg2nu85"]
+[gd_scene load_steps=4 format=3 uid="uid://c6sll4jg2nu85"]
 
 [ext_resource type="Material" uid="uid://cxdhtoosa7u1g" path="res://graphics/materials/VFX/Sparks_circle_Mat.tres" id="1_glugx"]
-
-[sub_resource type="Curve" id="Curve_enyv2"]
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.50152, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
-point_count = 3
-
-[sub_resource type="CurveTexture" id="CurveTexture_g5jpa"]
-curve = SubResource("Curve_enyv2")
-
-[sub_resource type="Gradient" id="Gradient_4mf2n"]
-offsets = PackedFloat32Array(0, 0.532847, 1)
-colors = PackedColorArray(0.501961, 0, 1, 1, 0.278431, 0.141176, 1, 1, 0.564706, 0, 1, 1)
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_tufq1"]
-gradient = SubResource("Gradient_4mf2n")
-
-[sub_resource type="Curve" id="Curve_w52ra"]
-max_value = 10.0
-_data = [Vector2(0, 0.598504), 0.0, 0.0, 0, 0, Vector2(0.49848, 2.54364), 0.0, 0.0, 0, 0, Vector2(0.998987, 0.529035), 0.0, 0.0, 0, 0]
-point_count = 3
-
-[sub_resource type="CurveTexture" id="CurveTexture_5xdik"]
-curve = SubResource("Curve_w52ra")
-
-[sub_resource type="Curve" id="Curve_17aap"]
-max_value = 2.0
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 1.49519), 0.0, 0.0, 0, 0]
-point_count = 2
-
-[sub_resource type="CurveTexture" id="CurveTexture_vwhk1"]
-curve = SubResource("Curve_17aap")
-
-[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_j1fmf"]
-particle_flag_rotate_y = true
-angle_min = -90.0
-angle_max = 90.0
-angular_velocity_min = -500.0
-angular_velocity_max = 500.0
-gravity = Vector3(0, 3, 0)
-scale_min = 0.2
-scale_max = 0.8
-scale_curve = SubResource("CurveTexture_vwhk1")
-color_ramp = SubResource("GradientTexture1D_tufq1")
-alpha_curve = SubResource("CurveTexture_g5jpa")
-emission_curve = SubResource("CurveTexture_5xdik")
+[ext_resource type="Material" uid="uid://baiua11fpe22i" path="res://graphics/materials/VFX/Aura_vfx_mat.tres" id="1_m10tk"]
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_p2ofj"]
 lightmap_size_hint = Vector2i(17, 14)
@@ -53,5 +10,5 @@ material = ExtResource("1_glugx")
 [node name="Aura" type="GPUParticles3D"]
 amount = 4
 lifetime = 0.5
-process_material = SubResource("ParticleProcessMaterial_j1fmf")
+process_material = ExtResource("1_m10tk")
 draw_pass_1 = SubResource("CapsuleMesh_p2ofj")
