@@ -38,9 +38,9 @@ SelectionVFX = ExtResource("2_2nad0")
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 shape = SubResource("CapsuleShape3D_s1wp0")
 
-[node name="Graphics" type="Node3D" parent="."]
+[node name="HealthBar3D" parent="." instance=ExtResource("2_ehfqo")]
 
-[node name="HealthBar3D" parent="Graphics" instance=ExtResource("2_ehfqo")]
+[node name="Graphics" type="Node3D" parent="."]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Graphics"]
 transform = Transform3D(0.4, 0, 0, 0, 0.5, 0, 0, 0, 0.4, 0, 0.5, 0)

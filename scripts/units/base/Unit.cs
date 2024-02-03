@@ -41,7 +41,7 @@ public abstract partial class Unit : CharacterBody3D
     {
         animFX = GetNode<AnimationPlayer>("AnimationPlayer");
         animTree = GetNode<AnimationTree>("AnimationTree");
-        healthBar = GetNode<HealthBar3D>("Graphics/HealthBar3D");
+        healthBar = GetNode<HealthBar3D>("HealthBar3D");
         graphics = GetNode<Node3D>("Graphics");
 
         AddToGroup(GetGroupFrom(Faction));
@@ -86,7 +86,7 @@ public abstract partial class Unit : CharacterBody3D
             {
                 selectionVFXInstance = SelectionVFX.Instantiate<GpuParticles3D>();
                 selectionVFXInstance.Position = Vector3.Zero;
-                AddChild(selectionVFXInstance);
+                graphics.AddChild(selectionVFXInstance);
             }
         }
         else

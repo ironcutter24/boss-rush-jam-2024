@@ -97,6 +97,7 @@ public partial class TurnManager : Node3D
             {
                 SetHint("Select a friendly unit to swap with, or cancel to continue.");
 
+                // Get nearby units
                 var nearbyUnits = LevelData.GetNearbyUnits(currentUnit.GridId);
                 if (nearbyUnits.Count <= 0)
                 {
@@ -104,10 +105,12 @@ public partial class TurnManager : Node3D
                     return;
                 }
 
+                // Set target to random nearby unit
                 var rng = new RandomNumberGenerator();
                 var randIndex = rng.RandiRange(0, nearbyUnits.Count - 1);
                 currentTarget = nearbyUnits[randIndex];
 
+                // Look at target
                 currentUnit.FaceTowards(currentTarget);
 
                 // Display chosen target
@@ -118,19 +121,23 @@ public partial class TurnManager : Node3D
             {
                 DestroyChildren();
             })
+            .AddTransition(State.AIAttack, () => currentTarget != null && !(currentTarget as PlayerUnit).HasReactionCharge)
             .AddTransition(State.AIAwaitReaction, () =>
             {
                 if (inputManager.IsCellSelected(out cursorGridPos))
                 {
-                    Unit selectedUnit = levelData.GetUnitAt(cursorGridPos.Value);
-                    if (selectedUnit != null &&
-                        selectedUnit.Faction == FactionType.Player &&
-                        selectedUnit != currentTarget)
+                    var swapTarget = levelData.GetUnitAt(cursorGridPos.Value) as PlayerUnit;
+                    if (swapTarget != null &&
+                        swapTarget != currentTarget &&
+                        swapTarget.HasReactionCharge
+                        )
                     {
-                        // Swap selectedUnit with currentTarget
-                        var swapTarget = selectedUnit as PlayerUnit;
                         var swapOwner = currentTarget as PlayerUnit;
 
+                        swapOwner.ConsumeReactionCounter();
+                        swapTarget.ConsumeReactionCounter();
+
+                        // Swap selectedUnit with currentTarget
                         Vector3 appPos = swapTarget.Position;
                         swapTarget.Position = swapOwner.Position;
                         swapOwner.Position = appPos;
@@ -156,25 +163,25 @@ public partial class TurnManager : Node3D
             .AddTransition(State.AIAttack, () => inputManager.IsCancel());
 
         sm.Configure(State.AIAwaitReaction)
-            .SubstateOf(State.EnemyTurn)
-            .AddTransition(State.AIAttack, () =>
-            {
-                var unit = currentTarget as PlayerUnit;
-                return unit != null && !unit.IsReactionPlanned;
-            })
-            .AddTransition(State.AIAttack, () => currentTask != null && currentTask.IsCompleted);
+                .SubstateOf(State.EnemyTurn)
+                .AddTransition(State.AIAttack, () =>
+                {
+                    var unit = currentTarget as PlayerUnit;
+                    return unit != null && !unit.IsReactionPlanned;
+                })
+                .AddTransition(State.AIAttack, () => currentTask != null && currentTask.IsCompleted);
 
         sm.Configure(State.AIAttack)
-            .SubstateOf(State.EnemyTurn)
-            .OnEntry(() =>
-            {
-                if (!currentUnit.HasAction) return;
+                .SubstateOf(State.EnemyTurn)
+                .OnEntry(() =>
+                {
+                    if (!currentUnit.HasAction) return;
 
-                levelData.RefreshGrid();
-                currentTask = currentUnit.Attack(currentTarget);
-            })
-            .AddTransition(State.AIContext, () => currentTask.IsCompleted)
-            .AddTransition(State.AIContext, () => !currentUnit.HasAction);
+                    levelData.RefreshGrid();
+                    currentTask = currentUnit.Attack(currentTarget);
+                })
+                .AddTransition(State.AIContext, () => currentTask.IsCompleted)
+                .AddTransition(State.AIContext, () => !currentUnit.HasAction);
 
         #endregion
     }
