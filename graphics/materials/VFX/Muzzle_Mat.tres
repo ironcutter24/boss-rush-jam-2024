@@ -1,0 +1,54 @@
+[gd_resource type="ParticleProcessMaterial" load_steps=11 format=3 uid="uid://mds8whbyrr4q"]
+
+[sub_resource type="Curve" id="Curve_sa4y4"]
+_data = [Vector2(0.00257069, 0.50478), 0.0, 0.0, 0, 0, Vector2(0.497858, 0.996116), 0.0, 0.0, 0, 0, Vector2(1, 0.00761878), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_lojwb"]
+curve = SubResource("Curve_sa4y4")
+
+[sub_resource type="Gradient" id="Gradient_sqw0v"]
+offsets = PackedFloat32Array(0, 0.38367, 1)
+colors = PackedColorArray(0, 1, 0, 1, 0.247059, 0.137255, 0.717647, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ojv2n"]
+gradient = SubResource("Gradient_sqw0v")
+
+[sub_resource type="Curve" id="Curve_ffpv0"]
+min_value = -10.0
+max_value = 10.0
+_data = [Vector2(0.0017138, 0.00567675), 0.0, 0.0, 0, 0, Vector2(0.499572, 4.25755), 0.0, 0.0, 0, 0, Vector2(0.748072, -3.08933), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_h3nxr"]
+curve_y = SubResource("Curve_ffpv0")
+
+[sub_resource type="Curve" id="Curve_776d1"]
+max_value = 10.0
+_data = [Vector2(0, 0.930684), 0.0, 0.0, 0, 0, Vector2(0.502999, 10), 0.0, 0.0, 0, 0, Vector2(1, 2.36779), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_hd3gd"]
+curve = SubResource("Curve_776d1")
+
+[sub_resource type="Curve" id="Curve_1o3xg"]
+max_value = 2.0
+_data = [Vector2(0, 0.252166), 0.0, 0.0, 0, 0, Vector2(0.499572, 2), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_tft1y"]
+curve = SubResource("Curve_1o3xg")
+
+[resource]
+emission_shape_offset = Vector3(0, 0.5, 0)
+angle_min = -90.0
+angle_max = -90.0
+inherit_velocity_ratio = -0.42
+directional_velocity_min = 3.0
+directional_velocity_max = 3.0
+directional_velocity_curve = SubResource("CurveXYZTexture_h3nxr")
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_tft1y")
+color_ramp = SubResource("GradientTexture1D_ojv2n")
+alpha_curve = SubResource("CurveTexture_lojwb")
+emission_curve = SubResource("CurveTexture_hd3gd")

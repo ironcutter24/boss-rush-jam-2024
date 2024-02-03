@@ -1,4 +1,4 @@
-[gd_scene load_steps=56 format=3 uid="uid://bja7jmhmj"]
+[gd_scene load_steps=59 format=3 uid="uid://bja7jmhmj"]
 
 [ext_resource type="Script" path="res://scripts/managers/InputManager.cs" id="1_6df1n"]
 [ext_resource type="Script" path="res://scripts/managers/TurnManager.cs" id="1_22vsh"]
@@ -25,6 +25,9 @@
 [ext_resource type="Texture2D" uid="uid://cx6n5ttkbchy0" path="res://graphics/models/Room/Pavimentino_Montanti/ROOM 2_Pavimentino_Montanti_Metallic.png" id="24_b55kj"]
 [ext_resource type="Texture2D" uid="uid://bhi3nsilm6djh" path="res://graphics/models/Room/Pavimentino_Montanti/ROOM 2_Pavimentino_Montanti_Normal.png" id="25_1sxwf"]
 [ext_resource type="Texture2D" uid="uid://dyvm2vwp834j5" path="res://graphics/models/Room/Pavimentino_Montanti/ROOM 2_Pavimentino_Montanti_Roughness.png" id="26_klvca"]
+[ext_resource type="PackedScene" uid="uid://cs3w3gvswyvlx" path="res://scenes/vfx/muzzle_vfx.tscn" id="26_t07ns"]
+[ext_resource type="PackedScene" uid="uid://c6sll4jg2nu85" path="res://scenes/vfx/Aura.tscn" id="27_w86sb"]
+[ext_resource type="PackedScene" uid="uid://dvjw0orc6ss8q" path="res://scenes/vfx/Hit_Character.tscn" id="28_jcd1m"]
 
 [sub_resource type="BoxMesh" id="BoxMesh_1dibq"]
 
@@ -613,3 +616,16 @@ text = "[center]Hint text box[/center]"
 
 [node name="CrazyMan" parent="." instance=ExtResource("18_mqhts")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 9)
+
+[node name="Muzzle_vfx" parent="." instance=ExtResource("26_t07ns")]
+transform = Transform3D(1, 0, 0, 0, 0.777585, -0.628778, 0, 0.628778, 0.777585, 3.06702, 0.195756, 4.93317)
+emitting = false
+one_shot = true
+visibility_aabb = AABB(-4, -4, -3.97345, 8, 8, 7.94689)
+
+[node name="Aura" parent="." instance=ExtResource("27_w86sb")]
+transform = Transform3D(1, 0, 0, 0, 0.999651, -0.0264038, 0, 0.0264038, 0.999651, 0.991098, 0.0858033, 1.97521)
+visibility_aabb = AABB(-4, -4, -4.34766, 8, 8, 8)
+
+[node name="HitCharacter" parent="." instance=ExtResource("28_jcd1m")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.940849, 0.715801, 2.00102)

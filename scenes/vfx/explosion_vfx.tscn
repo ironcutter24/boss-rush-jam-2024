@@ -54,8 +54,10 @@ orientation = 2
 
 [node name="ExplosionVFX" type="GPUParticles3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 10.2104, 2.84307, 5.52347)
+emitting = false
 amount = 20
 lifetime = 0.3
+one_shot = true
 transform_align = 1
 trail_enabled = true
 trail_lifetime = 0.33

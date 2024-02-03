@@ -1,6 +1,6 @@
-[gd_scene load_steps=11 format=3 uid="uid://d2hq64bnuces"]
+[gd_scene load_steps=13 format=3 uid="uid://d2hq64bnuces"]
 
-[ext_resource type="Texture2D" uid="uid://6csvbgtf3grf" path="res://addons/kenney_particle_pack/circle_02.png" id="1_8k2yy"]
+[ext_resource type="Texture2D" uid="uid://rxdklegbonyt" path="res://addons/kenney_particle_pack/circle_03.png" id="1_knwiv"]
 
 [sub_resource type="Curve" id="Curve_j1vda"]
 _data = [Vector2(0.0501931, 0), 0.0, 0.0, 0, 0, Vector2(0.46332, 0.433571), 0.0, 0.0, 0, 0, Vector2(0.588803, 0.438214), 0.0, 0.0, 0, 0, Vector2(0.959459, 0), 0.0, 0.0, 0, 0]
@@ -10,11 +10,19 @@ point_count = 4
 curve = SubResource("Curve_j1vda")
 
 [sub_resource type="Gradient" id="Gradient_7vclk"]
-offsets = PackedFloat32Array(0, 0.438776, 0.532653, 1)
-colors = PackedColorArray(0, 0, 1, 1, 0.0352941, 1, 0.0352941, 1, 0.0258969, 1, 0.292151, 1, 0, 1, 1, 1)
+offsets = PackedFloat32Array(0, 0.437956, 0.535975, 1)
+colors = PackedColorArray(0, 0, 1, 1, 0.0352941, 0.498039, 1, 1, 0.027451, 0.286275, 0.945098, 1, 0, 1, 1, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_ev4yq"]
 gradient = SubResource("Gradient_7vclk")
+
+[sub_resource type="Curve" id="Curve_fhsai"]
+max_value = 10.0
+_data = [Vector2(0.503546, 2.5668), 0.0, 0.0, 0, 0]
+point_count = 1
+
+[sub_resource type="CurveTexture" id="CurveTexture_b8hbg"]
+curve = SubResource("Curve_fhsai")
 
 [sub_resource type="Curve" id="Curve_2ayq0"]
 min_value = -1.0
@@ -26,11 +34,13 @@ curve = SubResource("Curve_2ayq0")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_f52x1"]
 particle_flag_align_y = true
-particle_flag_rotate_y = true
 particle_flag_damping_as_friction = true
 gravity = Vector3(0, 1, 0)
+scale_min = 1.1
+scale_max = 1.1
 color_ramp = SubResource("GradientTexture1D_ev4yq")
 alpha_curve = SubResource("CurveTexture_4xx4f")
+emission_curve = SubResource("CurveTexture_b8hbg")
 hue_variation_curve = SubResource("CurveTexture_8dhh4")
 anim_speed_min = 1.0
 anim_speed_max = 1.0
@@ -39,7 +49,8 @@ anim_speed_max = 1.0
 transparency = 1
 shading_mode = 0
 vertex_color_use_as_albedo = true
-albedo_texture = ExtResource("1_8k2yy")
+albedo_texture = ExtResource("1_knwiv")
+albedo_texture_force_srgb = true
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_tmi25"]
 material = SubResource("StandardMaterial3D_1eksm")
