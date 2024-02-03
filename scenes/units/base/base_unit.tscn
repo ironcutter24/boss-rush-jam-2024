@@ -1,8 +1,9 @@
-[gd_scene load_steps=8 format=3 uid="uid://bkh4eat12qt1o"]
+[gd_scene load_steps=9 format=3 uid="uid://bkh4eat12qt1o"]
 
 [ext_resource type="Script" path="res://scripts/units/EnemyUnit.cs" id="1_imn2a"]
 [ext_resource type="PackedScene" uid="uid://d2hq64bnuces" path="res://scenes/vfx/selection_vfx.tscn" id="2_2nad0"]
 [ext_resource type="PackedScene" uid="uid://bh5qm0csi1tp6" path="res://scenes/UI/health_bar_3d.tscn" id="2_ehfqo"]
+[ext_resource type="PackedScene" uid="uid://c6sll4jg2nu85" path="res://scenes/vfx/Aura.tscn" id="4_1x0ai"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_s1wp0"]
 radius = 0.2
@@ -26,13 +27,13 @@ _data = {
 "hurt_spring": SubResource("Animation_7euv8")
 }
 
-[node name="BaseUnit" type="CharacterBody3D" node_paths=PackedStringArray("showWhilePossessed", "hideWhilePossessed")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 0, 2)
+[node name="BaseUnit" type="CharacterBody3D" node_paths=PackedStringArray("showWhilePossessed", "hideWhilePossessed", "SelectionVFX", "ReactionVFX")]
 collision_layer = 2049
 script = ExtResource("1_imn2a")
 showWhilePossessed = []
 hideWhilePossessed = []
-SelectionVFX = ExtResource("2_2nad0")
+SelectionVFX = NodePath("Graphics/VFX/SelectionVFX")
+ReactionVFX = NodePath("Graphics/VFX/Aura")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
@@ -41,6 +42,15 @@ shape = SubResource("CapsuleShape3D_s1wp0")
 [node name="HealthBar3D" parent="." instance=ExtResource("2_ehfqo")]
 
 [node name="Graphics" type="Node3D" parent="."]
+
+[node name="VFX" type="Node3D" parent="Graphics"]
+
+[node name="SelectionVFX" parent="Graphics/VFX" instance=ExtResource("2_2nad0")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0233563, 0)
+visible = false
+
+[node name="Aura" parent="Graphics/VFX" instance=ExtResource("4_1x0ai")]
+visible = false
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Graphics"]
 transform = Transform3D(0.4, 0, 0, 0, 0.5, 0, 0, 0, 0.4, 0, 0.5, 0)

@@ -167,7 +167,7 @@ public partial class TurnManager : Node3D
                 currentUnit.ConsumeAction();
                 currentTask = (currentUnit as PlayerUnit).PlanReaction();
             })
-            .AddTransition(State.PlayerUnitContext, () => currentTask.IsCompleted);
+            .AddTransition(State.PlayerSelectUnit, () => currentTask.IsCompleted);
 
         #endregion
 

@@ -30,10 +30,7 @@ public abstract partial class PlayerUnit : Unit
     public async Task PlanReaction()
     {
         IsReactionPlanned = true;
-
-        // TODO: Play reaction preparation animation / particles
-
-        //await GDTask.DelaySeconds(1f);
+        ReactionVFX.Visible = true;
         await GDTask.NextFrame();
     }
 
@@ -46,6 +43,7 @@ public abstract partial class PlayerUnit : Unit
     {
         base.ResetTurn();
         IsReactionPlanned = false;
+        ReactionVFX.Visible = false;
         unitIcons.Reset();
     }
 }

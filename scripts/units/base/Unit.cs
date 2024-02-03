@@ -12,10 +12,10 @@ public abstract partial class Unit : CharacterBody3D
     private AnimationPlayer animFX;
     private HealthBar3D healthBar;
     private Node3D graphics;
-    private GpuParticles3D selectionVFXInstance;
     protected AnimationTree animTree;
 
-    [Export] private PackedScene SelectionVFX { get; set; }
+    [Export] private GpuParticles3D SelectionVFX { get; set; }
+    [Export] protected GpuParticles3D ReactionVFX { get; set; }
     [Export] public int MaxHealth { get; private set; } = 3;
 
     [ExportGroup("Unit parameters")]
@@ -51,8 +51,8 @@ public abstract partial class Unit : CharacterBody3D
     {
         Health = MaxHealth;
         healthBar.SetHealth(Health, MaxHealth);
-
-        GD.Print(GridId);
+        SelectionVFX.Visible = false;
+        ReactionVFX.Visible = false;
     }
 
     public abstract Task Attack(Unit target);
@@ -80,20 +80,7 @@ public abstract partial class Unit : CharacterBody3D
     public void SetSelected(bool state)
     {
         IsSelected = state;
-        if (IsSelected)
-        {
-            if(selectionVFXInstance == null)
-            {
-                selectionVFXInstance = SelectionVFX.Instantiate<GpuParticles3D>();
-                selectionVFXInstance.Position = Vector3.Zero;
-                graphics.AddChild(selectionVFXInstance);
-            }
-        }
-        else
-        {
-            selectionVFXInstance?.Free();
-            selectionVFXInstance = null;
-        }
+        SelectionVFX.Visible = IsSelected;
 
         // Test color
         //var mat = IsSelected ? GD.Load<Material>("res://graphics/materials/red_mat.tres") : null;
