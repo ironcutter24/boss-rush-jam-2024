@@ -1,0 +1,9 @@
+[gd_resource type="EventAsset" format=3 uid="uid://cgiggxs3olu5y"]
+
+[resource]
+is_oneshot = true
+min_distance = 1.0
+max_distance = 20.0
+path = "event:/SFX/Enemies/EnemyMovement"
+guid = "{d939919e-a440-4d0e-b7f8-cfe80e828c1a}"
+name = "EnemyMovement"

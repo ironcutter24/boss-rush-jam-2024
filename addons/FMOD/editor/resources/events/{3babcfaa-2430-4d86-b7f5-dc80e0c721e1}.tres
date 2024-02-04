@@ -1,0 +1,8 @@
+[gd_resource type="EventAsset" format=3 uid="uid://hx0mm15nkdox"]
+
+[resource]
+min_distance = 1.0
+max_distance = 20.0
+path = "event:/OST/BOSS 2"
+guid = "{3babcfaa-2430-4d86-b7f5-dc80e0c721e1}"
+name = "BOSS 2"

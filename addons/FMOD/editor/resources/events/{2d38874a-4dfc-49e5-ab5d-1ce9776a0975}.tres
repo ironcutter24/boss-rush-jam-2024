@@ -1,0 +1,9 @@
+[gd_resource type="EventAsset" format=3 uid="uid://badteweanykym"]
+
+[resource]
+is_oneshot = true
+min_distance = 1.0
+max_distance = 20.0
+path = "event:/SFX/Enemies/EnemyAttack"
+guid = "{2d38874a-4dfc-49e5-ab5d-1ce9776a0975}"
+name = "EnemyAttack"

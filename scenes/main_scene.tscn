@@ -13,7 +13,6 @@
 [ext_resource type="EventAsset" uid="uid://dbalthcbefnr3" path="res://addons/FMOD/editor/resources/events/{67bd44df-7d43-4dc0-b52f-4769d8c77d0a}.tres" id="9_e3ugl"]
 [ext_resource type="PackedScene" uid="uid://bp6ns7f5qgn3a" path="res://scenes/units/player_healer.tscn" id="10_0w05u"]
 [ext_resource type="Material" uid="uid://d0ddqpja2r001" path="res://graphics/materials/glass_wall_mat.tres" id="10_qrmwe"]
-[ext_resource type="BankAsset" uid="uid://bbsdutm1y0sjm" path="res://addons/FMOD/editor/resources/banks/{29842420-1baf-4e88-b38a-b37683d8f799}.tres" id="10_tvevl"]
 [ext_resource type="Material" uid="uid://ccpxf5fiknjky" path="res://graphics/models/Room/Materials/pavimentino_mat.tres" id="11_q3o8k"]
 [ext_resource type="PackedScene" uid="uid://bd8e4f4bub57c" path="res://scenes/units/player_tank.tscn" id="11_rqe5l"]
 [ext_resource type="PackedScene" uid="uid://dn2oelgp4jfb0" path="res://scenes/UI/health_bar.tscn" id="13_34d3n"]
@@ -25,6 +24,13 @@
 [ext_resource type="Texture2D" uid="uid://cx6n5ttkbchy0" path="res://graphics/models/Room/Pavimentino_Montanti/ROOM 2_Pavimentino_Montanti_Metallic.png" id="24_b55kj"]
 [ext_resource type="Texture2D" uid="uid://bhi3nsilm6djh" path="res://graphics/models/Room/Pavimentino_Montanti/ROOM 2_Pavimentino_Montanti_Normal.png" id="25_1sxwf"]
 [ext_resource type="Texture2D" uid="uid://dyvm2vwp834j5" path="res://graphics/models/Room/Pavimentino_Montanti/ROOM 2_Pavimentino_Montanti_Roughness.png" id="26_klvca"]
+
+[sub_resource type="EventAsset" id="EventAsset_7lv7s"]
+min_distance = 1.0
+max_distance = 20.0
+path = "event:/Ambient/Ambient Room"
+guid = "{74f52032-adb8-4849-9b39-014b95308731}"
+name = "Ambient Room"
 
 [sub_resource type="BoxMesh" id="BoxMesh_1dibq"]
 
@@ -347,6 +353,18 @@ _data = {
 
 [node name="main_scene" type="Node3D"]
 
+[node name="Audio" type="Node3D" parent="."]
+
+[node name="OSTEventEmitter3D" type="StudioEventEmitter3D" parent="Audio"]
+play_event = 2
+event = ExtResource("9_e3ugl")
+transform = Transform3D(1, -3.27826e-07, -1.19209e-07, -1.78814e-07, 1, -5.96046e-08, 3.27826e-07, -2.68221e-07, 1, -2, 0.100006, 0.999999)
+
+[node name="AmbientEventEmitter3D" type="StudioEventEmitter3D" parent="Audio"]
+play_event = 2
+event = SubResource("EventAsset_7lv7s")
+transform = Transform3D(1, -3.27826e-07, -1.19209e-07, -1.78814e-07, 1, -5.96046e-08, 3.27826e-07, -2.68221e-07, 1, -2, 0.100006, 0.999999)
+
 [node name="Lights" type="Node3D" parent="."]
 
 [node name="OmniLight3D" type="OmniLight3D" parent="Lights"]
@@ -381,19 +399,6 @@ transform = Transform3D(-0.642788, 0.439385, -0.627506, 0, 0.819152, 0.573577, 0
 projection = 1
 current = true
 size = 10.0
-
-[node name="StudioBankLoader" type="StudioBankLoader" parent="CameraRoot/Camera3D"]
-load_on = 1
-num_banks = 1
-bank_0 = ExtResource("10_tvevl")
-
-[node name="StudioListener3D" type="StudioListener3D" parent="CameraRoot/Camera3D"]
-transform = Transform3D(-0.642788, 0, 0.766044, 0.439385, 0.819152, 0.368688, -0.627507, 0.573577, -0.526541, 0, -3.68618, -2.58109)
-
-[node name="OSTEventEmitter3D" type="StudioEventEmitter3D" parent="CameraRoot/Camera3D"]
-play_event = 2
-event = ExtResource("9_e3ugl")
-transform = Transform3D(-0.642788, 0, 0.766044, 0.439385, 0.819152, 0.368688, -0.627507, 0.573577, -0.526541, 0, -3.68618, -2.58109)
 
 [node name="TurnManager" type="Node3D" parent="." node_paths=PackedStringArray("unitHUD", "hintLabel")]
 script = ExtResource("1_22vsh")

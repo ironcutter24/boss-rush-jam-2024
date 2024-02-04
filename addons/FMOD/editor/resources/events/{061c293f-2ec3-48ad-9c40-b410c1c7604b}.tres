@@ -1,0 +1,9 @@
+[gd_resource type="EventAsset" format=3 uid="uid://pbhdaw0t6hoj"]
+
+[resource]
+is_oneshot = true
+min_distance = 1.0
+max_distance = 20.0
+path = "event:/SFX/Enemies/BossDeath"
+guid = "{061c293f-2ec3-48ad-9c40-b410c1c7604b}"
+name = "BossDeath"

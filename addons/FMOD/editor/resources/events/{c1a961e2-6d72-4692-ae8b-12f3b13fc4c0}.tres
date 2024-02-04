@@ -1,0 +1,9 @@
+[gd_resource type="EventAsset" format=3 uid="uid://dkpc0m0tx7xma"]
+
+[resource]
+is_oneshot = true
+min_distance = 1.0
+max_distance = 20.0
+path = "event:/SFX/Player/HealerAttack"
+guid = "{c1a961e2-6d72-4692-ae8b-12f3b13fc4c0}"
+name = "HealerAttack"

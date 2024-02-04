@@ -1,0 +1,9 @@
+[gd_resource type="EventAsset" format=3 uid="uid://br7ylj6gka3jc"]
+
+[resource]
+is_oneshot = true
+min_distance = 1.0
+max_distance = 20.0
+path = "event:/SFX/Player/TankAttack"
+guid = "{8039d327-10af-4654-bffd-60e15b72ec8e}"
+name = "TankAttack"
