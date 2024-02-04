@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://beofjx54t6s8t"]
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ykm4m"]
+
+[node name="BarserkerBuffVfx" type="GPUParticles3D"]
+process_material = SubResource("ParticleProcessMaterial_ykm4m")

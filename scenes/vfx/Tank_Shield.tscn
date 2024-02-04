@@ -1,0 +1,55 @@
+[gd_scene load_steps=11 format=3 uid="uid://m6y5byisnh83"]
+
+[ext_resource type="Texture2D" uid="uid://6csvbgtf3grf" path="res://addons/kenney_particle_pack/circle_02.png" id="1_0pub6"]
+
+[sub_resource type="Curve" id="Curve_3tcif"]
+_data = [Vector2(0.168186, 0), 0.0, 0.0, 0, 0, Vector2(0.500507, 0.247417), 0.0, 0.0, 0, 0, Vector2(0.873354, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_iarpe"]
+curve = SubResource("Curve_3tcif")
+
+[sub_resource type="Curve" id="Curve_m38s2"]
+_data = [Vector2(0, 0.502138), 0.0, 0.0, 0, 0, Vector2(0.49848, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.828643), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_5rohs"]
+curve = SubResource("Curve_m38s2")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_tq88j"]
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_5rohs")
+alpha_curve = SubResource("CurveTexture_iarpe")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_vvgii"]
+transparency = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_color = Color(0.207843, 0.156863, 1, 1)
+billboard_mode = 1
+billboard_keep_scale = true
+
+[sub_resource type="SphereMesh" id="SphereMesh_wd5kl"]
+material = SubResource("StandardMaterial3D_vvgii")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jvop6"]
+transparency = 1
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("1_0pub6")
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_d6pkc"]
+material = SubResource("StandardMaterial3D_jvop6")
+size = Vector2(1.8, 1.8)
+
+[node name="TankShield" type="GPUParticles3D"]
+amount = 2
+speed_scale = 0.5
+process_material = SubResource("ParticleProcessMaterial_tq88j")
+draw_passes = 2
+draw_pass_1 = SubResource("SphereMesh_wd5kl")
+draw_pass_2 = SubResource("QuadMesh_d6pkc")
