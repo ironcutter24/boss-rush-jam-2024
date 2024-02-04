@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=3 uid="uid://jekbyppoc6kf"]
+
+[ext_resource type="PackedScene" uid="uid://d227jp0ruys6w" path="res://graphics/models/Room/Tubes/Tubes_2MT.fbx" id="1_30f0u"]
+[ext_resource type="Material" uid="uid://br6qmnhoeda7s" path="res://scenes/props/Tubes_mat.tres" id="2_6xbjs"]
+
+[node name="Tube_2M" instance=ExtResource("1_30f0u")]
+
+[node name="Tubes_2MT" parent="RootNode" index="0"]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
+material_override = ExtResource("2_6xbjs")
