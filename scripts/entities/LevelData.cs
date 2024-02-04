@@ -363,6 +363,19 @@ public partial class LevelData : Node3D
 
     #region Helper methods
 
+    //public int GetRandomFreeCellId()
+    //{
+
+    //}
+
+    //private List<int> GetAllFreeCellIds()
+    //{
+    //    for (int i = 0; i < GridSize; i++)
+    //    {
+
+    //    }
+    //}
+
     public static int CountNearbyUnits(int cellId)
     {
         return GetNearbyUnits(cellId).Count;
