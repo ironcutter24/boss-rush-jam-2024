@@ -363,18 +363,26 @@ public partial class LevelData : Node3D
 
     #region Helper methods
 
-    //public int GetRandomFreeCellId()
-    //{
+    public int GetRandomFreeCellId()
+    {
+        var ids = GetAllFreeCellIds();
+        var rng = new RandomNumberGenerator();
+        var randIndex = rng.RandiRange(0, ids.Count - 1);
+        return ids[randIndex];
+    }
 
-    //}
-
-    //private List<int> GetAllFreeCellIds()
-    //{
-    //    for (int i = 0; i < GridSize; i++)
-    //    {
-
-    //    }
-    //}
+    private List<int> GetAllFreeCellIds()
+    {
+        var ids = new List<int>();
+        for (int i = 0; i < GridSize; i++)
+        {
+            if (navGrid.HasPoint(i) && !navGrid.IsPointDisabled(i))
+            {
+                ids.Add(i);
+            }
+        }
+        return ids;
+    }
 
     public static int CountNearbyUnits(int cellId)
     {

@@ -17,6 +17,7 @@ public partial class TurnManager : Node3D
 
     [Export] private UnitHUD unitHUD;
     [Export] private RichTextLabel hintLabel;
+    [Export] private PackedScene minionPackedScene;
     [Export] private int minionCount = 4;
 
     enum MeshColor { Red, Yellow, Green }
@@ -32,7 +33,7 @@ public partial class TurnManager : Node3D
 
         // Enemy
         EnemyTurn,  // Base states
-        AIInit, AIContext, AIShowWalkable, AIMove, AIShowHittable, AISelectSwap, AIAwaitReaction, AIAttack
+        AIInit, AISpawnMinions, AIContext, AIShowWalkable, AIMove, AIShowHittable, AISelectSwap, AIAwaitReaction, AIAttack
     }
     StateMachine<State> sm = new StateMachine<State>(State.PlayerSelectUnit);
 
@@ -42,6 +43,11 @@ public partial class TurnManager : Node3D
     {
         inputManager = GetNode<InputManager>("../InputManager");
         levelData = GetNode<LevelData>("../Level");
+
+        if (minionPackedScene == null)
+        {
+            GD.PrintErr("You need to assign a minion PackedScene in this TurnManager instance!", this);
+        }
     }
 
     public override void _Ready()
