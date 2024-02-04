@@ -1,9 +1,10 @@
-[gd_scene load_steps=12 format=3 uid="uid://dvjw0orc6ss8q"]
+[gd_scene load_steps=19 format=3 uid="uid://dvjw0orc6ss8q"]
 
-[ext_resource type="Texture2D" uid="uid://dknslnn24s80l" path="res://addons/kenney_particle_pack/dirt_02.png" id="1_4y5nr"]
+[ext_resource type="Texture2D" uid="uid://ck2pwu5cugl0x" path="res://addons/kenney_particle_pack/scorch_03.png" id="1_kyjuy"]
+[ext_resource type="Texture2D" uid="uid://ck61rudfiem3w" path="res://addons/kenney_particle_pack/scratch_01.png" id="2_3le5m"]
 
 [sub_resource type="Curve" id="Curve_r76d1"]
-_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.50152, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1e-05, 1), 0.0, 0.0, 0, 0, Vector2(0.991895, 0.20342), 0.0, 0.0, 0, 0]
 point_count = 3
 
 [sub_resource type="CurveTexture" id="CurveTexture_gwgcw"]
@@ -16,8 +17,6 @@ colors = PackedColorArray(0.24893, 2.63215e-07, 5.41471e-08, 1, 0.301105, 1.6544
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_q65b1"]
 gradient = SubResource("Gradient_jr0g5")
 
-[sub_resource type="CurveTexture" id="CurveTexture_o35qw"]
-
 [sub_resource type="Curve" id="Curve_gx816"]
 _data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.505572, 0.495191), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
 point_count = 3
@@ -28,7 +27,7 @@ curve = SubResource("Curve_gx816")
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_sqdp3"]
 particle_flag_rotate_y = true
 emission_shape = 1
-emission_sphere_radius = 0.25
+emission_sphere_radius = 0.3
 angle_min = -90.0
 angle_max = 90.0
 angular_velocity_min = -100.0
@@ -36,19 +35,21 @@ angular_velocity_max = 100.0
 radial_velocity_min = -0.5
 radial_velocity_max = 1.0
 gravity = Vector3(0, 0, 0)
-scale_min = 0.2
-scale_max = 0.7
+scale_min = 0.4
+scale_max = 0.8
 scale_curve = SubResource("CurveTexture_p7nay")
 color = Color(1, 0, 0, 1)
 color_ramp = SubResource("GradientTexture1D_q65b1")
 alpha_curve = SubResource("CurveTexture_gwgcw")
-emission_curve = SubResource("CurveTexture_o35qw")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mkytr"]
-transparency = 1
+transparency = 2
+alpha_scissor_threshold = 0.219
+alpha_antialiasing_mode = 0
+no_depth_test = true
 shading_mode = 0
 vertex_color_use_as_albedo = true
-albedo_texture = ExtResource("1_4y5nr")
+albedo_texture = ExtResource("1_kyjuy")
 billboard_mode = 3
 billboard_keep_scale = true
 particles_anim_h_frames = 1
@@ -59,9 +60,53 @@ particles_anim_loop = false
 material = SubResource("StandardMaterial3D_mkytr")
 orientation = 2
 
+[sub_resource type="Curve" id="Curve_iuhog"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.0719352, 1), 0.0, 0.0, 0, 0, Vector2(0.348531, 0.00890636), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_0jxqh"]
+curve = SubResource("Curve_iuhog")
+
+[sub_resource type="Curve" id="Curve_6k24w"]
+max_value = 10.0
+_data = [Vector2(0.00405269, 0.999644), 0.0, 0.0, 0, 0, Vector2(0.114488, 10), 0.0, 0.0, 0, 0, Vector2(0.301925, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_mytbt"]
+curve = SubResource("Curve_6k24w")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_lwylv"]
+gravity = Vector3(0, 0, 0)
+alpha_curve = SubResource("CurveTexture_0jxqh")
+emission_curve = SubResource("CurveTexture_mytbt")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2toif"]
+transparency = 2
+alpha_scissor_threshold = 0.088
+alpha_antialiasing_mode = 0
+blend_mode = 3
+no_depth_test = true
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_color = Color(1, 0.498039, 0.25098, 1)
+albedo_texture = ExtResource("2_3le5m")
+billboard_mode = 3
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_3vf6e"]
+material = SubResource("StandardMaterial3D_2toif")
+size = Vector2(1, 1.5)
+
 [node name="HitCharacter" type="GPUParticles3D"]
 amount = 12
-lifetime = 0.25
+lifetime = 0.3
 explosiveness = 0.5
 process_material = SubResource("ParticleProcessMaterial_sqdp3")
 draw_pass_1 = SubResource("PlaneMesh_hlaix")
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="."]
+amount = 1
+process_material = SubResource("ParticleProcessMaterial_lwylv")
+draw_pass_1 = SubResource("QuadMesh_3vf6e")
