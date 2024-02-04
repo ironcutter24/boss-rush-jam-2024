@@ -21,6 +21,10 @@ Global="*res://scripts/Global.cs"
 FMODRuntime="*res://addons/FMOD/runtime/fmod_runtime_manager.gd"
 AudioManager="*res://scenes/audio_manager.tscn"
 
+[display]
+
+window/size/mode=3
+
 [dotnet]
 
 project/assembly_name="boss-rush-jam-2024"

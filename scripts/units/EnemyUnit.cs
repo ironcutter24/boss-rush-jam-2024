@@ -8,6 +8,8 @@ public partial class EnemyUnit : Unit
     public event Action Unpossessed;
     public event Action<int> BossDamaged;
 
+    private float startHealthBarOffset;
+
     [Export] private bool useSimpleAttack = false;
     [Export] private Node3D[] showWhilePossessed;
     [Export] private Node3D[] hideWhilePossessed;
@@ -17,6 +19,7 @@ public partial class EnemyUnit : Unit
     [Export] private int _bossAttackDamage = 2;
     [Export] private int _bossAttackDistance = 1;
     [Export] private int _bossMoveDistance = 0;
+    [Export] float _bossHealthBarOffset = 0f;
 
     public bool IsPossessed { get; private set; } = false;
     public override int AttackDamage => IsPossessed ? _bossAttackDamage : base.AttackDamage;
@@ -29,7 +32,8 @@ public partial class EnemyUnit : Unit
     {
         base._Ready();
         RefreshVisibility();
-        GD.Print("Possessed: " + IsPossessed);
+
+        startHealthBarOffset = healthBar.Position.Y;
 
         Damaged += ForwardBossDamage;
         Attacking += AudioManager.Instance.PlayEnemyAttack;
@@ -50,11 +54,13 @@ public partial class EnemyUnit : Unit
         if (IsPossessed)
         {
             Possessed?.Invoke();
+            SetHealthBarOffset(_bossHealthBarOffset);
             AudioManager.Instance.PlayEnemyTransform();
         }
         else
         {
             Unpossessed?.Invoke();
+            SetHealthBarOffset(startHealthBarOffset);
         }
 
         Tween tween = CreateTween();
@@ -82,6 +88,13 @@ public partial class EnemyUnit : Unit
 
         foreach (var item in hideWhilePossessed)
             item.Visible = !IsPossessed;
+    }
+
+    private void SetHealthBarOffset(float offset)
+    {
+        var pos = healthBar.Position;
+        pos.Y = offset;
+        healthBar.Position = pos;
     }
 
     void ForwardBossDamage(int damage)

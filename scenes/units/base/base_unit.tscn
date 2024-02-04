@@ -40,6 +40,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
 shape = SubResource("CapsuleShape3D_s1wp0")
 
 [node name="HealthBar3D" parent="." instance=ExtResource("2_ehfqo")]
+transform = Transform3D(0.16, 0, 0, 0, 0.02, 0, 0, 0, 1, 0, 1.2, 0)
 
 [node name="Graphics" type="Node3D" parent="."]
 

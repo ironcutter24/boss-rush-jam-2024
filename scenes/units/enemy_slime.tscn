@@ -2290,8 +2290,13 @@ transitions = ["Start", "Rise", SubResource("AnimationNodeStateMachineTransition
 useSimpleAttack = true
 showWhilePossessed = [NodePath("Graphics/MoldMan_Animazioni")]
 PossessionVFX = NodePath("Graphics/VFX/PossessionVfx")
+_bossHealthBarOffset = 1.32
+
+[node name="HealthBar3D" parent="." index="1"]
+transform = Transform3D(0.16, 0, 0, 0, 0.02, 0, 0, 0, 1, 0, 0.5, 0)
 
 [node name="PossessionVfx" parent="Graphics/VFX" index="2" instance=ExtResource("2_ylv2r")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.249333, 0)
 visible = false
 
 [node name="SphereMesh" type="MeshInstance3D" parent="Graphics" index="1" node_paths=PackedStringArray("unitInstance")]

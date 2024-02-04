@@ -4,19 +4,22 @@
 [ext_resource type="Texture2D" uid="uid://d0mo687cfywb" path="res://graphics/sprites/oval.png" id="1_v7odk"]
 
 [node name="UnitIcons3D" type="Node3D"]
-transform = Transform3D(0.642788, 0, 0.766044, 0, 1, 0, -0.766044, 0, 0.642788, 0, 0, 0)
+transform = Transform3D(-0.642787, 0, -0.766044, 0, 1, 0, 0.766044, 0, -0.642787, 0, 0, 0)
 script = ExtResource("1_nutax")
 baseColor = Color(0.152941, 0.152941, 0.152941, 1)
 chargedColor = Color(1, 1, 0, 1)
 
-[node name="SwapCharge1" type="Sprite3D" parent="."]
+[node name="Root" type="Node3D" parent="."]
+transform = Transform3D(1, 0, -2.98023e-08, 0, 1, 0, 2.98023e-08, 0, 1, -0.174578, -0.099414, -1.11759e-07)
+
+[node name="SwapCharge1" type="Sprite3D" parent="Root"]
 unique_name_in_owner = true
-transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0.350197, 1.05, 0)
+transform = Transform3D(0.045, 0, -1.67638e-09, 0, 0.045, 0, 1.67638e-09, 0, 0.045, 0, 0, 0)
 billboard = 1
 texture = ExtResource("1_v7odk")
 
-[node name="SwapCharge2" type="Sprite3D" parent="."]
+[node name="SwapCharge2" type="Sprite3D" parent="Root"]
 unique_name_in_owner = true
-transform = Transform3D(0.05, 0, 0, 0, 0.05, 0, 0, 0, 0.05, 0.274018, 1.05, 0)
+transform = Transform3D(0.045, 0, -1.67638e-09, 0, 0.045, 0, 1.67638e-09, 0, 0.045, 0.076, 0, 0)
 billboard = 1
 texture = ExtResource("1_v7odk")

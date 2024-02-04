@@ -13,7 +13,6 @@ public abstract partial class Unit : CharacterBody3D
 
     private bool _hasMovement = true;
     private AnimationPlayer animFX;
-    private HealthBar3D healthBar;
     private Node3D graphics;
     protected AnimationTree animTree;
 
@@ -32,6 +31,7 @@ public abstract partial class Unit : CharacterBody3D
     public virtual int MoveDistance => _moveDistance;
 
 
+    protected HealthBar3D healthBar {  get; private set; }
     public abstract FactionType Faction { get; }
     public int Health { get; private set; }
     public bool IsSelected { get; private set; } = false;
