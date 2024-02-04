@@ -3,6 +3,6 @@
 [resource]
 min_distance = 1.0
 max_distance = 20.0
-path = "event:/OST"
+path = "event:/OST/BOSS 1"
 guid = "{67bd44df-7d43-4dc0-b52f-4769d8c77d0a}"
-name = "OST"
+name = "BOSS 1"

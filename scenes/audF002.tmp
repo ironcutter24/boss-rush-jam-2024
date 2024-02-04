@@ -1,0 +1,23 @@
+[gd_scene load_steps=5 format=3 uid="uid://bo70rsuqrf8w"]
+
+[ext_resource type="Script" path="res://scripts/managers/AudioManager.cs" id="1_ir6p1"]
+[ext_resource type="Script" path="res://scripts/gdscript/GDAudio.gd" id="2_2unwq"]
+[ext_resource type="BankAsset" uid="uid://bbsdutm1y0sjm" path="res://addons/FMOD/editor/resources/banks/{29842420-1baf-4e88-b38a-b37683d8f799}.tres" id="2_a15g7"]
+[ext_resource type="EventAsset" uid="uid://hx0mm15nkdox" path="res://addons/FMOD/editor/resources/events/{3babcfaa-2430-4d86-b7f5-dc80e0c721e1}.tres" id="4_mg3ky"]
+
+[node name="AudioManager" type="Node3D" node_paths=PackedStringArray("GDAudio")]
+script = ExtResource("1_ir6p1")
+GDAudio = NodePath("GDAudio")
+
+[node name="GDAudio" type="Node3D" parent="."]
+script = ExtResource("2_2unwq")
+ost2 = ExtResource("4_mg3ky")
+
+[node name="StudioBankLoader" type="StudioBankLoader" parent="."]
+load_on = 1
+num_banks = 1
+bank_0 = ExtResource("2_a15g7")
+
+[node name="StudioListener3D" type="StudioListener3D" parent="."]
+
+[node name="StudioListener2D" type="StudioListener2D" parent="."]

@@ -4,6 +4,12 @@ using System.Threading.Tasks;
 
 public partial class PlayerHealer : PlayerUnit
 {
+    public override void _Ready()
+    {
+        base._Ready();
+        Attacking += () => AudioManager.Instance.PlayHealerAttack();
+    }
+
     public override async Task Attack(Unit target)
     {
         await AnimatedAttack(target);

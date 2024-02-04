@@ -1,0 +1,9 @@
+[gd_resource type="EventAsset" format=3 uid="uid://bq0p13kh7e6xl"]
+
+[resource]
+is_oneshot = true
+min_distance = 1.0
+max_distance = 20.0
+path = "event:/SFX/Player/BerserkerAttack"
+guid = "{cbf15c0b-8f0b-4772-a04e-2c165059459b}"
+name = "BerserkerAttack"

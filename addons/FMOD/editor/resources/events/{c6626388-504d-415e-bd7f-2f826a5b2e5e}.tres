@@ -1,0 +1,8 @@
+[gd_resource type="EventAsset" format=3 uid="uid://dm2q3c6sx2ujn"]
+
+[resource]
+min_distance = 1.0
+max_distance = 20.0
+path = "event:/Ambient/NEON"
+guid = "{c6626388-504d-415e-bd7f-2f826a5b2e5e}"
+name = "NEON"

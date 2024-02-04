@@ -1,0 +1,8 @@
+[gd_resource type="EventAsset" format=3 uid="uid://b0hkaldomliw7"]
+
+[resource]
+min_distance = 1.0
+max_distance = 20.0
+path = "event:/Ambient/Ambient Room"
+guid = "{74f52032-adb8-4849-9b39-014b95308731}"
+name = "Ambient Room"

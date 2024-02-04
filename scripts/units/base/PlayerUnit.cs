@@ -33,8 +33,16 @@ public abstract partial class PlayerUnit : Unit
         unitIcons = GetNode<UnitIcons3D>("UnitIcons3D");
     }
 
+    public override void _Ready()
+    {
+        base._Ready();
+        Dying += () => AudioManager.Instance.PlayPlayerDeath();
+    }
+
     public async Task PlanReaction()
     {
+        AudioManager.Instance.PlayReactionCharge();
+
         IsReactionPlanned = true;
         ReactionVFX.Visible = true;
         await GDTask.NextFrame();

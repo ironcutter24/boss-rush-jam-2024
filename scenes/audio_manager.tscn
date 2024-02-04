@@ -1,0 +1,37 @@
+[gd_scene load_steps=13 format=3 uid="uid://bo70rsuqrf8w"]
+
+[ext_resource type="Script" path="res://scripts/managers/AudioManager.cs" id="1_ir6p1"]
+[ext_resource type="Script" path="res://scripts/gdscript/GDAudio.gd" id="2_2unwq"]
+[ext_resource type="BankAsset" uid="uid://bbsdutm1y0sjm" path="res://addons/FMOD/editor/resources/banks/{29842420-1baf-4e88-b38a-b37683d8f799}.tres" id="2_a15g7"]
+[ext_resource type="EventAsset" uid="uid://bq0p13kh7e6xl" path="res://addons/FMOD/editor/resources/events/{cbf15c0b-8f0b-4772-a04e-2c165059459b}.tres" id="3_rk6k8"]
+[ext_resource type="EventAsset" uid="uid://dkpc0m0tx7xma" path="res://addons/FMOD/editor/resources/events/{c1a961e2-6d72-4692-ae8b-12f3b13fc4c0}.tres" id="4_ob715"]
+[ext_resource type="EventAsset" uid="uid://br7ylj6gka3jc" path="res://addons/FMOD/editor/resources/events/{8039d327-10af-4654-bffd-60e15b72ec8e}.tres" id="5_urcwh"]
+[ext_resource type="EventAsset" uid="uid://dgnepgwyqmcvx" path="res://addons/FMOD/editor/resources/events/{fa956172-a8f8-4665-bf3b-909df9685c7e}.tres" id="6_xtt08"]
+[ext_resource type="EventAsset" uid="uid://cskq81dgpt3ps" path="res://addons/FMOD/editor/resources/events/{c255c36f-4773-46e7-9185-ea11742b52b6}.tres" id="7_d4pk6"]
+[ext_resource type="EventAsset" uid="uid://cgiggxs3olu5y" path="res://addons/FMOD/editor/resources/events/{d939919e-a440-4d0e-b7f8-cfe80e828c1a}.tres" id="8_h3sbm"]
+[ext_resource type="EventAsset" uid="uid://c541e7gxnpm4n" path="res://addons/FMOD/editor/resources/events/{366cbf23-31b4-456c-999f-5824229c5aea}.tres" id="9_26p4p"]
+[ext_resource type="EventAsset" uid="uid://badteweanykym" path="res://addons/FMOD/editor/resources/events/{2d38874a-4dfc-49e5-ab5d-1ce9776a0975}.tres" id="10_l481f"]
+[ext_resource type="EventAsset" uid="uid://pbhdaw0t6hoj" path="res://addons/FMOD/editor/resources/events/{061c293f-2ec3-48ad-9c40-b410c1c7604b}.tres" id="11_ws2ll"]
+
+[node name="AudioManager" type="Node3D" node_paths=PackedStringArray("GDAudio")]
+script = ExtResource("1_ir6p1")
+GDAudio = NodePath("GDAudio")
+
+[node name="GDAudio" type="Node3D" parent="."]
+script = ExtResource("2_2unwq")
+berserker_attack = ExtResource("3_rk6k8")
+healer_attack = ExtResource("4_ob715")
+tank_attack = ExtResource("5_urcwh")
+reaction_charge = ExtResource("6_xtt08")
+player_death = ExtResource("7_d4pk6")
+enemy_movement = ExtResource("8_h3sbm")
+enemy_transform = ExtResource("9_26p4p")
+enemy_attack = ExtResource("10_l481f")
+boss_death = ExtResource("11_ws2ll")
+
+[node name="StudioBankLoader" type="StudioBankLoader" parent="."]
+load_on = 1
+num_banks = 1
+bank_0 = ExtResource("2_a15g7")
+
+[node name="StudioListener3D" type="StudioListener3D" parent="."]

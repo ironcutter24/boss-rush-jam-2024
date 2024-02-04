@@ -1,0 +1,9 @@
+[gd_resource type="EventAsset" format=3 uid="uid://dgnepgwyqmcvx"]
+
+[resource]
+is_oneshot = true
+min_distance = 1.0
+max_distance = 20.0
+path = "event:/SFX/Player/ReactionCharge"
+guid = "{fa956172-a8f8-4665-bf3b-909df9685c7e}"
+name = "ReactionCharge"

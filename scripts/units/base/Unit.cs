@@ -7,6 +7,9 @@ using System.Threading.Tasks;
 public abstract partial class Unit : CharacterBody3D
 {
     public event Action<int> Damaged;
+    public event Action StartingMovement;
+    public event Action Attacking;
+    public event Action Dying;
 
     private bool _hasMovement = true;
     private AnimationPlayer animFX;
@@ -16,6 +19,7 @@ public abstract partial class Unit : CharacterBody3D
 
     [Export] private GpuParticles3D SelectionVFX { get; set; }
     [Export] protected GpuParticles3D ReactionVFX { get; set; }
+
     [Export] public int MaxHealth { get; private set; } = 3;
 
     [ExportGroup("Unit parameters")]
@@ -59,6 +63,8 @@ public abstract partial class Unit : CharacterBody3D
 
     public async Task FollowPathTo(Vector2I pos)
     {
+        StartingMovement?.Invoke();
+
         Vector3[] path = LevelData.Instance.GetPath(this, pos);
 
         const float moveSpeed = 1 / 4f;
@@ -90,6 +96,7 @@ public abstract partial class Unit : CharacterBody3D
         Damaged?.Invoke(delta);
         if (Health <= 0)
         {
+            Dying?.Invoke();
             Free();
         }
         else
@@ -142,6 +149,7 @@ public abstract partial class Unit : CharacterBody3D
         await GDTask.DelaySeconds(moveTime);  // Wait for go duration
 
         _ = SetAnimationTrigger("attack");
+        Attacking?.Invoke();
         target.ApplyDamage(AttackDamage);
         await GDTask.DelaySeconds(attackTime + moveTime);  // Wait for attack + return duration
     }
@@ -162,6 +170,7 @@ public abstract partial class Unit : CharacterBody3D
 
         _ = SetAnimationTrigger("attack");
         await GDTask.DelaySeconds(attackTime * .5f);
+        Attacking?.Invoke();
         target.ApplyDamage(AttackDamage);
         await GDTask.DelaySeconds(attackTime * .5f);
         await GDTask.DelaySeconds(moveTime);  // Wait for return duration

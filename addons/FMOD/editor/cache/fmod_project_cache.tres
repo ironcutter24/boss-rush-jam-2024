@@ -1,10 +1,23 @@
-[gd_resource type="ProjectCache" load_steps=6 format=3 uid="uid://b4q8ek5mec48e"]
+[gd_resource type="ProjectCache" load_steps=19 format=3 uid="uid://b4q8ek5mec48e"]
 
 [ext_resource type="BankAsset" uid="uid://bbsdutm1y0sjm" path="res://addons/FMOD/editor/resources/banks/{29842420-1baf-4e88-b38a-b37683d8f799}.tres" id="1_f5446"]
 [ext_resource type="BankAsset" uid="uid://bxav8foowugw7" path="res://addons/FMOD/editor/resources/banks/{b19904f4-6ad4-02ca-35c3-3988722bf101}.tres" id="1_tbxpj"]
 [ext_resource type="BusAsset" uid="uid://be3cy6rvuq7ou" path="res://addons/FMOD/editor/resources/busses/{226e5019-26b4-491f-9699-a9c89bf6150b}.tres" id="3_a8fat"]
 [ext_resource type="BusAsset" uid="uid://63sbxs7rshat" path="res://addons/FMOD/editor/resources/busses/{86eae3d6-4ecb-4010-87b0-5c3ea797ac2d}.tres" id="4_hyjog"]
+[ext_resource type="EventAsset" uid="uid://b0hkaldomliw7" path="res://addons/FMOD/editor/resources/events/{74f52032-adb8-4849-9b39-014b95308731}.tres" id="5_rp1pv"]
 [ext_resource type="EventAsset" uid="uid://dbalthcbefnr3" path="res://addons/FMOD/editor/resources/events/{67bd44df-7d43-4dc0-b52f-4769d8c77d0a}.tres" id="5_y4xv3"]
+[ext_resource type="EventAsset" uid="uid://dm2q3c6sx2ujn" path="res://addons/FMOD/editor/resources/events/{c6626388-504d-415e-bd7f-2f826a5b2e5e}.tres" id="6_04yfj"]
+[ext_resource type="EventAsset" uid="uid://dkgbu7mg60xto" path="res://addons/FMOD/editor/resources/events/{b6332176-cd65-47ac-a21f-5f6564d643ae}.tres" id="7_jt57u"]
+[ext_resource type="EventAsset" uid="uid://hx0mm15nkdox" path="res://addons/FMOD/editor/resources/events/{3babcfaa-2430-4d86-b7f5-dc80e0c721e1}.tres" id="9_dbcfe"]
+[ext_resource type="EventAsset" uid="uid://pbhdaw0t6hoj" path="res://addons/FMOD/editor/resources/events/{061c293f-2ec3-48ad-9c40-b410c1c7604b}.tres" id="10_km6l6"]
+[ext_resource type="EventAsset" uid="uid://badteweanykym" path="res://addons/FMOD/editor/resources/events/{2d38874a-4dfc-49e5-ab5d-1ce9776a0975}.tres" id="11_y5tl2"]
+[ext_resource type="EventAsset" uid="uid://cgiggxs3olu5y" path="res://addons/FMOD/editor/resources/events/{d939919e-a440-4d0e-b7f8-cfe80e828c1a}.tres" id="12_le5y8"]
+[ext_resource type="EventAsset" uid="uid://c541e7gxnpm4n" path="res://addons/FMOD/editor/resources/events/{366cbf23-31b4-456c-999f-5824229c5aea}.tres" id="13_jgoym"]
+[ext_resource type="EventAsset" uid="uid://bq0p13kh7e6xl" path="res://addons/FMOD/editor/resources/events/{cbf15c0b-8f0b-4772-a04e-2c165059459b}.tres" id="14_4nb2c"]
+[ext_resource type="EventAsset" uid="uid://dkpc0m0tx7xma" path="res://addons/FMOD/editor/resources/events/{c1a961e2-6d72-4692-ae8b-12f3b13fc4c0}.tres" id="15_85mo4"]
+[ext_resource type="EventAsset" uid="uid://cskq81dgpt3ps" path="res://addons/FMOD/editor/resources/events/{c255c36f-4773-46e7-9185-ea11742b52b6}.tres" id="16_rew3t"]
+[ext_resource type="EventAsset" uid="uid://dgnepgwyqmcvx" path="res://addons/FMOD/editor/resources/events/{fa956172-a8f8-4665-bf3b-909df9685c7e}.tres" id="17_ioin2"]
+[ext_resource type="EventAsset" uid="uid://br7ylj6gka3jc" path="res://addons/FMOD/editor/resources/events/{8039d327-10af-4654-bffd-60e15b72ec8e}.tres" id="18_biqnl"]
 
 [resource]
 banks = {
@@ -12,7 +25,20 @@ banks = {
 "{b19904f4-6ad4-02ca-35c3-3988722bf101}": ExtResource("1_tbxpj")
 }
 events = {
-"{67bd44df-7d43-4dc0-b52f-4769d8c77d0a}": ExtResource("5_y4xv3")
+"{061c293f-2ec3-48ad-9c40-b410c1c7604b}": ExtResource("10_km6l6"),
+"{2d38874a-4dfc-49e5-ab5d-1ce9776a0975}": ExtResource("11_y5tl2"),
+"{366cbf23-31b4-456c-999f-5824229c5aea}": ExtResource("13_jgoym"),
+"{3babcfaa-2430-4d86-b7f5-dc80e0c721e1}": ExtResource("9_dbcfe"),
+"{67bd44df-7d43-4dc0-b52f-4769d8c77d0a}": ExtResource("5_y4xv3"),
+"{74f52032-adb8-4849-9b39-014b95308731}": ExtResource("5_rp1pv"),
+"{8039d327-10af-4654-bffd-60e15b72ec8e}": ExtResource("18_biqnl"),
+"{b6332176-cd65-47ac-a21f-5f6564d643ae}": ExtResource("7_jt57u"),
+"{c1a961e2-6d72-4692-ae8b-12f3b13fc4c0}": ExtResource("15_85mo4"),
+"{c255c36f-4773-46e7-9185-ea11742b52b6}": ExtResource("16_rew3t"),
+"{c6626388-504d-415e-bd7f-2f826a5b2e5e}": ExtResource("6_04yfj"),
+"{cbf15c0b-8f0b-4772-a04e-2c165059459b}": ExtResource("14_4nb2c"),
+"{d939919e-a440-4d0e-b7f8-cfe80e828c1a}": ExtResource("12_le5y8"),
+"{fa956172-a8f8-4665-bf3b-909df9685c7e}": ExtResource("17_ioin2")
 }
 busses = {
 "{226e5019-26b4-491f-9699-a9c89bf6150b}": ExtResource("3_a8fat"),
@@ -32,11 +58,119 @@ bank_tree = [{
 "resource": ExtResource("1_tbxpj")
 }]
 event_tree = [{
+"children": [{
 "children": [],
 "item_type": 1,
-"node_name": "OST",
-"path": "event:/OST",
+"node_name": "Ambient Room",
+"path": "event:/Ambient/Ambient Room",
+"resource": ExtResource("5_rp1pv")
+}, {
+"children": [],
+"item_type": 1,
+"node_name": "NEON",
+"path": "event:/Ambient/NEON",
+"resource": ExtResource("6_04yfj")
+}, {
+"children": [],
+"item_type": 1,
+"node_name": "TV STATIC",
+"path": "event:/Ambient/TV STATIC",
+"resource": ExtResource("7_jt57u")
+}],
+"item_type": 7,
+"node_name": "Ambient",
+"path": "",
+"resource": null
+}, {
+"children": [{
+"children": [],
+"item_type": 1,
+"node_name": "BOSS 1",
+"path": "event:/OST/BOSS 1",
 "resource": ExtResource("5_y4xv3")
+}, {
+"children": [],
+"item_type": 1,
+"node_name": "BOSS 2",
+"path": "event:/OST/BOSS 2",
+"resource": ExtResource("9_dbcfe")
+}],
+"item_type": 7,
+"node_name": "OST",
+"path": "",
+"resource": null
+}, {
+"children": [{
+"children": [{
+"children": [],
+"item_type": 1,
+"node_name": "BossDeath",
+"path": "event:/SFX/Enemies/BossDeath",
+"resource": ExtResource("10_km6l6")
+}, {
+"children": [],
+"item_type": 1,
+"node_name": "EnemyAttack",
+"path": "event:/SFX/Enemies/EnemyAttack",
+"resource": ExtResource("11_y5tl2")
+}, {
+"children": [],
+"item_type": 1,
+"node_name": "EnemyMovement",
+"path": "event:/SFX/Enemies/EnemyMovement",
+"resource": ExtResource("12_le5y8")
+}, {
+"children": [],
+"item_type": 1,
+"node_name": "EnemyTransform",
+"path": "event:/SFX/Enemies/EnemyTransform",
+"resource": ExtResource("13_jgoym")
+}],
+"item_type": 7,
+"node_name": "Enemies",
+"path": "",
+"resource": null
+}, {
+"children": [{
+"children": [],
+"item_type": 1,
+"node_name": "BerserkerAttack",
+"path": "event:/SFX/Player/BerserkerAttack",
+"resource": ExtResource("14_4nb2c")
+}, {
+"children": [],
+"item_type": 1,
+"node_name": "HealerAttack",
+"path": "event:/SFX/Player/HealerAttack",
+"resource": ExtResource("15_85mo4")
+}, {
+"children": [],
+"item_type": 1,
+"node_name": "PlayerDeath",
+"path": "event:/SFX/Player/PlayerDeath",
+"resource": ExtResource("16_rew3t")
+}, {
+"children": [],
+"item_type": 1,
+"node_name": "ReactionCharge",
+"path": "event:/SFX/Player/ReactionCharge",
+"resource": ExtResource("17_ioin2")
+}, {
+"children": [],
+"item_type": 1,
+"node_name": "TankAttack",
+"path": "event:/SFX/Player/TankAttack",
+"resource": ExtResource("18_biqnl")
+}],
+"item_type": 7,
+"node_name": "Player",
+"path": "",
+"resource": null
+}],
+"item_type": 7,
+"node_name": "SFX",
+"path": "",
+"resource": null
 }]
 bus_tree = [{
 "children": [{

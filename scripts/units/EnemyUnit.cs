@@ -32,6 +32,7 @@ public partial class EnemyUnit : Unit
         GD.Print("Possessed: " + IsPossessed);
 
         Damaged += ForwardBossDamage;
+        Attacking += AudioManager.Instance.PlayEnemyAttack;
     }
 
     public override async Task Attack(Unit target)
@@ -45,7 +46,16 @@ public partial class EnemyUnit : Unit
     public async Task SetPossessed(bool state)
     {
         IsPossessed = state;
-        (IsPossessed ? Possessed : Unpossessed)?.Invoke();
+
+        if (IsPossessed)
+        {
+            Possessed?.Invoke();
+            AudioManager.Instance.PlayEnemyTransform();
+        }
+        else
+        {
+            Unpossessed?.Invoke();
+        }
 
         Tween tween = CreateTween();
         tween.TweenProperty(PossessionVFX, "scale", Vector3.Zero, .6f);
