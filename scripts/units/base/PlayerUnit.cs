@@ -21,6 +21,8 @@ public abstract partial class PlayerUnit : Unit
     [Export(PropertyHint.MultilineText)] public string ReactionDescription { get; private set; }
 
     public int BuffTurns { get; private set; } = 0;
+    public int TauntTurns { get; private set; } = 0;
+
     public override int AttackDamage => base.AttackDamage * (BuffTurns > 0 ? 2 : 1);
 
     public bool IsReactionPlanned { get; private set; } = false;
@@ -77,8 +79,11 @@ public abstract partial class PlayerUnit : Unit
         IsReactionPlanned = false;
         ReactionVFX.Visible = false;
         ConsumeBuffTurn();
+        ConsumeTauntTurn();
         unitIcons.Reset();
     }
+
+    #region Special statuses
 
     public void ApplyBuffFor(int playerTurns)
     {
@@ -96,4 +101,16 @@ public abstract partial class PlayerUnit : Unit
             }
         }
     }
+
+    public void ApplyTauntFor(int playerTurns)
+    {
+        TauntTurns = playerTurns;
+    }
+
+    private void ConsumeTauntTurn()
+    {
+        TauntTurns = Mathf.Max(TauntTurns - 1, 0);
+    }
+
+    #endregion
 }

@@ -17,8 +17,9 @@ public static partial class DecisionMaker
         reachableIds.ForEach(id => cellScores.Add(id, 0));
 
         // Update scores
-        ScoreEvaluator.PlayerAttackAreas(ref cellScores, levelData, playerUnits);
+        ScoreEvaluator.TauntSpecialEffect(ref cellScores, levelData, playerUnits, unit);
         ScoreEvaluator.PathToPlayerUnits(ref cellScores, levelData, playerUnits, unit);
+        ScoreEvaluator.PlayerAttackAreas(ref cellScores, levelData, playerUnits);
         ScoreEvaluator.NearbyPlayerUnits(ref cellScores);
 
         // Matrix convolution with before/after debug print
@@ -196,6 +197,33 @@ public static partial class DecisionMaker
                         if (scores.ContainsKey(id))
                             scores[id] += i;
                     }
+                }
+            }
+        }
+
+        public static void TauntSpecialEffect(ref Dictionary<int, int> scores, LevelData levelData, Unit[] playerUnits, Unit unit)
+        {
+            foreach (PlayerUnit playerUnit in playerUnits)
+            {
+                if (playerUnit.TauntTurns > 0)
+                {
+                    var pos = playerUnit.GridPosition;
+                    TryAdd(ref scores, pos + Vector2I.Up);
+                    TryAdd(ref scores, pos + Vector2I.Down);
+                    TryAdd(ref scores, pos + Vector2I.Right);
+                    TryAdd(ref scores, pos + Vector2I.Left);
+                }
+            }
+
+
+            void TryAdd(ref Dictionary<int, int> scores, Vector2I pos)
+            {
+                const int tauntValue = 8;
+
+                int id = LevelData.GetId(pos);
+                if (scores.ContainsKey(id))
+                {
+                    scores[id] += tauntValue;
                 }
             }
         }

@@ -36,6 +36,13 @@ public partial class TurnManager : Node3D
             {
                 currentTask = BossTransitionAsync();
             })
+            .AddTransition(State.AISpawnMinions, () => currentTask.IsCompleted);
+
+        sm.Configure(State.AISpawnMinions)
+            .OnEntry(() =>
+            {
+                currentTask = RefillMinionsAsync();
+            })
             .AddTransition(State.AIContext, () => currentTask.IsCompleted);
 
         sm.Configure(State.AIContext)
@@ -100,17 +107,16 @@ public partial class TurnManager : Node3D
                 SetHint("Select a friendly unit to swap with, or cancel to continue.");
 
                 // Get nearby units
-                var nearbyUnits = LevelData.GetNearbyUnits(currentUnit.GridId);
+                List<PlayerUnit> nearbyUnits = LevelData.GetNearbyUnits(currentUnit.GridId).OfType<PlayerUnit>().ToList();
+
                 if (nearbyUnits.Count <= 0)
                 {
                     currentTarget = null;
                     return;
                 }
 
-                // Set target to random nearby unit
-                var rng = new RandomNumberGenerator();
-                var randIndex = rng.RandiRange(0, nearbyUnits.Count - 1);
-                currentTarget = nearbyUnits[randIndex];
+                var tauntUnits = nearbyUnits.Where(item => item.TauntTurns > 0).ToList();
+                currentTarget = GetRandomElement(tauntUnits.Count > 0 ? tauntUnits : nearbyUnits);
 
                 // Look at target
                 currentUnit.FaceTowards(currentTarget);
@@ -205,6 +211,26 @@ public partial class TurnManager : Node3D
         }
     }
 
+    private async Task RefillMinionsAsync()
+    {
+        enemyUnits = GetEnemyUnits();
+        while (enemyUnits.Length < minionCount)
+        {
+            await GDTask.DelaySeconds(.4f);
+
+            levelData.RefreshGrid();
+            var spawnCellId = levelData.GetRandomFreeCellId();
+            var newMinion = minionPackedScene.Instantiate() as Node3D;
+            newMinion.GlobalPosition = levelData.GetWorldPos(spawnCellId);
+            GetWindow().AddChild(newMinion);
+
+            await GDTask.DelaySeconds(1.2f);
+
+            enemyUnits = GetEnemyUnits();
+        }
+        await GDTask.NextFrame();
+    }
+
     private static async Task AwaitShowcase()
     {
         await Task.Delay(TimeSpan.FromSeconds(showcaseAwaitDuration));
@@ -230,6 +256,13 @@ public partial class TurnManager : Node3D
         {
             (nextPossessedUnit as EnemyUnit).SetNextPossessed();
         }
+    }
+
+    private T GetRandomElement<T>(List<T> list)
+    {
+        var rng = new RandomNumberGenerator();
+        var randIndex = rng.RandiRange(0, list.Count - 1);
+        return list[randIndex];
     }
 
 }

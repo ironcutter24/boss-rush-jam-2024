@@ -19,8 +19,13 @@ public partial class PlayerTank : PlayerUnit
 
     public override async Task Special(Unit target)
     {
-        _ = SetAnimationTrigger("special");
+        const int tauntTurns = 1;
+
+        var playerUnit = target as PlayerUnit;
+        playerUnit.ApplyTauntFor(tauntTurns);
         SpecialVFX.Emitting = true;
+
+        _ = SetAnimationTrigger("special");
         await GDTask.NextFrame();
     }
 
