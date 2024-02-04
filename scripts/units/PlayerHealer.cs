@@ -4,10 +4,12 @@ using System.Threading.Tasks;
 
 public partial class PlayerHealer : PlayerUnit
 {
+    [Export] protected GpuParticles3D HealSelfVFX { get; private set; }
+
     public override void _Ready()
     {
         base._Ready();
-        Attacking += () => AudioManager.Instance.PlayHealerAttack();
+        Attacking += x => AudioManager.Instance.PlayHealerAttack();
     }
 
     public override async Task Attack(Unit target)
@@ -21,6 +23,9 @@ public partial class PlayerHealer : PlayerUnit
 
         _ = SetAnimationTrigger("special");
         target.ApplyHealing(healingAmount);
+        SpecialVFX.GlobalPosition = target.GlobalPosition;
+        SpecialVFX.Emitting = true;
+
         await GDTask.NextFrame();
     }
 
@@ -29,7 +34,14 @@ public partial class PlayerHealer : PlayerUnit
         const int healingAmount = 1;
 
         _ = SetAnimationTrigger("reaction");
+
         swappedUnit.ApplyHealing(healingAmount);
+        SpecialVFX.GlobalPosition = swappedUnit.GlobalPosition + Vector3.Up * .6f;
+        SpecialVFX.Emitting = true;
+
+        ApplyHealing(healingAmount);
+        HealSelfVFX.Emitting = true;
+
         await GDTask.NextFrame();
     }
 }

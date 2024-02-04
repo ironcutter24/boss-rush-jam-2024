@@ -1,9 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://bkh4eat12qt1o"]
+[gd_scene load_steps=10 format=3 uid="uid://bkh4eat12qt1o"]
 
 [ext_resource type="Script" path="res://scripts/units/EnemyUnit.cs" id="1_imn2a"]
 [ext_resource type="PackedScene" uid="uid://d2hq64bnuces" path="res://scenes/vfx/selection_vfx.tscn" id="2_2nad0"]
 [ext_resource type="PackedScene" uid="uid://bh5qm0csi1tp6" path="res://scenes/UI/health_bar_3d.tscn" id="2_ehfqo"]
 [ext_resource type="PackedScene" uid="uid://c6sll4jg2nu85" path="res://scenes/vfx/Aura.tscn" id="4_1x0ai"]
+[ext_resource type="PackedScene" uid="uid://dvjw0orc6ss8q" path="res://scenes/vfx/Hit_Character.tscn" id="5_kxbfb"]
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_s1wp0"]
 radius = 0.2
@@ -52,6 +53,9 @@ visible = false
 
 [node name="Aura" parent="Graphics/VFX" instance=ExtResource("4_1x0ai")]
 visible = false
+
+[node name="HitCharacter" parent="Graphics/VFX" instance=ExtResource("5_kxbfb")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Graphics"]
 transform = Transform3D(0.4, 0, 0, 0, 0.5, 0, 0, 0, 0.4, 0, 0.5, 0)

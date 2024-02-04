@@ -1,8 +1,8 @@
 [gd_scene load_steps=14 format=3 uid="uid://cky5ia5g6g64u"]
 
-[ext_resource type="Material" uid="uid://cy1tkv376mhw5" path="res://graphics/materials/VFX/Tount_Mat_3.tres" id="1_4tn0e"]
-[ext_resource type="Material" uid="uid://bjvmvjxtugsyx" path="res://graphics/materials/VFX/Tount_Mat_2.tres" id="1_q6156"]
-[ext_resource type="Material" uid="uid://bypk6sru3iuiy" path="res://graphics/materials/VFX/Tount_Mat_1.tres" id="2_jp3rw"]
+[ext_resource type="Material" uid="uid://b3skmevp8ap3y" path="res://graphics/materials/VFX/Tount_Mat_3.tres" id="1_4tn0e"]
+[ext_resource type="Material" uid="uid://1ay4e2324qwy" path="res://graphics/materials/VFX/Tount_Mat_2.tres" id="1_q6156"]
+[ext_resource type="Material" uid="uid://sa23kw4ui1xt" path="res://graphics/materials/VFX/Tount_Mat_1.tres" id="2_jp3rw"]
 
 [sub_resource type="Curve" id="Curve_kvf84"]
 _data = [Vector2(0.00101317, 0.00195944), 0.0, 0.0, 0, 0, Vector2(0.148936, 1), 0.0, 0.0, 0, 0, Vector2(0.345491, 1), 0.0, 0.0, 0, 0, Vector2(0.628166, 0), 0.0, 0.0, 0, 0]
@@ -48,8 +48,10 @@ size = Vector2(2.3, 2.5)
 orientation = 1
 
 [node name="TountVfx" type="GPUParticles3D"]
+emitting = false
 amount = 1
 lifetime = 1.5
+one_shot = true
 process_material = SubResource("ParticleProcessMaterial_tpnse")
 draw_passes = 3
 draw_pass_1 = SubResource("QuadMesh_dyc3w")

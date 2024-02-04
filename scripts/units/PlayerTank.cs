@@ -4,10 +4,12 @@ using System.Threading.Tasks;
 
 public partial class PlayerTank : PlayerUnit
 {
+    [Export] protected GpuParticles3D ShieldVFX { get; private set; }
+
     public override void _Ready()
     {
         base._Ready();
-        Attacking += () => AudioManager.Instance.PlayTankAttack();
+        Attacking += x => AudioManager.Instance.PlayTankAttack();
     }
 
     public override async Task Attack(Unit target)
@@ -18,6 +20,7 @@ public partial class PlayerTank : PlayerUnit
     public override async Task Special(Unit target)
     {
         _ = SetAnimationTrigger("special");
+        SpecialVFX.Emitting = true;
         await GDTask.NextFrame();
     }
 
@@ -25,6 +28,7 @@ public partial class PlayerTank : PlayerUnit
     {
         _ = SetAnimationTrigger("reaction");
         attackingUnit.ConsumeAction();
-        await GDTask.NextFrame();
+        ShieldVFX.Emitting = true;
+        await GDTask.DelaySeconds(.8f);
     }
 }

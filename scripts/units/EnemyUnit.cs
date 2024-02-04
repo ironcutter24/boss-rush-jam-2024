@@ -36,7 +36,7 @@ public partial class EnemyUnit : Unit
         startHealthBarOffset = healthBar.Position.Y;
 
         Damaged += ForwardBossDamage;
-        Attacking += AudioManager.Instance.PlayEnemyAttack;
+        Attacking += x => AudioManager.Instance.PlayEnemyAttack();
     }
 
     public override async Task Attack(Unit target)

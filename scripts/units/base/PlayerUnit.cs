@@ -8,6 +8,10 @@ public abstract partial class PlayerUnit : Unit
 
     [Export] public bool HasSpecialSelection { get; private set; } = false;
     [Export] public int SpecialDistance { get; private set; } = 0;
+    [Export] protected GpuParticles3D AttackVFX { get; private set; }
+    [Export] protected GpuParticles3D SpecialVFX { get; private set; }
+    [Export] protected GpuParticles3D HurtVFX { get; private set; }
+
 
     [ExportGroup("Meta data")]
     [Export] public string CharacterName { get; private set; }
@@ -36,7 +40,21 @@ public abstract partial class PlayerUnit : Unit
     public override void _Ready()
     {
         base._Ready();
+        Attacking += OnAttacking;
+        Damaged += OnDamaged;
         Dying += () => AudioManager.Instance.PlayPlayerDeath();
+    }
+
+    private void OnAttacking(Unit target)
+    {
+        AttackVFX.GlobalPosition = target.GlobalPosition;
+        AttackVFX.Emitting = true;
+    }
+
+    private void OnDamaged(int _val)
+    {
+        HurtVFX.Emitting = true;
+        HurtVFX.GetNode<GpuParticles3D>("GPUParticles3D").Emitting = true;
     }
 
     public async Task PlanReaction()
@@ -58,12 +76,24 @@ public abstract partial class PlayerUnit : Unit
         base.ResetTurn();
         IsReactionPlanned = false;
         ReactionVFX.Visible = false;
-        BuffTurns = Mathf.Max(BuffTurns - 1, 0);
+        ConsumeBuffTurn();
         unitIcons.Reset();
     }
 
     public void ApplyBuffFor(int playerTurns)
     {
         BuffTurns = playerTurns;
+    }
+
+    private void ConsumeBuffTurn()
+    {
+        if (BuffTurns > 0)
+        {
+            BuffTurns = Mathf.Max(BuffTurns - 1, 0);
+            if (BuffTurns == 0)
+            {
+                SpecialVFX.Emitting = false;
+            }
+        }
     }
 }

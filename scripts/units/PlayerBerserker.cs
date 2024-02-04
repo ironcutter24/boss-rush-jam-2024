@@ -7,7 +7,7 @@ public partial class PlayerBerserker : PlayerUnit
     public override void _Ready()
     {
         base._Ready();
-        Attacking += () => AudioManager.Instance.PlayBerserkerAttack();
+        Attacking += x => AudioManager.Instance.PlayBerserkerAttack();
     }
 
     public override async Task Attack(Unit target)
@@ -21,6 +21,7 @@ public partial class PlayerBerserker : PlayerUnit
 
         var playerUnit = target as PlayerUnit;
         playerUnit.ApplyBuffFor(buffTurns);
+        SpecialVFX.Emitting = true;
 
         _ = SetAnimationTrigger("special");
         await GDTask.NextFrame();

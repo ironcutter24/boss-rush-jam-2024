@@ -8,7 +8,7 @@ public abstract partial class Unit : CharacterBody3D
 {
     public event Action<int> Damaged;
     public event Action StartingMovement;
-    public event Action Attacking;
+    public event Action<Unit> Attacking;
     public event Action Dying;
 
     private bool _hasMovement = true;
@@ -31,7 +31,7 @@ public abstract partial class Unit : CharacterBody3D
     public virtual int MoveDistance => _moveDistance;
 
 
-    protected HealthBar3D healthBar {  get; private set; }
+    protected HealthBar3D healthBar { get; private set; }
     public abstract FactionType Faction { get; }
     public int Health { get; private set; }
     public bool IsSelected { get; private set; } = false;
@@ -149,7 +149,7 @@ public abstract partial class Unit : CharacterBody3D
         await GDTask.DelaySeconds(moveTime);  // Wait for go duration
 
         _ = SetAnimationTrigger("attack");
-        Attacking?.Invoke();
+        Attacking?.Invoke(target);
         target.ApplyDamage(AttackDamage);
         await GDTask.DelaySeconds(attackTime + moveTime);  // Wait for attack + return duration
     }
@@ -170,7 +170,7 @@ public abstract partial class Unit : CharacterBody3D
 
         _ = SetAnimationTrigger("attack");
         await GDTask.DelaySeconds(attackTime * .5f);
-        Attacking?.Invoke();
+        Attacking?.Invoke(target);
         target.ApplyDamage(AttackDamage);
         await GDTask.DelaySeconds(attackTime * .5f);
         await GDTask.DelaySeconds(moveTime);  // Wait for return duration
