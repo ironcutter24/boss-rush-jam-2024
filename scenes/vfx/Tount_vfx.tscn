@@ -1,0 +1,57 @@
+[gd_scene load_steps=14 format=3 uid="uid://cky5ia5g6g64u"]
+
+[ext_resource type="Material" uid="uid://cy1tkv376mhw5" path="res://graphics/materials/VFX/Tount_Mat_3.tres" id="1_4tn0e"]
+[ext_resource type="Material" uid="uid://bjvmvjxtugsyx" path="res://graphics/materials/VFX/Tount_Mat_2.tres" id="1_q6156"]
+[ext_resource type="Material" uid="uid://bypk6sru3iuiy" path="res://graphics/materials/VFX/Tount_Mat_1.tres" id="2_jp3rw"]
+
+[sub_resource type="Curve" id="Curve_kvf84"]
+_data = [Vector2(0.00101317, 0.00195944), 0.0, 0.0, 0, 0, Vector2(0.148936, 1), 0.0, 0.0, 0, 0, Vector2(0.345491, 1), 0.0, 0.0, 0, 0, Vector2(0.628166, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_edlxr"]
+curve = SubResource("Curve_kvf84")
+
+[sub_resource type="Curve" id="Curve_oly65"]
+max_value = 5.0
+_data = [Vector2(0, 0.999644), 0.0, 0.0, 0, 0, Vector2(0.145897, 3.49483), 0.0, 0.0, 0, 0, Vector2(0.344478, 3.49483), 0.0, 0.0, 0, 0, Vector2(0.64539, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_p5tok"]
+curve = SubResource("Curve_oly65")
+
+[sub_resource type="Curve" id="Curve_8h6gh"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(0.253293, 1), 0.0, 0.0, 0, 0, Vector2(0.50152, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_s2lxo"]
+curve = SubResource("Curve_8h6gh")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_tpnse"]
+gravity = Vector3(0, 0, 0)
+scale_curve = SubResource("CurveTexture_s2lxo")
+alpha_curve = SubResource("CurveTexture_edlxr")
+emission_curve = SubResource("CurveTexture_p5tok")
+
+[sub_resource type="QuadMesh" id="QuadMesh_dyc3w"]
+material = ExtResource("1_4tn0e")
+size = Vector2(1.5, 1.5)
+orientation = 1
+
+[sub_resource type="QuadMesh" id="QuadMesh_uwded"]
+material = ExtResource("2_jp3rw")
+size = Vector2(2, 2)
+orientation = 1
+
+[sub_resource type="QuadMesh" id="QuadMesh_oftkf"]
+material = ExtResource("1_q6156")
+size = Vector2(2.3, 2.5)
+orientation = 1
+
+[node name="TountVfx" type="GPUParticles3D"]
+amount = 1
+lifetime = 1.5
+process_material = SubResource("ParticleProcessMaterial_tpnse")
+draw_passes = 3
+draw_pass_1 = SubResource("QuadMesh_dyc3w")
+draw_pass_2 = SubResource("QuadMesh_uwded")
+draw_pass_3 = SubResource("QuadMesh_oftkf")

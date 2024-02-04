@@ -1,7 +1,7 @@
 [gd_resource type="ParticleProcessMaterial" load_steps=11 format=3 uid="uid://dlxc0okfqoccd"]
 
 [sub_resource type="Curve" id="Curve_enyv2"]
-_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.0901722, 1), 0.0, 0.0, 0, 0, Vector2(0.904762, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.359676, 0.995369), 0.0, 0.0, 0, 0, Vector2(0.610942, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
 point_count = 4
 
 [sub_resource type="CurveTexture" id="CurveTexture_g5jpa"]
@@ -9,7 +9,7 @@ curve = SubResource("Curve_enyv2")
 
 [sub_resource type="Gradient" id="Gradient_4mf2n"]
 offsets = PackedFloat32Array(0, 0.532847, 1)
-colors = PackedColorArray(0.337255, 0, 0, 1, 0.964706, 0.141176, 0.0313726, 1, 1, 0, 0, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_tufq1"]
 gradient = SubResource("Gradient_4mf2n")
@@ -41,13 +41,14 @@ particle_flag_rotate_y = true
 emission_shape = 6
 emission_ring_axis = Vector3(0, 1, 0)
 emission_ring_height = 0.1
-emission_ring_radius = 0.5
-emission_ring_inner_radius = 0.4
+emission_ring_radius = 0.4
+emission_ring_inner_radius = 0.3
 directional_velocity_min = 1.5
 directional_velocity_max = 5.0
 directional_velocity_curve = SubResource("CurveXYZTexture_5v1pa")
 gravity = Vector3(0, 0, 0)
-scale_min = 0.5
+scale_min = 0.6
+scale_max = 1.5
 scale_curve = SubResource("CurveTexture_3vgvq")
 color_ramp = SubResource("GradientTexture1D_tufq1")
 alpha_curve = SubResource("CurveTexture_g5jpa")
