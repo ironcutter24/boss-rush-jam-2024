@@ -3,4 +3,8 @@
 [resource]
 transparency = 1
 albedo_color = Color(0.294118, 0.215686, 0.772549, 0.156863)
-roughness = 0.31
+metallic = 0.18
+metallic_specular = 0.2
+roughness = 0.12
+refraction_enabled = true
+refraction_scale = 0.0

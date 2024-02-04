@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://b63erhskao6c8"]
+[gd_scene load_steps=18 format=3 uid="uid://dcerl81a0hs1n"]
 
 [ext_resource type="Texture2D" uid="uid://oewo42e3p1oh" path="res://addons/kenney_particle_pack/light_03.png" id="1_54u5h"]
 [ext_resource type="Texture2D" uid="uid://bgfl46k5wxjsg" path="res://addons/kenney_particle_pack/circle_01.png" id="2_6igxs"]
