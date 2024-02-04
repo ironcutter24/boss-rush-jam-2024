@@ -1,6 +1,76 @@
-[gd_scene load_steps=2 format=3 uid="uid://beofjx54t6s8t"]
+[gd_scene load_steps=15 format=3 uid="uid://csdrekbdsy85l"]
+
+[ext_resource type="Texture2D" uid="uid://bs5a7dobg6m77" path="res://addons/kenney_particle_pack/spark_02.png" id="1_bbfjv"]
+
+[sub_resource type="Curve" id="Curve_7d1bx"]
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.154002, 1), 0.0, 0.0, 0, 0, Vector2(0.392097, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 4
+
+[sub_resource type="CurveTexture" id="CurveTexture_xqjrp"]
+curve = SubResource("Curve_7d1bx")
+
+[sub_resource type="Gradient" id="Gradient_tycht"]
+offsets = PackedFloat32Array(0, 0.523462, 1)
+colors = PackedColorArray(1, 0, 0, 1, 0.984314, 0.0509804, 0, 1, 1, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_6pt76"]
+gradient = SubResource("Gradient_tycht")
+
+[sub_resource type="Curve" id="Curve_u1huf"]
+_data = [Vector2(1e-05, 1), 0.0, 0.0, 0, 0, Vector2(1, 0.488244), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveXYZTexture" id="CurveXYZTexture_wgxrb"]
+curve_y = SubResource("Curve_u1huf")
+
+[sub_resource type="Curve" id="Curve_epw7t"]
+max_value = 5.0
+_data = [Vector2(0, 0), 0.0, 0.0, 0, 0, Vector2(0.499493, 2.49911), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 3
+
+[sub_resource type="CurveTexture" id="CurveTexture_jthcb"]
+curve = SubResource("Curve_epw7t")
+
+[sub_resource type="Curve" id="Curve_e7meo"]
+_data = [Vector2(0, 0.499822), 0.0, 0.0, 0, 0, Vector2(1, 1), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_08c51"]
+curve = SubResource("Curve_e7meo")
 
 [sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_ykm4m"]
+particle_flag_rotate_y = true
+emission_shape = 1
+emission_sphere_radius = 0.3
+angle_min = -180.0
+angle_max = 180.0
+directional_velocity_min = 1.0
+directional_velocity_max = 8.0
+directional_velocity_curve = SubResource("CurveXYZTexture_wgxrb")
+radial_velocity_min = -2.0
+radial_velocity_max = 2.0
+gravity = Vector3(0, 0, 0)
+scale_min = 0.5
+scale_curve = SubResource("CurveTexture_08c51")
+color_ramp = SubResource("GradientTexture1D_6pt76")
+alpha_curve = SubResource("CurveTexture_xqjrp")
+emission_curve = SubResource("CurveTexture_jthcb")
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_nu5xg"]
+transparency = 1
+shading_mode = 0
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("1_bbfjv")
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 1
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_qgiu7"]
+material = SubResource("StandardMaterial3D_nu5xg")
 
 [node name="BarserkerBuffVfx" type="GPUParticles3D"]
+lifetime = 0.1
 process_material = SubResource("ParticleProcessMaterial_ykm4m")
+draw_pass_1 = SubResource("QuadMesh_qgiu7")

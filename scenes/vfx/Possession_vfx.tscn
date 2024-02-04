@@ -1,13 +1,14 @@
-[gd_scene load_steps=4 format=3 uid="uid://2na512rokwqi"]
+[gd_scene load_steps=5 format=3 uid="uid://2na512rokwqi"]
 
 [ext_resource type="Material" uid="uid://dlxc0okfqoccd" path="res://graphics/materials/VFX/Possession_vfx_mat.tres" id="1_rlgy4"]
 [ext_resource type="Material" uid="uid://dm7ynu64mki17" path="res://graphics/materials/VFX/Shock_possession.tres" id="2_0ejjc"]
+[ext_resource type="PackedScene" uid="uid://do5drvwg0hw27" path="res://scenes/vfx/PUZZO.tscn" id="3_xjeru"]
 
 [sub_resource type="QuadMesh" id="QuadMesh_14nmx"]
 material = ExtResource("2_0ejjc")
 
 [node name="PossessionVfx" type="GPUParticles3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.00444579, -0.380514, 0.149704)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
 amount = 5
 lifetime = 0.3
 explosiveness = 0.5
@@ -15,3 +16,6 @@ randomness = 0.45
 transform_align = 2
 process_material = ExtResource("1_rlgy4")
 draw_pass_1 = SubResource("QuadMesh_14nmx")
+
+[node name="Node3D" parent="." instance=ExtResource("3_xjeru")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
