@@ -583,19 +583,6 @@ grow_horizontal = 2
 grow_vertical = 0
 size_flags_horizontal = 4
 
-[node name="HealthBar" parent="CanvasLayer/Control" instance=ExtResource("13_34d3n")]
-custom_minimum_size = Vector2(600, 8)
-layout_mode = 1
-anchors_preset = 15
-anchor_left = 0.0
-anchor_top = 0.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 0.0
-offset_top = 0.0
-offset_right = 0.0
-offset_bottom = 0.0
-
 [node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/Control"]
 layout_mode = 1
 anchors_preset = 7
@@ -610,7 +597,21 @@ offset_bottom = -23.0
 grow_horizontal = 2
 grow_vertical = 0
 bbcode_enabled = true
-text = "[center]Hint text box[/center]"
+text = "[center]---
+Hint text box[/center]"
+
+[node name="BossHealthBar" parent="CanvasLayer/Control" instance=ExtResource("13_34d3n")]
+custom_minimum_size = Vector2(600, 8)
+layout_mode = 1
+anchors_preset = 15
+anchor_left = 0.0
+anchor_top = 0.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 0.0
+offset_top = 0.0
+offset_right = 0.0
+offset_bottom = 0.0
 
 [node name="UnitHUD" parent="CanvasLayer" instance=ExtResource("14_51rk4")]
 

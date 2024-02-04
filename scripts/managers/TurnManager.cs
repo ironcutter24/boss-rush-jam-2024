@@ -7,8 +7,6 @@ public partial class TurnManager : Node3D
 {
     const float showcaseAwaitDuration = .8f;
 
-    public delegate TurnState TurnState();
-
     private Unit currentUnit, currentTarget, nextPossessedUnit;
     private Task currentTask;
     private Vector2I? cursorGridPos;
@@ -19,6 +17,7 @@ public partial class TurnManager : Node3D
 
     [Export] private UnitHUD unitHUD;
     [Export] private RichTextLabel hintLabel;
+    [Export] private int minionCount = 4;
 
     enum MeshColor { Red, Yellow, Green }
     enum State
@@ -37,6 +36,7 @@ public partial class TurnManager : Node3D
     }
     StateMachine<State> sm = new StateMachine<State>(State.PlayerSelectUnit);
 
+    public delegate TurnState TurnState();
 
     public override void _EnterTree()
     {

@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://bkh4eat12qt1o"]
+[gd_scene load_steps=11 format=3 uid="uid://bkh4eat12qt1o"]
 
 [ext_resource type="Script" path="res://scripts/units/EnemyUnit.cs" id="1_imn2a"]
 [ext_resource type="PackedScene" uid="uid://d2hq64bnuces" path="res://scenes/vfx/selection_vfx.tscn" id="2_2nad0"]
@@ -23,9 +23,21 @@ tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0, 0.0631879, 1, -0.1, 0, 0.1, 0.159785, 1, 0.1, 0, -0.1, 0.29266, 1, -0.1, 0, 0.1, 0.509002, 1, 0.1, 0, -0.1, 0.7, 1, 0, 0, 0)
 
+[sub_resource type="Animation" id="Animation_nm8am"]
+resource_name = "spawn_fall"
+length = 0.7
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Graphics")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0.1, 1, 0, 10, 0, 0.6, 1, 0, 0, 0)
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_tamyp"]
 _data = {
-"hurt_spring": SubResource("Animation_7euv8")
+"hurt_spring": SubResource("Animation_7euv8"),
+"spawn_fall": SubResource("Animation_nm8am")
 }
 
 [node name="BaseUnit" type="CharacterBody3D" node_paths=PackedStringArray("showWhilePossessed", "hideWhilePossessed", "SelectionVFX", "ReactionVFX")]
@@ -44,6 +56,7 @@ shape = SubResource("CapsuleShape3D_s1wp0")
 transform = Transform3D(0.16, 0, 0, 0, 0.02, 0, 0, 0, 1, 0, 1.2, 0)
 
 [node name="Graphics" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 20, 0)
 
 [node name="VFX" type="Node3D" parent="Graphics"]
 

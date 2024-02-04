@@ -10,7 +10,10 @@ public partial class HealthBar : ProgressBar
     private Timer deltaTimer;
     private double deltaTargetValue;
 
+    [Export] public int MaxHealth { get; private set; } = 10;
     [Export] bool isTestEnabled = false;
+
+    public event Action ZeroReached;
 
     public override void _EnterTree()
     {
@@ -26,13 +29,10 @@ public partial class HealthBar : ProgressBar
             unit.BossDamaged += ApplyDamage;
         }
 
-        Value = deltaBar.Value = deltaTargetValue = 100;
+        Value = MaxValue = deltaBar.Value = deltaBar.MaxValue = deltaTargetValue = MaxHealth;
         deltaTimer.Timeout += () => deltaTargetValue = Value;
 
-        if (isTestEnabled)
-        {
-            _ = TestAsync();
-        }
+        if (isTestEnabled) _ = TestAsync();
     }
 
     public override void _Process(double delta)

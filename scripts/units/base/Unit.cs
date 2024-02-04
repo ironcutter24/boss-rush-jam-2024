@@ -6,15 +6,10 @@ using System.Threading.Tasks;
 
 public abstract partial class Unit : CharacterBody3D
 {
-    public event Action<int> Damaged;
-    public event Action StartingMovement;
-    public event Action<Unit> Attacking;
-    public event Action Dying;
-
     private bool _hasMovement = true;
-    private AnimationPlayer animFX;
     private Node3D graphics;
     protected AnimationTree animTree;
+    protected AnimationPlayer animFX;
 
     [Export] private GpuParticles3D SelectionVFX { get; set; }
     [Export] protected GpuParticles3D ReactionVFX { get; set; }
@@ -30,7 +25,6 @@ public abstract partial class Unit : CharacterBody3D
     public virtual int AttackDistance => _attackDistance;
     public virtual int MoveDistance => _moveDistance;
 
-
     protected HealthBar3D healthBar { get; private set; }
     public abstract FactionType Faction { get; }
     public int Health { get; private set; }
@@ -40,6 +34,13 @@ public abstract partial class Unit : CharacterBody3D
 
     public int GridId => LevelData.GetId(GridPosition.X, GridPosition.Y);
     public Vector2I GridPosition => new Vector2I((int)Position.X, (int)Position.Z);
+
+
+    public event Action<int> Damaged;
+    public event Action StartingMovement;
+    public event Action<Unit> Attacking;
+    public event Action Dying;
+
 
     public override void _EnterTree()
     {

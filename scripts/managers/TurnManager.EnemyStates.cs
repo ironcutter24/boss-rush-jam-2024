@@ -147,9 +147,9 @@ public partial class TurnManager : Node3D
 
                         //levelData.RefreshGrid();
 
-                        if (swapTarget.IsReactionPlanned && currentUnit is EnemyUnit)
+                        if (swapTarget.IsReactionPlanned && currentUnit is EnemyUnit unit)
                         {
-                            currentTask = swapTarget.Reaction(swapOwner, currentUnit as EnemyUnit);
+                            currentTask = swapTarget.Reaction(swapOwner, unit);
                         }
                         else
                         {

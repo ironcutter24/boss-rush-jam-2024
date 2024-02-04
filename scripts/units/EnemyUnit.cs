@@ -4,10 +4,6 @@ using System.Threading.Tasks;
 
 public partial class EnemyUnit : Unit
 {
-    public event Action Possessed;
-    public event Action Unpossessed;
-    public event Action<int> BossDamaged;
-
     private float startHealthBarOffset;
 
     [Export] private bool useSimpleAttack = false;
@@ -28,10 +24,17 @@ public partial class EnemyUnit : Unit
 
     public override FactionType Faction => FactionType.Enemy;
 
+
+    public event Action Possessed;
+    public event Action Unpossessed;
+    public event Action<int> BossDamaged;
+
+
     public override void _Ready()
     {
         base._Ready();
         RefreshVisibility();
+        animFX.Play("spawn_fall");
 
         startHealthBarOffset = healthBar.Position.Y;
 
