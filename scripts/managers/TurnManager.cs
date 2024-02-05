@@ -22,6 +22,10 @@ public partial class TurnManager : Node3D
     [Export] private PackedScene minionPackedScene;
     [Export] private int minionCount = 4;
 
+    [ExportGroup("Scene transition")]
+    [Export] private HealthBar bossHealthBar;
+    [Export] private PackedScene nextPackedScene;
+
     enum MeshColor { Red, Yellow, Green }
     enum State
     {
@@ -58,6 +62,8 @@ public partial class TurnManager : Node3D
 
         PickNextPossessedUnit();
 
+        bossHealthBar.Depleted += ChangeScene;
+
         sm.StateChanged += s => GD.Print($"FSM >> Changed to: \"{s}\"");
         sm.StateChanged += s => SetHintLabel("");
     }
@@ -65,6 +71,12 @@ public partial class TurnManager : Node3D
     public override void _Process(double delta)
     {
         sm.Process();
+    }
+
+    private void ChangeScene()
+    {
+        AudioManager.Instance.PlayBossDeath();
+        GetTree().ChangeSceneToPacked(nextPackedScene);
     }
 
     private void SetTurnLabel(string text)

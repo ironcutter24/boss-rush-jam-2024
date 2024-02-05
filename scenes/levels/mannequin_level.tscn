@@ -1,10 +1,11 @@
-[gd_scene load_steps=11 format=3 uid="uid://1mud37twojf6"]
+[gd_scene load_steps=12 format=3 uid="uid://1mud37twojf6"]
 
 [ext_resource type="PackedScene" uid="uid://bja7jmhmj" path="res://scenes/levels/base_level.tscn" id="1_i8ks8"]
 [ext_resource type="PackedScene" uid="uid://xw4iy8e8lhdo" path="res://scenes/units/enemy_mannequin.tscn" id="2_6itnf"]
 [ext_resource type="EventAsset" uid="uid://hx0mm15nkdox" path="res://addons/FMOD/editor/resources/events/{3babcfaa-2430-4d86-b7f5-dc80e0c721e1}.tres" id="2_io4kd"]
 [ext_resource type="Material" uid="uid://bj0q1b17ld43p" path="res://graphics/models/Room/Materials/muro_metallo_mat.tres" id="2_o27u5"]
 [ext_resource type="PackedScene" uid="uid://c18pv6cy8kw84" path="res://scenes/props/wall_tubes_corner.tscn" id="3_pi5hf"]
+[ext_resource type="PackedScene" uid="uid://d0hr6mtirq8dd" path="res://scenes/levels/mold_level.tscn" id="4_dd744"]
 [ext_resource type="PackedScene" uid="uid://bl8u672vcdkfs" path="res://scenes/props/wall_tubes_vertical.tscn" id="4_qlkns"]
 [ext_resource type="PackedScene" uid="uid://b10m83vtessse" path="res://scenes/props/spot_lamp.tscn" id="6_w1kel"]
 
@@ -59,6 +60,7 @@ transform = Transform3D(-0.832385, -0.545696, 0.0967061, 0.136254, -0.0323677, 0
 
 [node name="TurnManager" parent="." index="6"]
 minionCount = 0
+nextPackedScene = ExtResource("4_dd744")
 
 [node name="Muro_dx" type="MeshInstance3D" parent="Level/Grid/Root Scene/RootNode/ROOM" index="2"]
 transform = Transform3D(-4.36677e-08, 0.999, 0, -0.999, -4.36677e-08, 0, 0, 0, 0.999, -0.095, 0, 0)

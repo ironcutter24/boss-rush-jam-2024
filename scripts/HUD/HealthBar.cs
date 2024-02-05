@@ -13,7 +13,7 @@ public partial class HealthBar : ProgressBar
     [Export] public int MaxHealth { get; private set; } = 10;
     [Export] bool isTestEnabled = false;
 
-    public event Action ZeroReached;
+    public event Action Depleted;
 
     public override void _EnterTree()
     {
@@ -45,12 +45,11 @@ public partial class HealthBar : ProgressBar
         while (true)
         {
             await Task.Delay(1000);
-            ApplyDamage(10);
+            ApplyDamage(2);
 
             await Task.Delay(1000);
             await Task.Delay(1000);
-            ApplyDamage(10);
-            ApplyDamage(10);
+            ApplyDamage(1);
         }
     }
 
@@ -63,6 +62,11 @@ public partial class HealthBar : ProgressBar
             Value = newValue;
             deltaTargetValue = deltaBar.Value;
             deltaTimer.Start();
+
+            if (Value <= 0)
+            {
+                Depleted?.Invoke();
+            }
         }
     }
 }

@@ -472,12 +472,13 @@ projection = 1
 current = true
 size = 10.0
 
-[node name="TurnManager" type="Node3D" parent="." node_paths=PackedStringArray("unitHUD", "turnLabel", "hintLabel")]
+[node name="TurnManager" type="Node3D" parent="." node_paths=PackedStringArray("unitHUD", "turnLabel", "hintLabel", "bossHealthBar")]
 script = ExtResource("1_22vsh")
 unitHUD = NodePath("../CanvasLayer/UnitHUD")
 turnLabel = NodePath("../CanvasLayer/Control/TurnLabel")
 hintLabel = NodePath("../CanvasLayer/Control/HintLabel")
 minionPackedScene = ExtResource("8_mg4li")
+bossHealthBar = NodePath("../CanvasLayer/Control/BossHealthBar")
 
 [node name="InputManager" type="Node3D" parent="."]
 script = ExtResource("1_6df1n")
