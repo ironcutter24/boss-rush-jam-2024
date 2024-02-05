@@ -1,10 +1,9 @@
-[gd_scene load_steps=10 format=3 uid="uid://d0hr6mtirq8dd"]
+[gd_scene load_steps=9 format=3 uid="uid://d0hr6mtirq8dd"]
 
 [ext_resource type="PackedScene" uid="uid://bja7jmhmj" path="res://scenes/levels/base_level.tscn" id="1_j7nrx"]
 [ext_resource type="PackedScene" uid="uid://c18pv6cy8kw84" path="res://scenes/props/wall_tubes_corner.tscn" id="2_3accf"]
 [ext_resource type="EventAsset" uid="uid://dbalthcbefnr3" path="res://addons/FMOD/editor/resources/events/{67bd44df-7d43-4dc0-b52f-4769d8c77d0a}.tres" id="2_l06ta"]
 [ext_resource type="PackedScene" uid="uid://bl8u672vcdkfs" path="res://scenes/props/wall_tubes_vertical.tscn" id="3_lq5vj"]
-[ext_resource type="PackedScene" uid="uid://1mud37twojf6" path="res://scenes/levels/mannequin_level.tscn" id="3_qa4ip"]
 [ext_resource type="PackedScene" uid="uid://b53idlah53xpg" path="res://scenes/props/crazy_man.tscn" id="4_wrq0e"]
 [ext_resource type="PackedScene" uid="uid://d3ita488awasa" path="res://scenes/units/enemy_slime.tscn" id="5_r3ytx"]
 [ext_resource type="PackedScene" uid="uid://cu51odiuerqmh" path="res://scenes/obstacles/obstacle_tank.tscn" id="7_eg4a6"]
@@ -43,7 +42,7 @@ spot_angle = 30.0
 
 [node name="TurnManager" parent="." index="4"]
 minionCount = 3
-nextPackedScene = ExtResource("3_qa4ip")
+nextScenePath = "res://scenes/levels/mannequin_level.tscn"
 
 [node name="WallTubesCorner" parent="Props/Tubes" index="1" instance=ExtResource("2_3accf")]
 

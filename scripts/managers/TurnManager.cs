@@ -24,7 +24,7 @@ public partial class TurnManager : Node3D
 
     [ExportGroup("Scene transition")]
     [Export] private HealthBar bossHealthBar;
-    [Export] private PackedScene nextPackedScene;
+    [Export] private string nextScenePath;
 
     enum MeshColor { Red, Yellow, Green }
     enum State
@@ -76,7 +76,7 @@ public partial class TurnManager : Node3D
     private void ChangeScene()
     {
         AudioManager.Instance.PlayBossDeath();
-        GetTree().ChangeSceneToPacked(nextPackedScene);
+        GetTree().ChangeSceneToFile(nextScenePath);
     }
 
     private void SetTurnLabel(string text)
