@@ -3367,6 +3367,7 @@ _bossHealthBarOffset = 1.32
 MaxHealth = 100000
 _attackDamage = 0
 _moveDistance = 0
+_isAttackable = false
 
 [node name="PossessionVfx" parent="Graphics/VFX" index="2" instance=ExtResource("2_00bg6")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.249333, 0)

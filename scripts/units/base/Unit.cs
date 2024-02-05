@@ -20,10 +20,12 @@ public abstract partial class Unit : CharacterBody3D
     [Export] private int _attackDamage = 1;
     [Export] private int _attackDistance = 1;
     [Export] private int _moveDistance = 3;
+    [Export] private bool _isAttackable = true;
 
     public virtual int AttackDamage => _attackDamage;
     public virtual int AttackDistance => _attackDistance;
     public virtual int MoveDistance => _moveDistance;
+    public virtual bool IsAttackable => _isAttackable;
 
     protected HealthBar3D healthBar { get; private set; }
     public abstract FactionType Faction { get; }

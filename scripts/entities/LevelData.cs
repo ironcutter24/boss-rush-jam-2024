@@ -262,7 +262,14 @@ public partial class LevelData : Node3D
             if (target != null)
             {
                 if (target.Faction == unit.Faction)
+                {
                     break;
+                }
+
+                if (target is EnemyUnit enemyUnit && !enemyUnit.IsAttackable)
+                {
+                    break;
+                }
 
                 visibles.Add((targetId, i));
                 break;

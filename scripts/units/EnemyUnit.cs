@@ -15,12 +15,14 @@ public partial class EnemyUnit : Unit
     [Export] private int _bossAttackDamage = 2;
     [Export] private int _bossAttackDistance = 1;
     [Export] private int _bossMoveDistance = 0;
-    [Export] float _bossHealthBarOffset = 0f;
+    [Export] private bool _bossIsAttackable = true;
+    [Export] private float _bossHealthBarOffset = 0f;
 
     public bool IsPossessed { get; private set; } = false;
     public override int AttackDamage => IsPossessed ? _bossAttackDamage : base.AttackDamage;
     public override int AttackDistance => IsPossessed ? _bossAttackDistance : base.AttackDistance;
     public override int MoveDistance => IsPossessed ? _bossMoveDistance : base.MoveDistance;
+    public override bool IsAttackable => IsPossessed ? _bossIsAttackable : base.IsAttackable;
 
     public override FactionType Faction => FactionType.Enemy;
 

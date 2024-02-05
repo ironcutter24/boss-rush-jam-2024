@@ -4,4 +4,4 @@
 albedo_color = Color(0.564706, 0.431373, 0.27451, 1)
 metallic = 0.74
 metallic_specular = 0.47
-roughness = 0.2
+roughness = 0.44

@@ -1,6 +1,7 @@
 [gd_scene load_steps=14 format=3 uid="uid://b53idlah53xpg"]
 
 [ext_resource type="Texture2D" uid="uid://uxeleburxc5n" path="res://graphics/models/characters/CrazyMan_Animazioni_Mold_Man_Crazy_Man_BaseColor.png" id="1_waix8"]
+[ext_resource type="Material" uid="uid://br6qmnhoeda7s" path="res://scenes/props/Tubes_mat.tres" id="2_6mc6x"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6h1qf"]
 resource_name = "lambert4"
@@ -1508,13 +1509,8 @@ albedo_color = Color(0.682353, 0.682353, 0.682353, 1)
 metallic = 0.88
 roughness = 0.29
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_ilyyd"]
-albedo_color = Color(0.564706, 0.431373, 0.27451, 1)
-metallic = 0.9
-roughness = 0.48
-
 [sub_resource type="CylinderMesh" id="CylinderMesh_hebxq"]
-material = SubResource("StandardMaterial3D_ilyyd")
+material = ExtResource("2_6mc6x")
 
 [node name="CrazyMan" type="Node3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 4)
