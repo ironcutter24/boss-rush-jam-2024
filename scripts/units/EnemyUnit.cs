@@ -87,10 +87,16 @@ public partial class EnemyUnit : Unit
     private void RefreshVisibility()
     {
         foreach (var item in showWhilePossessed)
-            item.Visible = IsPossessed;
+        {
+            if (item != null)
+                item.Visible = IsPossessed;
+        }
 
         foreach (var item in hideWhilePossessed)
-            item.Visible = !IsPossessed;
+        {
+            if (item != null)
+                item.Visible = !IsPossessed;
+        }
     }
 
     private void SetHealthBarOffset(float offset)

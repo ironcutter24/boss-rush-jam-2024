@@ -4,7 +4,7 @@
 
 [sub_resource type="CylinderMesh" id="CylinderMesh_xpqmo"]
 
-[node name="Obstacle_Tubes" type="Node3D"]
+[node name="ObstacleTubes" type="Node3D"]
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 mesh = SubResource("CylinderMesh_xpqmo")

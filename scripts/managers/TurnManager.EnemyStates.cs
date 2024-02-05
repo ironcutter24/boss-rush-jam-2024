@@ -39,6 +39,7 @@ public partial class TurnManager : Node3D
             .AddTransition(State.AISpawnMinions, () => currentTask.IsCompleted);
 
         sm.Configure(State.AISpawnMinions)
+            .SubstateOf(State.EnemyTurn)
             .OnEntry(() =>
             {
                 currentTask = RefillMinionsAsync();
