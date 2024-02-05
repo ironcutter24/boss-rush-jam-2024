@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=3 uid="uid://bo70rsuqrf8w"]
+[gd_scene load_steps=15 format=3 uid="uid://bo70rsuqrf8w"]
 
 [ext_resource type="Script" path="res://scripts/managers/AudioManager.cs" id="1_ir6p1"]
 [ext_resource type="Script" path="res://scripts/gdscript/GDAudio.gd" id="2_2unwq"]
@@ -13,12 +13,30 @@
 [ext_resource type="EventAsset" uid="uid://badteweanykym" path="res://addons/FMOD/editor/resources/events/{2d38874a-4dfc-49e5-ab5d-1ce9776a0975}.tres" id="10_l481f"]
 [ext_resource type="EventAsset" uid="uid://pbhdaw0t6hoj" path="res://addons/FMOD/editor/resources/events/{061c293f-2ec3-48ad-9c40-b410c1c7604b}.tres" id="11_ws2ll"]
 
+[sub_resource type="EventAsset" id="EventAsset_liq0n"]
+is_oneshot = true
+min_distance = 1.0
+max_distance = 20.0
+path = "event:/SFX/HUD/Select"
+guid = "{47e37560-d152-4256-b113-9f025c7bca4f}"
+name = "Select"
+
+[sub_resource type="EventAsset" id="EventAsset_7wba1"]
+is_oneshot = true
+min_distance = 1.0
+max_distance = 20.0
+path = "event:/SFX/HUD/Cancel"
+guid = "{8e0fd444-53cd-466a-93c5-4ba118ebc9cb}"
+name = "Cancel"
+
 [node name="AudioManager" type="Node3D" node_paths=PackedStringArray("GDAudio")]
 script = ExtResource("1_ir6p1")
 GDAudio = NodePath("GDAudio")
 
 [node name="GDAudio" type="Node3D" parent="."]
 script = ExtResource("2_2unwq")
+hud_select = SubResource("EventAsset_liq0n")
+hud_cancel = SubResource("EventAsset_7wba1")
 berserker_attack = ExtResource("3_rk6k8")
 healer_attack = ExtResource("4_ob715")
 tank_attack = ExtResource("5_urcwh")

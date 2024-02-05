@@ -2,7 +2,7 @@
 
 [resource]
 file_path = "res://banks/Desktop/Master.strings.bank"
-modified_time = 1707078356
+modified_time = 1707137965
 path = "bank:/Master.strings"
 guid = "{b19904f4-6ad4-02ca-35c3-3988722bf101}"
 name = "Master.strings"

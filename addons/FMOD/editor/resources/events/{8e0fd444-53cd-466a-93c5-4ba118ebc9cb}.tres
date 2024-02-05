@@ -1,0 +1,9 @@
+[gd_resource type="EventAsset" format=3 uid="uid://bmnnjxanbqssy"]
+
+[resource]
+is_oneshot = true
+min_distance = 1.0
+max_distance = 20.0
+path = "event:/SFX/HUD/Cancel"
+guid = "{8e0fd444-53cd-466a-93c5-4ba118ebc9cb}"
+name = "Cancel"

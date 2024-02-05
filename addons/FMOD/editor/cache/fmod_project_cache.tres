@@ -1,4 +1,4 @@
-[gd_resource type="ProjectCache" load_steps=19 format=3 uid="uid://b4q8ek5mec48e"]
+[gd_resource type="ProjectCache" load_steps=21 format=3 uid="uid://b4q8ek5mec48e"]
 
 [ext_resource type="BankAsset" uid="uid://bbsdutm1y0sjm" path="res://addons/FMOD/editor/resources/banks/{29842420-1baf-4e88-b38a-b37683d8f799}.tres" id="1_f5446"]
 [ext_resource type="BankAsset" uid="uid://bxav8foowugw7" path="res://addons/FMOD/editor/resources/banks/{b19904f4-6ad4-02ca-35c3-3988722bf101}.tres" id="1_tbxpj"]
@@ -19,6 +19,22 @@
 [ext_resource type="EventAsset" uid="uid://dgnepgwyqmcvx" path="res://addons/FMOD/editor/resources/events/{fa956172-a8f8-4665-bf3b-909df9685c7e}.tres" id="17_ioin2"]
 [ext_resource type="EventAsset" uid="uid://br7ylj6gka3jc" path="res://addons/FMOD/editor/resources/events/{8039d327-10af-4654-bffd-60e15b72ec8e}.tres" id="18_biqnl"]
 
+[sub_resource type="EventAsset" id="EventAsset_7wba1"]
+is_oneshot = true
+min_distance = 1.0
+max_distance = 20.0
+path = "event:/SFX/HUD/Cancel"
+guid = "{8e0fd444-53cd-466a-93c5-4ba118ebc9cb}"
+name = "Cancel"
+
+[sub_resource type="EventAsset" id="EventAsset_liq0n"]
+is_oneshot = true
+min_distance = 1.0
+max_distance = 20.0
+path = "event:/SFX/HUD/Select"
+guid = "{47e37560-d152-4256-b113-9f025c7bca4f}"
+name = "Select"
+
 [resource]
 banks = {
 "{29842420-1baf-4e88-b38a-b37683d8f799}": ExtResource("1_f5446"),
@@ -29,9 +45,11 @@ events = {
 "{2d38874a-4dfc-49e5-ab5d-1ce9776a0975}": ExtResource("11_y5tl2"),
 "{366cbf23-31b4-456c-999f-5824229c5aea}": ExtResource("13_jgoym"),
 "{3babcfaa-2430-4d86-b7f5-dc80e0c721e1}": ExtResource("9_dbcfe"),
+"{47e37560-d152-4256-b113-9f025c7bca4f}": SubResource("EventAsset_liq0n"),
 "{67bd44df-7d43-4dc0-b52f-4769d8c77d0a}": ExtResource("5_y4xv3"),
 "{74f52032-adb8-4849-9b39-014b95308731}": ExtResource("5_rp1pv"),
 "{8039d327-10af-4654-bffd-60e15b72ec8e}": ExtResource("18_biqnl"),
+"{8e0fd444-53cd-466a-93c5-4ba118ebc9cb}": SubResource("EventAsset_7wba1"),
 "{b6332176-cd65-47ac-a21f-5f6564d643ae}": ExtResource("7_jt57u"),
 "{c1a961e2-6d72-4692-ae8b-12f3b13fc4c0}": ExtResource("15_85mo4"),
 "{c255c36f-4773-46e7-9185-ea11742b52b6}": ExtResource("16_rew3t"),
@@ -128,6 +146,24 @@ event_tree = [{
 }],
 "item_type": 7,
 "node_name": "Enemies",
+"path": "",
+"resource": null
+}, {
+"children": [{
+"children": [],
+"item_type": 1,
+"node_name": "Cancel",
+"path": "event:/SFX/HUD/Cancel",
+"resource": SubResource("EventAsset_7wba1")
+}, {
+"children": [],
+"item_type": 1,
+"node_name": "Select",
+"path": "event:/SFX/HUD/Select",
+"resource": SubResource("EventAsset_liq0n")
+}],
+"item_type": 7,
+"node_name": "HUD",
 "path": "",
 "resource": null
 }, {

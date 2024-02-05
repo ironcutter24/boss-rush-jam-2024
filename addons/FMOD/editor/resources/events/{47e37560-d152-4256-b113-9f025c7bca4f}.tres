@@ -1,0 +1,9 @@
+[gd_resource type="EventAsset" format=3 uid="uid://bcrhra5o6unu0"]
+
+[resource]
+is_oneshot = true
+min_distance = 1.0
+max_distance = 20.0
+path = "event:/SFX/HUD/Select"
+guid = "{47e37560-d152-4256-b113-9f025c7bca4f}"
+name = "Select"
