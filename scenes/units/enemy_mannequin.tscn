@@ -3365,6 +3365,7 @@ playSpawnAnimation = false
 PossessionVFX = NodePath("Graphics/VFX/PossessionVfx")
 _bossMoveDistance = 5
 _bossHealthBarOffset = 1.4
+attackAnimDuration = 2.2
 MaxHealth = 4
 _attackDamage = 0
 _attackDistance = 0

@@ -14,7 +14,7 @@ public partial class PlayerHealer : PlayerUnit
 
     public override async Task Attack(Unit target)
     {
-        await AnimatedAttack(target);
+        await AnimatedAttack(target, attackAnimDuration);
     }
 
     public override async Task Special(Unit target)

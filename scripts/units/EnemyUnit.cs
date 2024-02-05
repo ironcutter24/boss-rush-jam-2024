@@ -52,7 +52,7 @@ public partial class EnemyUnit : Unit
         if (!IsPossessed && useSimpleAttack)
             await SimpleAttack(target);
         else
-            await AnimatedAttack(target);
+            await AnimatedAttack(target, attackAnimDuration);
     }
 
     public async Task SetPossessed(bool state)

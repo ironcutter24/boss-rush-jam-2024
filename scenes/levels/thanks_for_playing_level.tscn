@@ -1,0 +1,92 @@
+[gd_scene load_steps=3 format=3 uid="uid://dxr1qgdh2q5yd"]
+
+[ext_resource type="Texture2D" uid="uid://dfv02l88oucar" path="res://graphics/sprites/white_square.png" id="1_ru357"]
+[ext_resource type="FontFile" uid="uid://dcn86qrg455or" path="res://graphics/fonts/storm_gust/Storm Gust.otf" id="2_nvjny"]
+
+[node name="ThanksForPlayingLevel" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="."]
+modulate = Color(0.054902, 0.054902, 0.054902, 1)
+z_index = -10
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_ru357")
+
+[node name="MessageContainer" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="MessageContainer"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -98.0
+offset_top = -80.0
+offset_right = 98.0
+offset_bottom = -49.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 22
+text = "Thanks for playing"
+horizontal_alignment = 1
+
+[node name="Title" type="Label" parent="MessageContainer"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -102.0
+offset_top = -27.5
+offset_right = 102.0
+offset_bottom = 27.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.784314, 0.215686, 0, 1)
+theme_override_fonts/font = ExtResource("2_nvjny")
+theme_override_font_sizes/font_size = 84
+text = "Lab Escape"
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="MessageContainer"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -119.5
+offset_top = 34.0
+offset_right = 119.5
+offset_bottom = 65.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_font_sizes/font_size = 16
+text = "Press \"Esc\" key to quit"
+horizontal_alignment = 1

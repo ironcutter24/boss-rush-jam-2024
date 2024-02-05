@@ -51,6 +51,12 @@ public partial class TurnManager : Node3D
             .SubstateOf(State.EnemyTurn)
             .OnEntry(() =>
             {
+                // Reset scene if all player units are dead
+                if (Unit.GetUnits(FactionType.Player).Count <= 0)
+                {
+                    GetTree().ReloadCurrentScene();
+                }
+
                 enemyUnits = GetEnemyUnits();
                 if (enemyIndex < enemyUnits.Length)
                 {
@@ -211,6 +217,8 @@ public partial class TurnManager : Node3D
 
     private async Task BossTransitionAsync()
     {
+        if (nextPossessedUnit == null) return;
+
         EnemyUnit nextPossessed = nextPossessedUnit as EnemyUnit;
         var possessedUnit = enemyUnits.FirstOrDefault(unit => unit.IsPossessed);
         if (possessedUnit != nextPossessed)

@@ -13,6 +13,7 @@ public abstract partial class Unit : CharacterBody3D
 
     [Export] private GpuParticles3D SelectionVFX { get; set; }
     [Export] protected GpuParticles3D ReactionVFX { get; set; }
+    [Export] protected float attackAnimDuration = 1f;
 
     [Export] public int MaxHealth { get; private set; } = 3;
 
@@ -157,25 +158,24 @@ public abstract partial class Unit : CharacterBody3D
         await GDTask.DelaySeconds(attackTime + moveTime);  // Wait for attack + return duration
     }
 
-    protected async Task AnimatedAttack(Unit target)
+    protected async Task AnimatedAttack(Unit target, float duration)
     {
         const float moveTime = .1f;
-        const float attackTime = 1f;
 
         FaceTowards(target);
 
         Tween tween = CreateTween();
         var targetPos = (target.GlobalPosition - graphics.GlobalPosition).Normalized() * .5f;
         tween.TweenProperty(graphics, "position", targetPos, moveTime);
-        tween.TweenProperty(graphics, "position", Vector3.Zero, moveTime).SetDelay(attackTime + moveTime);
+        tween.TweenProperty(graphics, "position", Vector3.Zero, moveTime).SetDelay(duration + moveTime);
 
         await GDTask.DelaySeconds(moveTime);  // Wait for go duration
 
         _ = SetAnimationTrigger("attack");
-        await GDTask.DelaySeconds(attackTime * .5f);
+        await GDTask.DelaySeconds(duration * .5f);
         Attacking?.Invoke(target);
         target.ApplyDamage(AttackDamage);
-        await GDTask.DelaySeconds(attackTime * .5f);
+        await GDTask.DelaySeconds(duration * .5f);
         await GDTask.DelaySeconds(moveTime);  // Wait for return duration
     }
 

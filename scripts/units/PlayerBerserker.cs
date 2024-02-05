@@ -12,7 +12,7 @@ public partial class PlayerBerserker : PlayerUnit
 
     public override async Task Attack(Unit target)
     {
-        await AnimatedAttack(target);
+        await AnimatedAttack(target, attackAnimDuration);
     }
 
     public override async Task Special(Unit target)
@@ -30,6 +30,6 @@ public partial class PlayerBerserker : PlayerUnit
     public override async Task Reaction(PlayerUnit swappedUnit, EnemyUnit attackingUnit)
     {
         _ = SetAnimationTrigger("reaction");
-        await AnimatedAttack(attackingUnit);
+        await AnimatedAttack(attackingUnit, attackAnimDuration);
     }
 }
