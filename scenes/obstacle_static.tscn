@@ -1,6 +1,7 @@
 [gd_scene load_steps=2 format=3 uid="uid://bftwl3dsinhe0"]
 
-[sub_resource type="BoxShape3D" id="BoxShape3D_yrof4"]
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_5xkrg"]
+height = 1.0
 
 [node name="StaticObstacleVolume" type="Area3D"]
 collision_layer = 1024
@@ -8,4 +9,4 @@ input_ray_pickable = false
 monitoring = false
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("BoxShape3D_yrof4")
+shape = SubResource("CylinderShape3D_5xkrg")

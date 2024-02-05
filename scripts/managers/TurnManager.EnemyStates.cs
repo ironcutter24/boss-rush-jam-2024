@@ -95,10 +95,21 @@ public partial class TurnManager : Node3D
             .OnEntry(() =>
             {
                 levelData.RefreshGrid();
-                DisplayMesh(levelData.GenerateHittableMesh(currentUnit), MeshColor.Red);
-                currentTask = AwaitShowcase();
+
+                var mesh = levelData.GenerateHittableMesh(currentUnit);
+                if (mesh != null)
+                {
+                    DisplayMesh(mesh, MeshColor.Red);
+                    currentTask = AwaitShowcase();
+                }
+                else
+                {
+                    currentTask = null;
+                }
+
             })
             .OnExit(() => DestroyChildren())
+            .AddTransition(State.AIContext, () => currentTask == null)
             .AddTransition(State.AISelectSwap, () => currentTask.IsCompleted && currentUnit.HasAction)
             .AddTransition(State.AIContext, () => currentTask.IsCompleted && !currentUnit.HasAction);
 

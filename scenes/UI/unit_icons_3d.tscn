@@ -6,8 +6,8 @@
 [node name="UnitIcons3D" type="Node3D"]
 transform = Transform3D(-0.642787, 0, -0.766044, 0, 1, 0, 0.766044, 0, -0.642787, 0, 0, 0)
 script = ExtResource("1_nutax")
-baseColor = Color(0.152941, 0.152941, 0.152941, 1)
-chargedColor = Color(1, 1, 0, 1)
+baseColor = Color(0.152941, 0.152941, 0.152941, 0.784314)
+chargedColor = Color(1, 1, 0, 0.784314)
 
 [node name="Root" type="Node3D" parent="."]
 transform = Transform3D(1, 0, -2.98023e-08, 0, 1, 0, 2.98023e-08, 0, 1, -0.174578, -0.099414, -1.11759e-07)

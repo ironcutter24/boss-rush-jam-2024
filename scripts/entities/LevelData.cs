@@ -322,7 +322,7 @@ public partial class LevelData : Node3D
 
     public Mesh GenerateHittableMesh(Unit unit)
     {
-        var hittables = GetHittableCells(unit).Select(pair => pair.id).ToList();
+        var hittables = GetHittableCells(unit)?.Select(pair => pair.id).ToList() ?? new List<int>();
         return GenerateMeshFrom(hittables);
     }
 

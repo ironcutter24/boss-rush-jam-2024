@@ -3364,11 +3364,15 @@ transitions = ["Start", "Static", SubResource("AnimationNodeStateMachineTransiti
 playSpawnAnimation = false
 PossessionVFX = NodePath("Graphics/VFX/PossessionVfx")
 _bossMoveDistance = 5
-_bossHealthBarOffset = 1.32
-MaxHealth = 100000
+_bossHealthBarOffset = 1.4
+MaxHealth = 4
 _attackDamage = 0
+_attackDistance = 0
 _moveDistance = 0
 _isAttackable = false
+
+[node name="HealthBar3D" parent="." index="1"]
+transform = Transform3D(0.16, 0, 0, 0, 0.02, 0, 0, 0, 1, 0, 1.4, 0)
 
 [node name="PossessionVfx" parent="Graphics/VFX" index="2" instance=ExtResource("2_00bg6")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.249333, 0)
@@ -3377,7 +3381,7 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.249333, 0)
 visible = false
 
 [node name="Mannequin_Animazione" type="Node3D" parent="Graphics" index="2"]
-transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
+transform = Transform3D(-0.3, 0, -2.62268e-08, 0, 0.3, 0, 2.62268e-08, 0, -0.3, 0, 0, 0)
 
 [node name="Mannequin Rig" type="Node3D" parent="Graphics/Mannequin_Animazione" index="0"]
 
