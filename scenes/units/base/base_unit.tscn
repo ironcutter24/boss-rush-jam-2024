@@ -12,6 +12,16 @@ height = 1.0
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_rdu23"]
 
+[sub_resource type="Animation" id="Animation_15561"]
+resource_name = "no_anim"
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Graphics")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0)
+
 [sub_resource type="Animation" id="Animation_7euv8"]
 resource_name = "hurt_spring"
 length = 0.7
@@ -33,16 +43,6 @@ tracks/0/path = NodePath("Graphics")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = PackedFloat32Array(0.1, 1, 0, 10, 0, 0.6, 1, 0, 0, 0)
-
-[sub_resource type="Animation" id="Animation_15561"]
-resource_name = "no_anim"
-tracks/0/type = "position_3d"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Graphics")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = PackedFloat32Array(0, 1, 0, 0, 0)
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_tamyp"]
 _data = {
@@ -72,10 +72,8 @@ transform = Transform3D(0.16, 0, 0, 0, 0.02, 0, 0, 0, 1, 0, 1.2, 0)
 
 [node name="SelectionVFX" parent="Graphics/VFX" instance=ExtResource("2_2nad0")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0233563, 0)
-visible = false
 
 [node name="Aura" parent="Graphics/VFX" instance=ExtResource("4_1x0ai")]
-visible = false
 
 [node name="HitCharacter" parent="Graphics/VFX" instance=ExtResource("5_kxbfb")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.4, 0)

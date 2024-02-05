@@ -74,14 +74,16 @@ public partial class EnemyUnit : Unit
 
         if (IsPossessed) RefreshVisibility();
         await Task.Delay(1000);
-        PossessionVFX.Visible = false;
+        PossessionVFX.Emitting = false;
+        PossessionVFX.GetNode<GpuParticles3D>("GpuParticles3D").Emitting = false;
         if (!IsPossessed) RefreshVisibility();
     }
 
     public void SetNextPossessed()
     {
         PossessionVFX.Scale = Vector3.One;
-        PossessionVFX.Visible = true;
+        PossessionVFX.Emitting = true;
+        PossessionVFX.GetNode<GpuParticles3D>("GpuParticles3D").Emitting = true;
     }
 
     private void RefreshVisibility()

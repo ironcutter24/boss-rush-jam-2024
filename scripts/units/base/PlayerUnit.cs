@@ -64,7 +64,7 @@ public abstract partial class PlayerUnit : Unit
         AudioManager.Instance.PlayReactionCharge();
 
         IsReactionPlanned = true;
-        ReactionVFX.Visible = true;
+        ReactionVFX.Emitting = true;
         await GDTask.NextFrame();
     }
 
@@ -77,7 +77,7 @@ public abstract partial class PlayerUnit : Unit
     {
         base.ResetTurn();
         IsReactionPlanned = false;
-        ReactionVFX.Visible = false;
+        ReactionVFX.Emitting = false;
         ConsumeBuffTurn();
         ConsumeTauntTurn();
         unitIcons.Reset();

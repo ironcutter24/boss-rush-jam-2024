@@ -18,7 +18,7 @@ public partial class AudioManager : Node3D
     public void PlayHealerAttack() { Play("play_healer_attack"); }
     public void PlayTankAttack() { Play("play_tank_attack"); }
     public void PlayReactionCharge() { Play("play_reaction_charge"); }
-    public void PlayPlayerDeath() { Play("play_player_attack"); }
+    public void PlayPlayerDeath() { Play("play_player_death"); }
 
     #endregion
 

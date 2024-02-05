@@ -56,8 +56,8 @@ public abstract partial class Unit : CharacterBody3D
     {
         Health = MaxHealth;
         healthBar.SetHealth(Health, MaxHealth);
-        SelectionVFX.Visible = false;
-        ReactionVFX.Visible = false;
+        SelectionVFX.Emitting = false;
+        ReactionVFX.Emitting = false;
     }
 
     public abstract Task Attack(Unit target);
@@ -87,7 +87,7 @@ public abstract partial class Unit : CharacterBody3D
     public void SetSelected(bool state)
     {
         IsSelected = state;
-        SelectionVFX.Visible = IsSelected;
+        SelectionVFX.Emitting = IsSelected;
     }
 
     public void ApplyDamage(int value)

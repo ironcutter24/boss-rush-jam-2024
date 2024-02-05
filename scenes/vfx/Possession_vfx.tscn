@@ -9,6 +9,7 @@ material = ExtResource("2_0ejjc")
 
 [node name="PossessionVfx" type="GPUParticles3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.3, 0)
+emitting = false
 amount = 5
 lifetime = 0.3
 explosiveness = 0.5
@@ -17,5 +18,6 @@ transform_align = 2
 process_material = ExtResource("1_rlgy4")
 draw_pass_1 = SubResource("QuadMesh_14nmx")
 
-[node name="Node3D" parent="." instance=ExtResource("3_xjeru")]
+[node name="GpuParticles3D" parent="." instance=ExtResource("3_xjeru")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0)
+emitting = false

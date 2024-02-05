@@ -58,6 +58,7 @@ size = Vector2(1, 1)
 
 [node name="SelectionVFX" type="GPUParticles3D"]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.141625, 0)
+emitting = false
 amount = 3
 lifetime = 0.74
 visibility_aabb = AABB(-0.5, -0.2, -0.5, 1, 1, 1)
