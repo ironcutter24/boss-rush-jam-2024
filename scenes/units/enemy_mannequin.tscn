@@ -3361,6 +3361,7 @@ states/Static/position = Vector2(357, 100)
 transitions = ["Start", "Static", SubResource("AnimationNodeStateMachineTransition_wcebq"), "Idle", "Attack", SubResource("AnimationNodeStateMachineTransition_14pgw"), "Attack", "Idle", SubResource("AnimationNodeStateMachineTransition_ovj12"), "Static", "Idle", SubResource("AnimationNodeStateMachineTransition_0r3fq"), "Idle", "Static", SubResource("AnimationNodeStateMachineTransition_mixb5"), "Idle", "Hurt", SubResource("AnimationNodeStateMachineTransition_bkvxn"), "Hurt", "Idle", SubResource("AnimationNodeStateMachineTransition_2sy3u")]
 
 [node name="EnemyMannequin" node_paths=PackedStringArray("PossessionVFX") instance=ExtResource("1_7ih6j")]
+playSpawnAnimation = false
 PossessionVFX = NodePath("Graphics/VFX/PossessionVfx")
 _bossMoveDistance = 5
 _bossHealthBarOffset = 1.32
@@ -3371,7 +3372,6 @@ _isAttackable = false
 
 [node name="PossessionVfx" parent="Graphics/VFX" index="2" instance=ExtResource("2_00bg6")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.249333, 0)
-visible = false
 
 [node name="MeshInstance3D" parent="Graphics" index="1"]
 visible = false

@@ -1,0 +1,98 @@
+[gd_scene load_steps=9 format=3 uid="uid://1mud37twojf6"]
+
+[ext_resource type="PackedScene" uid="uid://bja7jmhmj" path="res://scenes/levels/base_level.tscn" id="1_i8ks8"]
+[ext_resource type="PackedScene" uid="uid://xw4iy8e8lhdo" path="res://scenes/units/enemy_mannequin.tscn" id="2_6itnf"]
+[ext_resource type="Material" uid="uid://bj0q1b17ld43p" path="res://graphics/models/Room/Materials/muro_metallo_mat.tres" id="2_o27u5"]
+[ext_resource type="PackedScene" uid="uid://c18pv6cy8kw84" path="res://scenes/props/wall_tubes_corner.tscn" id="3_pi5hf"]
+[ext_resource type="PackedScene" uid="uid://bl8u672vcdkfs" path="res://scenes/props/wall_tubes_vertical.tscn" id="4_qlkns"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_dg6lr"]
+resource_name = "MURI"
+albedo_color = Color(0.665185, 0.665185, 0.665185, 1)
+metallic = 0.2
+roughness = 0.8
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_obw0j"]
+_surfaces = [{
+"aabb": AABB(-0.095, -5.07532e-18, 5.49838e-16, 0.00501, 0.09501, 0.03501),
+"format": 34896613377,
+"index_count": 18,
+"index_data": PackedByteArray(0, 0, 2, 0, 1, 0, 3, 0, 0, 0, 1, 0, 4, 0, 5, 0, 1, 0, 1, 0, 2, 0, 4, 0, 0, 0, 4, 0, 2, 0, 0, 0, 6, 0, 4, 0),
+"name": "MURI",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 7,
+"vertex_data": PackedByteArray(124, 255, 248, 255, 236, 255, 0, 0, 0, 0, 0, 0, 236, 255, 0, 0, 124, 255, 0, 0, 236, 255, 0, 0, 0, 0, 248, 255, 236, 255, 0, 0, 124, 255, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 124, 255, 248, 255, 0, 0, 0, 0)
+}]
+blend_shape_mode = 0
+
+[sub_resource type="ArrayMesh" id="ArrayMesh_pq1hj"]
+resource_name = "Root Scene_Muro_sx"
+_surfaces = [{
+"aabb": AABB(-0.095, -5.07532e-18, 5.49838e-16, 0.00501, 0.09501, 0.03501),
+"attribute_data": PackedByteArray(60, 206, 64, 0, 201, 192, 191, 255, 60, 206, 191, 255, 201, 192, 64, 0, 124, 251, 191, 255, 10, 238, 157, 161, 10, 238, 191, 255, 124, 251, 157, 161, 63, 0, 63, 0, 63, 0, 191, 255, 97, 94, 191, 255, 97, 94, 63, 0),
+"format": 34896613399,
+"index_count": 18,
+"index_data": PackedByteArray(0, 0, 2, 0, 1, 0, 3, 0, 0, 0, 1, 0, 4, 0, 6, 0, 5, 0, 5, 0, 7, 0, 4, 0, 8, 0, 10, 0, 9, 0, 8, 0, 11, 0, 10, 0),
+"material": SubResource("StandardMaterial3D_dg6lr"),
+"name": "MURI",
+"primitive": 3,
+"uv_scale": Vector4(0, 0, 0, 0),
+"vertex_count": 12,
+"vertex_data": PackedByteArray(124, 255, 248, 255, 236, 255, 255, 127, 0, 0, 0, 0, 236, 255, 255, 127, 124, 255, 0, 0, 236, 255, 255, 127, 0, 0, 248, 255, 236, 255, 255, 127, 124, 255, 0, 0, 0, 0, 255, 191, 0, 0, 0, 0, 236, 255, 255, 191, 0, 0, 0, 0, 0, 0, 255, 191, 124, 255, 0, 0, 236, 255, 255, 191, 124, 255, 248, 255, 236, 255, 255, 191, 124, 255, 0, 0, 236, 255, 255, 191, 124, 255, 0, 0, 0, 0, 255, 191, 124, 255, 248, 255, 0, 0, 255, 191, 255, 127, 255, 255, 255, 127, 255, 255, 255, 127, 255, 255, 255, 127, 255, 255, 0, 0, 255, 127, 0, 0, 255, 127, 0, 0, 255, 127, 0, 0, 255, 127, 255, 127, 0, 0, 255, 127, 0, 0, 255, 127, 0, 0, 255, 127, 0, 0)
+}]
+blend_shape_mode = 0
+shadow_mesh = SubResource("ArrayMesh_obw0j")
+
+[node name="MannequinLevel" instance=ExtResource("1_i8ks8")]
+
+[node name="TurnManager" parent="." index="4"]
+minionCount = 0
+
+[node name="Muro_dx" type="MeshInstance3D" parent="Level/Grid/Root Scene/RootNode/ROOM" index="2"]
+transform = Transform3D(-4.36677e-08, 0.999, 0, -0.999, -4.36677e-08, 0, 0, 0, 0.999, -0.095, 0, 0)
+material_override = ExtResource("2_o27u5")
+mesh = SubResource("ArrayMesh_pq1hj")
+skeleton = NodePath("")
+
+[node name="Muro_dx2" type="MeshInstance3D" parent="Level/Grid/Root Scene/RootNode/ROOM" index="3"]
+transform = Transform3D(-4.36677e-08, -0.999, 0, 0.999, -4.36677e-08, 0, 0, 0, 0.999, 0, 0.184847, 0)
+material_override = ExtResource("2_o27u5")
+mesh = SubResource("ArrayMesh_pq1hj")
+skeleton = NodePath("")
+
+[node name="polySurface3" parent="Level/Grid/Root Scene/RootNode" index="1"]
+visible = false
+
+[node name="Pavimentino1" parent="Level/Grid/Root Scene/RootNode" index="2"]
+visible = false
+
+[node name="WallTubesCorner" parent="Level/Props/Tubes" index="1" instance=ExtResource("3_pi5hf")]
+transform = Transform3D(-4.37114e-08, 0, -1, 0, 1, 0, 1, 0, -4.37114e-08, 0, 0, 7)
+
+[node name="WallTubesVertical" parent="Level/Props/Tubes" index="2" instance=ExtResource("4_qlkns")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 7, 0, 1)
+
+[node name="WallTubesVertical2" parent="Level/Props/Tubes" index="3" instance=ExtResource("4_qlkns")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 7, 0, 1.25)
+
+[node name="WallTubesVertical3" parent="Level/Props/Tubes" index="4" instance=ExtResource("4_qlkns")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 7, 0, 1.50592)
+
+[node name="WallTubesVertical4" parent="Level/Props/Tubes" index="5" instance=ExtResource("4_qlkns")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 7, 0, 1.75592)
+
+[node name="EnemyMannequin" parent="Units/Enemies" index="0" instance=ExtResource("2_6itnf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 3)
+
+[node name="EnemyMannequin2" parent="Units/Enemies" index="1" instance=ExtResource("2_6itnf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5, 0, 5)
+
+[node name="EnemyMannequin3" parent="Units/Enemies" index="2" instance=ExtResource("2_6itnf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 6)
+
+[node name="EnemyMannequin4" parent="Units/Enemies" index="3" instance=ExtResource("2_6itnf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 6)
+
+[node name="EnemyMannequin5" parent="Units/Enemies" index="4" instance=ExtResource("2_6itnf")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 2)

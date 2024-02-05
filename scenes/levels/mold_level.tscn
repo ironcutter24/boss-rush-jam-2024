@@ -1,0 +1,41 @@
+[gd_scene load_steps=7 format=3 uid="uid://d0hr6mtirq8dd"]
+
+[ext_resource type="PackedScene" uid="uid://bja7jmhmj" path="res://scenes/levels/base_level.tscn" id="1_j7nrx"]
+[ext_resource type="PackedScene" uid="uid://c18pv6cy8kw84" path="res://scenes/props/wall_tubes_corner.tscn" id="2_3accf"]
+[ext_resource type="PackedScene" uid="uid://bl8u672vcdkfs" path="res://scenes/props/wall_tubes_vertical.tscn" id="3_lq5vj"]
+[ext_resource type="PackedScene" uid="uid://b53idlah53xpg" path="res://scenes/props/crazy_man.tscn" id="4_wrq0e"]
+[ext_resource type="PackedScene" uid="uid://d3ita488awasa" path="res://scenes/units/enemy_slime.tscn" id="5_r3ytx"]
+[ext_resource type="PackedScene" uid="uid://duk6754w31xtw" path="res://scenes/props/obstacle_tubes.tscn" id="6_o3am1"]
+
+[node name="MoldLevel" instance=ExtResource("1_j7nrx")]
+
+[node name="TurnManager" parent="." index="4"]
+minionCount = 3
+
+[node name="WallTubesCorner" parent="Level/Props/Tubes" index="1" instance=ExtResource("2_3accf")]
+
+[node name="WallTubesVertical" parent="Level/Props/Tubes" index="2" instance=ExtResource("3_lq5vj")]
+
+[node name="WallTubesVertical2" parent="Level/Props/Tubes" index="3" instance=ExtResource("3_lq5vj")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0652249, 0, 7)
+
+[node name="CrazyMan" parent="Level/Props" index="1" instance=ExtResource("4_wrq0e")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 9)
+
+[node name="EnemySlime" parent="Units/Enemies" index="0" groups=["enemy_units", "units"] instance=ExtResource("5_r3ytx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 3, 0, 5)
+
+[node name="EnemySlime2" parent="Units/Enemies" index="1" groups=["enemy_units", "units"] instance=ExtResource("5_r3ytx")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6, 0, 6)
+
+[node name="EnemySlime3" parent="Units/Enemies" index="2" groups=["enemy_units", "units"] instance=ExtResource("5_r3ytx")]
+transform = Transform3D(1, 0, 0, 0, 0.999664, 0.0259327, 0, -0.0259327, 0.999664, 1, 0, 7)
+
+[node name="ObstacleTubes" parent="Obstacles" index="0" instance=ExtResource("6_o3am1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2, 0, 1)
+
+[node name="ObstacleTubes2" parent="Obstacles" index="1" instance=ExtResource("6_o3am1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 2)
+
+[node name="ObstacleTubes3" parent="Obstacles" index="2" instance=ExtResource("6_o3am1")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 3)

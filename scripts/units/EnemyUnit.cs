@@ -7,6 +7,7 @@ public partial class EnemyUnit : Unit
     private float startHealthBarOffset;
 
     [Export] private bool useSimpleAttack = false;
+    [Export] private bool playSpawnAnimation = true;
     [Export] private Node3D[] showWhilePossessed;
     [Export] private Node3D[] hideWhilePossessed;
     [Export] protected GpuParticles3D PossessionVFX { get; private set; }
@@ -36,7 +37,9 @@ public partial class EnemyUnit : Unit
     {
         base._Ready();
         RefreshVisibility();
-        animFX.Play("spawn_fall");
+
+        if (playSpawnAnimation)
+            animFX.Play("spawn_fall");
 
         startHealthBarOffset = healthBar.Position.Y;
 
