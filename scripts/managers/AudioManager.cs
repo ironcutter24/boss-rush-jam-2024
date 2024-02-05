@@ -12,6 +12,13 @@ public partial class AudioManager : Node3D
         Instance = this;
     }
 
+    #region HUD events
+
+    public void PlayHUDSelect() { Play("play_hud_select"); }
+    public void PlayHUDCancel() { Play("play_hud_cancel"); }
+
+    #endregion
+
     #region Player events
 
     public void PlayBerserkerAttack() { Play("play_berserker_attack"); }

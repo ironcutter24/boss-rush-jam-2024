@@ -2,6 +2,16 @@ class_name GDAudio
 extends Node3D
 
 
+@export_group("HUD sounds")
+@export var hud_select : EventAsset
+func play_hud_select():
+	play(hud_select)
+
+@export var hud_cancel : EventAsset
+func play_hud_cancel():
+	play(hud_cancel)
+
+
 @export_group("Player sounds")
 @export var berserker_attack : EventAsset
 func play_berserker_attack():
