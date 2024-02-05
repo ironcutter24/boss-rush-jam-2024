@@ -11,4 +11,12 @@ public partial class Global : Node
     {
         Instance = this;
     }
+
+    public override void _Process(double delta)
+    {
+        if (Input.IsActionJustPressed("quit"))
+        {
+            GetTree().Quit();
+        }
+    }
 }
