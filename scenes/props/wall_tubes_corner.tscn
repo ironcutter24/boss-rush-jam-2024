@@ -1,0 +1,38 @@
+[gd_scene load_steps=4 format=3 uid="uid://c18pv6cy8kw84"]
+
+[ext_resource type="PackedScene" uid="uid://bfpsmwnnq1v07" path="res://scenes/props/Tube_T.tscn" id="1_ofafr"]
+[ext_resource type="PackedScene" uid="uid://tjowady5tvp0" path="res://scenes/props/Tube_1M.tscn" id="2_my1g5"]
+[ext_resource type="PackedScene" uid="uid://ta1u21kexsui" path="res://scenes/props/Tube_4M.tscn" id="3_1kdky"]
+
+[node name="WallTubesCorner" type="Node3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7, 0, 7)
+
+[node name="Tube_T" parent="." instance=ExtResource("1_ofafr")]
+transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.8, 1.2, -1.9)
+
+[node name="Tube_T2" parent="." instance=ExtResource("1_ofafr")]
+transform = Transform3D(-4.37114e-08, 0, 1, 1, -4.37114e-08, 4.37114e-08, 4.37114e-08, 1, 1.91069e-15, 0.7938, 1.35152, 0.65339)
+
+[node name="Tube_1M2" parent="." instance=ExtResource("2_my1g5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9, 1.2, -2.2)
+
+[node name="Tube_4M" parent="." instance=ExtResource("3_1kdky")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9, 0, -2)
+
+[node name="Tube_4M7" parent="." instance=ExtResource("3_1kdky")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9, 0, 0.7)
+
+[node name="Tube_4M3" parent="." instance=ExtResource("3_1kdky")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9, 0, -2.2)
+
+[node name="Tube_4M2" parent="." instance=ExtResource("3_1kdky")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9, 1.5, -2)
+
+[node name="Tube_4M5" parent="." instance=ExtResource("3_1kdky")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.9, 1.45655, -1.74759)
+
+[node name="Tube_4M6" parent="." instance=ExtResource("3_1kdky")]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0.9, 1.45655, -0.54759)
+
+[node name="Tube_4M4" parent="." instance=ExtResource("3_1kdky")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.9, 1.5, -2.2)

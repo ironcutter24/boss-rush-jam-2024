@@ -35,7 +35,11 @@ public partial class AudioManager : Node3D
 
     private void Play(string name)
     {
-        GDAudio.Call(name);
+        try
+        {
+            GDAudio.Call(name);
+        }
+        catch { }
     }
 
     #endregion

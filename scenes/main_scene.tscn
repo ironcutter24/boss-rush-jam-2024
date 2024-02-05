@@ -1,4 +1,4 @@
-[gd_scene load_steps=60 format=3 uid="uid://bja7jmhmj"]
+[gd_scene load_steps=59 format=3 uid="uid://bja7jmhmj"]
 
 [ext_resource type="Script" path="res://scripts/managers/InputManager.cs" id="1_6df1n"]
 [ext_resource type="Script" path="res://scripts/managers/TurnManager.cs" id="1_22vsh"]
@@ -18,16 +18,15 @@
 [ext_resource type="PackedScene" uid="uid://dxb7j44lv1iul" path="res://scenes/UI/unit_hud.tscn" id="14_51rk4"]
 [ext_resource type="PackedScene" uid="uid://duk6754w31xtw" path="res://scenes/props/obstacle_tubes.tscn" id="18_58g4x"]
 [ext_resource type="PackedScene" uid="uid://b53idlah53xpg" path="res://scenes/props/crazy_man.tscn" id="18_mqhts"]
+[ext_resource type="PackedScene" uid="uid://c18pv6cy8kw84" path="res://scenes/props/wall_tubes_corner.tscn" id="21_fetox"]
 [ext_resource type="Texture2D" uid="uid://ymolaux73c17" path="res://graphics/models/Room/Pavimentino_Montanti/ROOM 2_Pavimentino_Montanti_BaseColor.png" id="21_odwv1"]
 [ext_resource type="Texture2D" uid="uid://15gnoxb37cr3" path="res://graphics/models/Room/Pavimentino_Montanti/ROOM 2_Pavimentino_Montanti_AO_).png" id="22_1t0j8"]
+[ext_resource type="PackedScene" uid="uid://bl8u672vcdkfs" path="res://scenes/props/wall_tubes_vertical.tscn" id="22_6smry"]
+[ext_resource type="PackedScene" uid="uid://2avlp0llq1se" path="res://scenes/props/gap_tubes.tscn" id="23_4uagv"]
 [ext_resource type="Texture2D" uid="uid://by44iovnilv57" path="res://graphics/models/Room/Pavimentino_Montanti/ROOM 2_Pavimentino_Montanti_Height.png" id="23_52lnh"]
 [ext_resource type="Texture2D" uid="uid://cx6n5ttkbchy0" path="res://graphics/models/Room/Pavimentino_Montanti/ROOM 2_Pavimentino_Montanti_Metallic.png" id="24_b55kj"]
 [ext_resource type="Texture2D" uid="uid://bhi3nsilm6djh" path="res://graphics/models/Room/Pavimentino_Montanti/ROOM 2_Pavimentino_Montanti_Normal.png" id="25_1sxwf"]
-[ext_resource type="PackedScene" uid="uid://bfpsmwnnq1v07" path="res://scenes/props/Tube_T.tscn" id="25_q5rgj"]
 [ext_resource type="Texture2D" uid="uid://dyvm2vwp834j5" path="res://graphics/models/Room/Pavimentino_Montanti/ROOM 2_Pavimentino_Montanti_Roughness.png" id="26_klvca"]
-[ext_resource type="PackedScene" uid="uid://ta1u21kexsui" path="res://scenes/props/Tube_4M.tscn" id="26_rglup"]
-[ext_resource type="PackedScene" uid="uid://dlkvk8d5nhr6w" path="res://scenes/props/Tube_Corner.tscn" id="27_oko37"]
-[ext_resource type="PackedScene" uid="uid://tjowady5tvp0" path="res://scenes/props/Tube_1M.tscn" id="28_6p0m0"]
 [ext_resource type="PackedScene" uid="uid://xw4iy8e8lhdo" path="res://scenes/units/enemy_mannequin.tscn" id="29_yrw1p"]
 
 [sub_resource type="EventAsset" id="EventAsset_7lv7s"]
@@ -626,320 +625,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 9)
 
 [node name="Tubes" type="Node3D" parent="Level/Props"]
 
-[node name="Tube_T" parent="Level/Props/Tubes" instance=ExtResource("25_q5rgj")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 7.8, 1.2, 5.1)
+[node name="WallTubesCorner" parent="Level/Props/Tubes" instance=ExtResource("21_fetox")]
 
-[node name="Tube_T2" parent="Level/Props/Tubes" instance=ExtResource("25_q5rgj")]
-transform = Transform3D(-4.37114e-08, 0, 1, 1, -4.37114e-08, 4.37114e-08, 4.37114e-08, 1, 1.91069e-15, 7.7938, 1.35152, 7.65339)
+[node name="WallTubesVertical" parent="Level/Props/Tubes" instance=ExtResource("22_6smry")]
 
-[node name="Tube_1M2" parent="Level/Props/Tubes" instance=ExtResource("28_6p0m0")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.9, 1.2, 4.8)
+[node name="WallTubesVertical2" parent="Level/Props/Tubes" instance=ExtResource("22_6smry")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0652249, 0, 7)
 
-[node name="Tube_4M" parent="Level/Props/Tubes" instance=ExtResource("26_rglup")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.9, 0, 5)
-
-[node name="Tube_4M7" parent="Level/Props/Tubes" instance=ExtResource("26_rglup")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.9, 0, 7.7)
-
-[node name="Tube_4M3" parent="Level/Props/Tubes" instance=ExtResource("26_rglup")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.9, 0, 4.8)
-
-[node name="Tube_4M2" parent="Level/Props/Tubes" instance=ExtResource("26_rglup")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.9, 1.5, 5)
-
-[node name="Tube_T3" parent="Level/Props/Tubes" instance=ExtResource("25_q5rgj")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 6.5, 1.2, 7.8)
-
-[node name="Tube_4M8" parent="Level/Props/Tubes" instance=ExtResource("26_rglup")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.6, 0, 7.7)
-
-[node name="Tube_4M9" parent="Level/Props/Tubes" instance=ExtResource("26_rglup")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 6.6, 1.5, 7.7)
-
-[node name="Tube_T4" parent="Level/Props/Tubes" instance=ExtResource("25_q5rgj")]
-transform = Transform3D(-4.37114e-08, 0, 1, 0, 1, 0, -1, 0, -4.37114e-08, 0.0999998, 1.2, 7.8)
-
-[node name="Tube_4M10" parent="Level/Props/Tubes" instance=ExtResource("26_rglup")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 0, 7.7)
-
-[node name="Tube_4M11" parent="Level/Props/Tubes" instance=ExtResource("26_rglup")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.2, 1.5, 7.7)
-
-[node name="Tube_4M5" parent="Level/Props/Tubes" instance=ExtResource("26_rglup")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 7.9, 1.45655, 5.25241)
-
-[node name="Tube_4M6" parent="Level/Props/Tubes" instance=ExtResource("26_rglup")]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 7.9, 1.45655, 6.45241)
-
-[node name="Tube_4M4" parent="Level/Props/Tubes" instance=ExtResource("26_rglup")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 7.9, 1.5, 4.8)
-
-[node name="Tube_Corner" parent="Level/Props/Tubes" instance=ExtResource("27_oko37")]
-transform = Transform3D(-3.49691e-08, 0.8, -3.49691e-08, 0, -3.49691e-08, -0.8, -0.8, -3.49691e-08, 1.52855e-15, -0.604354, -0.607132, -0.403172)
-
-[node name="Tube_T5" parent="Level/Props/Tubes/Tube_Corner" instance=ExtResource("25_q5rgj")]
-transform = Transform3D(-1, 1.31134e-07, 2.98023e-08, 1.31134e-07, 1, 4.37114e-08, -2.98023e-08, 4.37114e-08, -1, 0.260052, 6.60317, 0.215767)
-
-[node name="Tube_4M12" parent="Level/Props/Tubes/Tube_Corner/Tube_T5" instance=ExtResource("26_rglup")]
-transform = Transform3D(1, 4.37114e-08, 2.98023e-08, -4.37114e-08, 1, -4.37114e-08, -2.98023e-08, 4.37114e-08, 1, -7.67708e-05, 0.300996, 0.000547945)
-
-[node name="Tube_Corner2" parent="Level/Props/Tubes/Tube_Corner/Tube_T5" instance=ExtResource("27_oko37")]
-transform = Transform3D(-1, 8.9407e-08, -3.55271e-15, 3.55271e-15, -2.63839e-15, 1, 8.9407e-08, 1, 4.04668e-15, -0.158459, 0.0419707, 0.104023)
-
-[node name="Tube_T15" parent="Level/Props/Tubes/Tube_Corner" instance=ExtResource("25_q5rgj")]
-transform = Transform3D(-1, 1.31134e-07, 2.98023e-08, 1.31134e-07, 1, 4.37114e-08, -2.98023e-08, 4.37114e-08, -1, 0.260052, 7.85317, 0.215766)
-
-[node name="Tube_4M12" parent="Level/Props/Tubes/Tube_Corner/Tube_T15" instance=ExtResource("26_rglup")]
-transform = Transform3D(1, 4.37114e-08, 2.98023e-08, -4.37114e-08, 1, -4.37114e-08, -2.98023e-08, 4.37114e-08, 1, -7.67708e-05, 0.300996, 0.000547945)
-
-[node name="Tube_Corner2" parent="Level/Props/Tubes/Tube_Corner/Tube_T15" instance=ExtResource("27_oko37")]
-transform = Transform3D(-1, 8.9407e-08, -3.55271e-15, 3.55271e-15, -2.63839e-15, 1, 8.9407e-08, 1, 4.04668e-15, -0.158459, 0.0419707, 0.104023)
-
-[node name="Tube_T16" parent="Level/Props/Tubes/Tube_Corner" instance=ExtResource("25_q5rgj")]
-transform = Transform3D(-1, 1.31134e-07, 2.98023e-08, 1.31134e-07, 1, 4.37114e-08, -2.98023e-08, 4.37114e-08, -1, 0.260052, 9.22817, 0.215766)
-
-[node name="Tube_4M12" parent="Level/Props/Tubes/Tube_Corner/Tube_T16" instance=ExtResource("26_rglup")]
-transform = Transform3D(1, 4.37114e-08, 2.98023e-08, -4.37114e-08, 1, -4.37114e-08, -2.98023e-08, 4.37114e-08, 1, -7.67708e-05, 0.300996, 0.000547945)
-
-[node name="Tube_Corner2" parent="Level/Props/Tubes/Tube_Corner/Tube_T16" instance=ExtResource("27_oko37")]
-transform = Transform3D(-1, 8.9407e-08, -3.55271e-15, 3.55271e-15, -2.63839e-15, 1, 8.9407e-08, 1, 4.04668e-15, -0.158459, 0.0419707, 0.104023)
-
-[node name="Tube_T6" parent="Level/Props/Tubes/Tube_Corner" instance=ExtResource("25_q5rgj")]
-transform = Transform3D(-1, 1.31134e-07, 2.98023e-08, 1.31134e-07, 1, 4.37114e-08, -2.98023e-08, 4.37114e-08, -1, 0.260051, 3.60317, 0.215766)
-
-[node name="Tube_4M12" parent="Level/Props/Tubes/Tube_Corner/Tube_T6" instance=ExtResource("26_rglup")]
-transform = Transform3D(1, 4.37114e-08, 2.98023e-08, -4.37114e-08, 1, -4.37114e-08, -2.98023e-08, 4.37114e-08, 1, -7.67708e-05, 0.300996, 0.000547945)
-
-[node name="Tube_Corner2" parent="Level/Props/Tubes/Tube_Corner/Tube_T6" instance=ExtResource("27_oko37")]
-transform = Transform3D(-1, 8.9407e-08, -3.55271e-15, 3.55271e-15, -2.63839e-15, 1, 8.9407e-08, 1, 4.04668e-15, -0.158459, 0.0419707, 0.104023)
-
-[node name="Tube_T8" parent="Level/Props/Tubes/Tube_Corner" instance=ExtResource("25_q5rgj")]
-transform = Transform3D(-1, 1.31134e-07, 2.98023e-08, 1.31134e-07, 1, 4.37114e-08, -2.98023e-08, 4.37114e-08, -1, 0.260051, 2.10317, 0.215766)
-
-[node name="Tube_4M12" parent="Level/Props/Tubes/Tube_Corner/Tube_T8" instance=ExtResource("26_rglup")]
-transform = Transform3D(1, 4.37114e-08, 2.98023e-08, -4.37114e-08, 1, -4.37114e-08, -2.98023e-08, 4.37114e-08, 1, -7.67708e-05, 0.300996, 0.000547945)
-
-[node name="Tube_Corner2" parent="Level/Props/Tubes/Tube_Corner/Tube_T8" instance=ExtResource("27_oko37")]
-transform = Transform3D(-1, 8.9407e-08, -3.55271e-15, 3.55271e-15, -2.63839e-15, 1, 8.9407e-08, 1, 4.04668e-15, -0.158459, 0.0419707, 0.104023)
-
-[node name="Tube_T9" parent="Level/Props/Tubes/Tube_Corner" instance=ExtResource("25_q5rgj")]
-transform = Transform3D(-1, 1.31134e-07, 2.98023e-08, 1.31134e-07, 1, 4.37114e-08, -2.98023e-08, 4.37114e-08, -1, 0.260051, 0.603173, 0.215766)
-
-[node name="Tube_4M12" parent="Level/Props/Tubes/Tube_Corner/Tube_T9" instance=ExtResource("26_rglup")]
-transform = Transform3D(1, 4.37114e-08, 2.98023e-08, -4.37114e-08, 1, -4.37114e-08, -2.98023e-08, 4.37114e-08, 1, -7.67708e-05, 0.300996, 0.000547945)
-
-[node name="Tube_Corner2" parent="Level/Props/Tubes/Tube_Corner/Tube_T9" instance=ExtResource("27_oko37")]
-transform = Transform3D(-1, 8.9407e-08, -3.55271e-15, 3.55271e-15, -2.63839e-15, 1, 8.9407e-08, 1, 4.04668e-15, -0.158459, 0.0419707, 0.104023)
-
-[node name="Tube_T7" parent="Level/Props/Tubes/Tube_Corner" instance=ExtResource("25_q5rgj")]
-transform = Transform3D(-1, 1.31134e-07, 2.98023e-08, 1.31134e-07, 1, 4.37114e-08, -2.98023e-08, 4.37114e-08, -1, 0.260052, 5.10317, 0.215767)
-
-[node name="Tube_4M12" parent="Level/Props/Tubes/Tube_Corner/Tube_T7" instance=ExtResource("26_rglup")]
-transform = Transform3D(1, 4.37114e-08, 2.98023e-08, -4.37114e-08, 1, -4.37114e-08, -2.98023e-08, 4.37114e-08, 1, -7.67708e-05, 0.300996, 0.000547945)
-
-[node name="Tube_Corner2" parent="Level/Props/Tubes/Tube_Corner/Tube_T7" instance=ExtResource("27_oko37")]
-transform = Transform3D(-1, 8.9407e-08, -3.55271e-15, 3.55271e-15, -2.63839e-15, 1, 8.9407e-08, 1, 4.04668e-15, -0.158459, 0.0419707, 0.104023)
-
-[node name="Tube_T10" parent="Level/Props/Tubes/Tube_Corner" instance=ExtResource("25_q5rgj")]
-transform = Transform3D(1.74846e-07, 1, -1.6251e-15, 1, -1.74846e-07, 1.39091e-08, 1.39091e-08, -3.59606e-15, -1, -1.49897, 0.00317246, 0.208512)
-
-[node name="Tube_4M12" parent="Level/Props/Tubes/Tube_Corner/Tube_T10" instance=ExtResource("26_rglup")]
-transform = Transform3D(1, 4.37114e-08, 2.98023e-08, -4.37114e-08, 1, -4.37114e-08, -2.98023e-08, 4.37114e-08, 1, -7.67708e-05, 0.300996, 0.000547945)
-
-[node name="Tube_Corner2" parent="Level/Props/Tubes/Tube_Corner/Tube_T10" instance=ExtResource("27_oko37")]
-transform = Transform3D(-1, 8.9407e-08, -3.55271e-15, 3.55271e-15, -2.63839e-15, 1, 8.9407e-08, 1, 4.04668e-15, -0.158459, 0.0419707, 0.104023)
-
-[node name="Tube_T11" parent="Level/Props/Tubes/Tube_Corner" instance=ExtResource("25_q5rgj")]
-transform = Transform3D(1.74846e-07, 1, -1.6251e-15, 1, -1.74846e-07, 1.39091e-08, 1.39091e-08, -3.59606e-15, -1, -4.49897, 0.00317293, 0.208512)
-
-[node name="Tube_4M12" parent="Level/Props/Tubes/Tube_Corner/Tube_T11" instance=ExtResource("26_rglup")]
-transform = Transform3D(1, 4.37114e-08, 2.98023e-08, -4.37114e-08, 1, -4.37114e-08, -2.98023e-08, 4.37114e-08, 1, -7.67708e-05, 0.300996, 0.000547945)
-
-[node name="Tube_Corner2" parent="Level/Props/Tubes/Tube_Corner/Tube_T11" instance=ExtResource("27_oko37")]
-transform = Transform3D(-1, 8.9407e-08, -3.55271e-15, 3.55271e-15, -2.63839e-15, 1, 8.9407e-08, 1, 4.04668e-15, -0.158459, 0.0419707, 0.104023)
-
-[node name="Tube_T12" parent="Level/Props/Tubes/Tube_Corner" instance=ExtResource("25_q5rgj")]
-transform = Transform3D(1.74846e-07, 1, -1.6251e-15, 1, -1.74846e-07, 1.39091e-08, 1.39091e-08, -3.59606e-15, -1, -5.99897, 0.00317323, 0.208512)
-
-[node name="Tube_4M12" parent="Level/Props/Tubes/Tube_Corner/Tube_T12" instance=ExtResource("26_rglup")]
-transform = Transform3D(1, 4.37114e-08, 2.98023e-08, -4.37114e-08, 1, -4.37114e-08, -2.98023e-08, 4.37114e-08, 1, -7.67708e-05, 0.300996, 0.000547945)
-
-[node name="Tube_Corner2" parent="Level/Props/Tubes/Tube_Corner/Tube_T12" instance=ExtResource("27_oko37")]
-transform = Transform3D(-1, 8.9407e-08, -3.55271e-15, 3.55271e-15, -2.63839e-15, 1, 8.9407e-08, 1, 4.04668e-15, -0.158459, 0.0419707, 0.104023)
-
-[node name="Tube_T13" parent="Level/Props/Tubes/Tube_Corner" instance=ExtResource("25_q5rgj")]
-transform = Transform3D(1.74846e-07, 1, -1.6251e-15, 1, -1.74846e-07, 1.39091e-08, 1.39091e-08, -3.59606e-15, -1, -7.49897, 0.00317335, 0.208512)
-
-[node name="Tube_4M12" parent="Level/Props/Tubes/Tube_Corner/Tube_T13" instance=ExtResource("26_rglup")]
-transform = Transform3D(1, 4.37114e-08, 2.98023e-08, -4.37114e-08, 1, -4.37114e-08, -2.98023e-08, 4.37114e-08, 1, -7.67708e-05, 0.300996, 0.000547945)
-
-[node name="Tube_Corner2" parent="Level/Props/Tubes/Tube_Corner/Tube_T13" instance=ExtResource("27_oko37")]
-transform = Transform3D(-1, 8.9407e-08, -3.55271e-15, 3.55271e-15, -2.63839e-15, 1, 8.9407e-08, 1, 4.04668e-15, -0.158459, 0.0419707, 0.104023)
-
-[node name="Tube_T17" parent="Level/Props/Tubes/Tube_Corner" instance=ExtResource("25_q5rgj")]
-transform = Transform3D(1.74846e-07, 1, -1.6251e-15, 1, -1.74846e-07, 1.39091e-08, 1.39091e-08, -3.59607e-15, -1, -8.99897, 0.00317329, 0.208512)
-
-[node name="Tube_4M12" parent="Level/Props/Tubes/Tube_Corner/Tube_T17" instance=ExtResource("26_rglup")]
-transform = Transform3D(1, 4.37114e-08, 2.98023e-08, -4.37114e-08, 1, -4.37114e-08, -2.98023e-08, 4.37114e-08, 1, -7.67708e-05, 0.300996, 0.000547945)
-
-[node name="Tube_Corner2" parent="Level/Props/Tubes/Tube_Corner/Tube_T17" instance=ExtResource("27_oko37")]
-transform = Transform3D(-1, 8.9407e-08, -3.55271e-15, 3.55271e-15, -2.63839e-15, 1, 8.9407e-08, 1, 4.04668e-15, -0.158459, 0.0419707, 0.104023)
-
-[node name="Tube_T18" parent="Level/Props/Tubes/Tube_Corner" instance=ExtResource("25_q5rgj")]
-transform = Transform3D(1.74846e-07, 1, -1.6251e-15, 1, -1.74846e-07, 1.39091e-08, 1.39091e-08, -3.59607e-15, -1, -10.499, 0.00317323, 0.208512)
-
-[node name="Tube_4M12" parent="Level/Props/Tubes/Tube_Corner/Tube_T18" instance=ExtResource("26_rglup")]
-transform = Transform3D(1, 4.37114e-08, 2.98023e-08, -4.37114e-08, 1, -4.37114e-08, -2.98023e-08, 4.37114e-08, 1, -7.67708e-05, 0.300996, 0.000547945)
-
-[node name="Tube_Corner2" parent="Level/Props/Tubes/Tube_Corner/Tube_T18" instance=ExtResource("27_oko37")]
-transform = Transform3D(-1, 8.9407e-08, -3.55271e-15, 3.55271e-15, -2.63839e-15, 1, 8.9407e-08, 1, 4.04668e-15, -0.158459, 0.0419707, 0.104023)
-
-[node name="Tube_T14" parent="Level/Props/Tubes/Tube_Corner" instance=ExtResource("25_q5rgj")]
-transform = Transform3D(1.74846e-07, 1, -1.6251e-15, 1, -1.74846e-07, 1.39091e-08, 1.39091e-08, -3.59606e-15, -1, -2.99897, 0.00317281, 0.208512)
-
-[node name="Tube_4M12" parent="Level/Props/Tubes/Tube_Corner/Tube_T14" instance=ExtResource("26_rglup")]
-transform = Transform3D(1, 4.37114e-08, 2.98023e-08, -4.37114e-08, 1, -4.37114e-08, -2.98023e-08, 4.37114e-08, 1, -7.67708e-05, 0.300996, 0.000547945)
-
-[node name="Tube_Corner2" parent="Level/Props/Tubes/Tube_Corner/Tube_T14" instance=ExtResource("27_oko37")]
-transform = Transform3D(-1, 8.9407e-08, -3.55271e-15, 3.55271e-15, -2.63839e-15, 1, 8.9407e-08, 1, 4.04668e-15, -0.158459, 0.0419707, 0.104023)
-
-[node name="Tube_1M3" parent="Level/Props/Tubes/Tube_Corner" instance=ExtResource("28_6p0m0")]
-transform = Transform3D(-1, -8.74228e-08, -3.82137e-15, 8.74228e-08, -1, -8.74228e-08, 3.82137e-15, -8.74228e-08, 1, 0.257775, 0.601504, 0.00192738)
-
-[node name="Tube_Corner3" parent="Level/Props/Tubes" instance=ExtResource("27_oko37")]
-transform = Transform3D(-3.49691e-08, 0.8, 3.49691e-08, 0, -3.49691e-08, 0.8, -0.8, -3.49691e-08, -1.52855e-15, -0.604354, -0.294383, -0.403172)
-
-[node name="Tube_T5" parent="Level/Props/Tubes/Tube_Corner3" instance=ExtResource("25_q5rgj")]
-transform = Transform3D(-1, 1.31134e-07, 2.98023e-08, 1.31134e-07, 1, 4.37114e-08, -2.98023e-08, 4.37114e-08, -1, 0.260052, 6.60317, 0.215767)
-
-[node name="Tube_4M12" parent="Level/Props/Tubes/Tube_Corner3/Tube_T5" instance=ExtResource("26_rglup")]
-transform = Transform3D(1, 4.37114e-08, 2.98023e-08, -4.37114e-08, 1, -4.37114e-08, -2.98023e-08, 4.37114e-08, 1, -7.67708e-05, 0.300996, 0.000547945)
-
-[node name="Tube_Corner2" parent="Level/Props/Tubes/Tube_Corner3/Tube_T5" instance=ExtResource("27_oko37")]
-transform = Transform3D(-1, 8.9407e-08, -3.55271e-15, 3.55271e-15, -2.63839e-15, 1, 8.9407e-08, 1, 4.04668e-15, -0.158459, 0.0419707, 0.104023)
-
-[node name="Tube_T15" parent="Level/Props/Tubes/Tube_Corner3" instance=ExtResource("25_q5rgj")]
-transform = Transform3D(-1, 1.31134e-07, 2.98023e-08, 1.31134e-07, 1, 4.37114e-08, -2.98023e-08, 4.37114e-08, -1, 0.260052, 7.85317, 0.215767)
-
-[node name="Tube_4M12" parent="Level/Props/Tubes/Tube_Corner3/Tube_T15" instance=ExtResource("26_rglup")]
-transform = Transform3D(1, 4.37114e-08, 2.98023e-08, -4.37114e-08, 1, -4.37114e-08, -2.98023e-08, 4.37114e-08, 1, -7.67708e-05, 0.300996, 0.000547945)
-
-[node name="Tube_Corner2" parent="Level/Props/Tubes/Tube_Corner3/Tube_T15" instance=ExtResource("27_oko37")]
-transform = Transform3D(-1, 8.9407e-08, -3.55271e-15, 3.55271e-15, -2.63839e-15, 1, 8.9407e-08, 1, 4.04668e-15, -0.158459, 0.0419707, 0.104023)
-
-[node name="Tube_T16" parent="Level/Props/Tubes/Tube_Corner3" instance=ExtResource("25_q5rgj")]
-transform = Transform3D(-1, 1.31134e-07, 2.98023e-08, 1.31134e-07, 1, 4.37114e-08, -2.98023e-08, 4.37114e-08, -1, 0.260052, 9.22817, 0.215767)
-
-[node name="Tube_4M12" parent="Level/Props/Tubes/Tube_Corner3/Tube_T16" instance=ExtResource("26_rglup")]
-transform = Transform3D(1, 4.37114e-08, 2.98023e-08, -4.37114e-08, 1, -4.37114e-08, -2.98023e-08, 4.37114e-08, 1, -7.67708e-05, 0.300996, 0.000547945)
-
-[node name="Tube_Corner2" parent="Level/Props/Tubes/Tube_Corner3/Tube_T16" instance=ExtResource("27_oko37")]
-transform = Transform3D(-1, 8.9407e-08, -3.55271e-15, 3.55271e-15, -2.63839e-15, 1, 8.9407e-08, 1, 4.04668e-15, -0.158459, 0.0419707, 0.104023)
-
-[node name="Tube_T6" parent="Level/Props/Tubes/Tube_Corner3" instance=ExtResource("25_q5rgj")]
-transform = Transform3D(-1, 1.31134e-07, 2.98023e-08, 1.31134e-07, 1, 4.37114e-08, -2.98023e-08, 4.37114e-08, -1, 0.260051, 3.60317, 0.215766)
-
-[node name="Tube_4M12" parent="Level/Props/Tubes/Tube_Corner3/Tube_T6" instance=ExtResource("26_rglup")]
-transform = Transform3D(1, 4.37114e-08, 2.98023e-08, -4.37114e-08, 1, -4.37114e-08, -2.98023e-08, 4.37114e-08, 1, -7.67708e-05, 0.300996, 0.000547945)
-
-[node name="Tube_Corner2" parent="Level/Props/Tubes/Tube_Corner3/Tube_T6" instance=ExtResource("27_oko37")]
-transform = Transform3D(-1, 8.9407e-08, -3.55271e-15, 3.55271e-15, -2.63839e-15, 1, 8.9407e-08, 1, 4.04668e-15, -0.158459, 0.0419707, 0.104023)
-
-[node name="Tube_T8" parent="Level/Props/Tubes/Tube_Corner3" instance=ExtResource("25_q5rgj")]
-transform = Transform3D(-1, 1.31134e-07, 2.98023e-08, 1.31134e-07, 1, 4.37114e-08, -2.98023e-08, 4.37114e-08, -1, 0.260051, 2.10317, 0.215766)
-
-[node name="Tube_4M12" parent="Level/Props/Tubes/Tube_Corner3/Tube_T8" instance=ExtResource("26_rglup")]
-transform = Transform3D(1, 4.37114e-08, 2.98023e-08, -4.37114e-08, 1, -4.37114e-08, -2.98023e-08, 4.37114e-08, 1, -7.67708e-05, 0.300996, 0.000547945)
-
-[node name="Tube_Corner2" parent="Level/Props/Tubes/Tube_Corner3/Tube_T8" instance=ExtResource("27_oko37")]
-transform = Transform3D(-1, 8.9407e-08, -3.55271e-15, 3.55271e-15, -2.63839e-15, 1, 8.9407e-08, 1, 4.04668e-15, -0.158459, 0.0419707, 0.104023)
-
-[node name="Tube_T9" parent="Level/Props/Tubes/Tube_Corner3" instance=ExtResource("25_q5rgj")]
-transform = Transform3D(-1, 1.31134e-07, 2.98023e-08, 1.31134e-07, 1, 4.37114e-08, -2.98023e-08, 4.37114e-08, -1, 0.260051, 0.603173, 0.215766)
-
-[node name="Tube_4M12" parent="Level/Props/Tubes/Tube_Corner3/Tube_T9" instance=ExtResource("26_rglup")]
-transform = Transform3D(1, 4.37114e-08, 2.98023e-08, -4.37114e-08, 1, -4.37114e-08, -2.98023e-08, 4.37114e-08, 1, -7.67708e-05, 0.300996, 0.000547945)
-
-[node name="Tube_Corner2" parent="Level/Props/Tubes/Tube_Corner3/Tube_T9" instance=ExtResource("27_oko37")]
-transform = Transform3D(-1, 8.9407e-08, -3.55271e-15, 3.55271e-15, -2.63839e-15, 1, 8.9407e-08, 1, 4.04668e-15, -0.158459, 0.0419707, 0.104023)
-
-[node name="Tube_T7" parent="Level/Props/Tubes/Tube_Corner3" instance=ExtResource("25_q5rgj")]
-transform = Transform3D(-1, 1.31134e-07, 2.98023e-08, 1.31134e-07, 1, 4.37114e-08, -2.98023e-08, 4.37114e-08, -1, 0.260052, 5.10317, 0.215767)
-
-[node name="Tube_4M12" parent="Level/Props/Tubes/Tube_Corner3/Tube_T7" instance=ExtResource("26_rglup")]
-transform = Transform3D(1, 4.37114e-08, 2.98023e-08, -4.37114e-08, 1, -4.37114e-08, -2.98023e-08, 4.37114e-08, 1, -7.67708e-05, 0.300996, 0.000547945)
-
-[node name="Tube_Corner2" parent="Level/Props/Tubes/Tube_Corner3/Tube_T7" instance=ExtResource("27_oko37")]
-transform = Transform3D(-1, 8.9407e-08, -3.55271e-15, 3.55271e-15, -2.63839e-15, 1, 8.9407e-08, 1, 4.04668e-15, -0.158459, 0.0419707, 0.104023)
-
-[node name="Tube_T10" parent="Level/Props/Tubes/Tube_Corner3" instance=ExtResource("25_q5rgj")]
-transform = Transform3D(1.74846e-07, 1, -1.6251e-15, 1, -1.74846e-07, 1.39091e-08, 1.39091e-08, -3.59606e-15, -1, -1.49897, 0.00317246, 0.208512)
-
-[node name="Tube_4M12" parent="Level/Props/Tubes/Tube_Corner3/Tube_T10" instance=ExtResource("26_rglup")]
-transform = Transform3D(1, 4.37114e-08, 2.98023e-08, -4.37114e-08, 1, -4.37114e-08, -2.98023e-08, 4.37114e-08, 1, -7.67708e-05, 0.300996, 0.000547945)
-
-[node name="Tube_Corner2" parent="Level/Props/Tubes/Tube_Corner3/Tube_T10" instance=ExtResource("27_oko37")]
-transform = Transform3D(-1, 8.9407e-08, -3.55271e-15, 3.55271e-15, -2.63839e-15, 1, 8.9407e-08, 1, 4.04668e-15, -0.158459, 0.0419707, 0.104023)
-
-[node name="Tube_T11" parent="Level/Props/Tubes/Tube_Corner3" instance=ExtResource("25_q5rgj")]
-transform = Transform3D(1.74846e-07, 1, -1.6251e-15, 1, -1.74846e-07, 1.39091e-08, 1.39091e-08, -3.59606e-15, -1, -4.49897, 0.00317293, 0.208512)
-
-[node name="Tube_4M12" parent="Level/Props/Tubes/Tube_Corner3/Tube_T11" instance=ExtResource("26_rglup")]
-transform = Transform3D(1, 4.37114e-08, 2.98023e-08, -4.37114e-08, 1, -4.37114e-08, -2.98023e-08, 4.37114e-08, 1, -7.67708e-05, 0.300996, 0.000547945)
-
-[node name="Tube_Corner2" parent="Level/Props/Tubes/Tube_Corner3/Tube_T11" instance=ExtResource("27_oko37")]
-transform = Transform3D(-1, 8.9407e-08, -3.55271e-15, 3.55271e-15, -2.63839e-15, 1, 8.9407e-08, 1, 4.04668e-15, -0.158459, 0.0419707, 0.104023)
-
-[node name="Tube_T12" parent="Level/Props/Tubes/Tube_Corner3" instance=ExtResource("25_q5rgj")]
-transform = Transform3D(1.74846e-07, 1, -1.6251e-15, 1, -1.74846e-07, 1.39091e-08, 1.39091e-08, -3.59606e-15, -1, -5.99897, 0.00317323, 0.208512)
-
-[node name="Tube_4M12" parent="Level/Props/Tubes/Tube_Corner3/Tube_T12" instance=ExtResource("26_rglup")]
-transform = Transform3D(1, 4.37114e-08, 2.98023e-08, -4.37114e-08, 1, -4.37114e-08, -2.98023e-08, 4.37114e-08, 1, -7.67708e-05, 0.300996, 0.000547945)
-
-[node name="Tube_Corner2" parent="Level/Props/Tubes/Tube_Corner3/Tube_T12" instance=ExtResource("27_oko37")]
-transform = Transform3D(-1, 8.9407e-08, -3.55271e-15, 3.55271e-15, -2.63839e-15, 1, 8.9407e-08, 1, 4.04668e-15, -0.158459, 0.0419707, 0.104023)
-
-[node name="Tube_T13" parent="Level/Props/Tubes/Tube_Corner3" instance=ExtResource("25_q5rgj")]
-transform = Transform3D(1.74846e-07, 1, -1.6251e-15, 1, -1.74846e-07, 1.39091e-08, 1.39091e-08, -3.59606e-15, -1, -7.49897, 0.00317335, 0.208512)
-
-[node name="Tube_4M12" parent="Level/Props/Tubes/Tube_Corner3/Tube_T13" instance=ExtResource("26_rglup")]
-transform = Transform3D(1, 4.37114e-08, 2.98023e-08, -4.37114e-08, 1, -4.37114e-08, -2.98023e-08, 4.37114e-08, 1, -7.67708e-05, 0.300996, 0.000547945)
-
-[node name="Tube_Corner2" parent="Level/Props/Tubes/Tube_Corner3/Tube_T13" instance=ExtResource("27_oko37")]
-transform = Transform3D(-1, 8.9407e-08, -3.55271e-15, 3.55271e-15, -2.63839e-15, 1, 8.9407e-08, 1, 4.04668e-15, -0.158459, 0.0419707, 0.104023)
-
-[node name="Tube_T17" parent="Level/Props/Tubes/Tube_Corner3" instance=ExtResource("25_q5rgj")]
-transform = Transform3D(1.74846e-07, 1, -1.6251e-15, 1, -1.74846e-07, 1.39091e-08, 1.39091e-08, -3.59605e-15, -1, -8.99897, 0.00317335, 0.208512)
-
-[node name="Tube_4M12" parent="Level/Props/Tubes/Tube_Corner3/Tube_T17" instance=ExtResource("26_rglup")]
-transform = Transform3D(1, 4.37114e-08, 2.98023e-08, -4.37114e-08, 1, -4.37114e-08, -2.98023e-08, 4.37114e-08, 1, -7.67708e-05, 0.300996, 0.000547945)
-
-[node name="Tube_Corner2" parent="Level/Props/Tubes/Tube_Corner3/Tube_T17" instance=ExtResource("27_oko37")]
-transform = Transform3D(-1, 8.9407e-08, -3.55271e-15, 3.55271e-15, -2.63839e-15, 1, 8.9407e-08, 1, 4.04668e-15, -0.158459, 0.0419707, 0.104023)
-
-[node name="Tube_T18" parent="Level/Props/Tubes/Tube_Corner3" instance=ExtResource("25_q5rgj")]
-transform = Transform3D(1.74846e-07, 1, -1.6251e-15, 1, -1.74846e-07, 1.39091e-08, 1.39091e-08, -3.59605e-15, -1, -10.499, 0.00317329, 0.208512)
-
-[node name="Tube_4M12" parent="Level/Props/Tubes/Tube_Corner3/Tube_T18" instance=ExtResource("26_rglup")]
-transform = Transform3D(1, 4.37114e-08, 2.98023e-08, -4.37114e-08, 1, -4.37114e-08, -2.98023e-08, 4.37114e-08, 1, -7.67708e-05, 0.300996, 0.000547945)
-
-[node name="Tube_Corner2" parent="Level/Props/Tubes/Tube_Corner3/Tube_T18" instance=ExtResource("27_oko37")]
-transform = Transform3D(-1, 8.9407e-08, -3.55271e-15, 3.55271e-15, -2.63839e-15, 1, 8.9407e-08, 1, 4.04668e-15, -0.158459, 0.0419707, 0.104023)
-
-[node name="Tube_T14" parent="Level/Props/Tubes/Tube_Corner3" instance=ExtResource("25_q5rgj")]
-transform = Transform3D(1.74846e-07, 1, -1.6251e-15, 1, -1.74846e-07, 1.39091e-08, 1.39091e-08, -3.59606e-15, -1, -2.99897, 0.00317281, 0.208512)
-
-[node name="Tube_4M12" parent="Level/Props/Tubes/Tube_Corner3/Tube_T14" instance=ExtResource("26_rglup")]
-transform = Transform3D(1, 4.37114e-08, 2.98023e-08, -4.37114e-08, 1, -4.37114e-08, -2.98023e-08, 4.37114e-08, 1, -7.67708e-05, 0.300996, 0.000547945)
-
-[node name="Tube_Corner2" parent="Level/Props/Tubes/Tube_Corner3/Tube_T14" instance=ExtResource("27_oko37")]
-transform = Transform3D(-1, 8.9407e-08, -3.55271e-15, 3.55271e-15, -2.63839e-15, 1, 8.9407e-08, 1, 4.04668e-15, -0.158459, 0.0419707, 0.104023)
-
-[node name="Tube_1M3" parent="Level/Props/Tubes/Tube_Corner3" instance=ExtResource("28_6p0m0")]
-transform = Transform3D(-1, -8.74228e-08, -3.82137e-15, 8.74228e-08, -1, -8.74228e-08, 3.82137e-15, -8.74228e-08, 1, 0.257775, 0.601504, 0.00192738)
-
-[node name="Tube_Corner2" parent="Level/Props/Tubes" instance=ExtResource("27_oko37")]
-transform = Transform3D(-1, 8.74228e-08, 3.82137e-15, 0, -4.37114e-08, 1, 8.74228e-08, 1, 4.37114e-08, -0.3, -0.537641, 7.36394)
+[node name="GapTubes" parent="Level/Props/Tubes" instance=ExtResource("23_4uagv")]
 
 [node name="Units" type="Node3D" parent="."]
 
