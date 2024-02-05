@@ -370,7 +370,7 @@ grow_horizontal = 2
 grow_vertical = 0
 size_flags_horizontal = 4
 
-[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/Control"]
+[node name="HintLabel" type="RichTextLabel" parent="CanvasLayer/Control"]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -378,14 +378,32 @@ anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
 offset_left = -291.0
-offset_top = -69.0
+offset_top = -93.0
 offset_right = 292.0
-offset_bottom = -23.0
+offset_bottom = -44.0
 grow_horizontal = 2
 grow_vertical = 0
 bbcode_enabled = true
 text = "[center]---
 Hint text box[/center]"
+
+[node name="TurnLabel" type="Label" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -86.0
+offset_top = -48.0
+offset_right = 86.0
+offset_bottom = -21.0
+grow_horizontal = 2
+grow_vertical = 0
+theme_override_colors/font_color = Color(1, 1, 0, 1)
+theme_override_font_sizes/font_size = 18
+text = "Player Turn"
+horizontal_alignment = 1
 
 [node name="BossHealthBar" parent="CanvasLayer/Control" instance=ExtResource("13_34d3n")]
 custom_minimum_size = Vector2(600, 8)
@@ -496,10 +514,11 @@ projection = 1
 current = true
 size = 10.0
 
-[node name="TurnManager" type="Node3D" parent="." node_paths=PackedStringArray("unitHUD", "hintLabel")]
+[node name="TurnManager" type="Node3D" parent="." node_paths=PackedStringArray("unitHUD", "turnLabel", "hintLabel")]
 script = ExtResource("1_22vsh")
 unitHUD = NodePath("../CanvasLayer/UnitHUD")
-hintLabel = NodePath("../CanvasLayer/Control/RichTextLabel")
+turnLabel = NodePath("../CanvasLayer/Control/TurnLabel")
+hintLabel = NodePath("../CanvasLayer/Control/HintLabel")
 minionPackedScene = ExtResource("8_mg4li")
 
 [node name="InputManager" type="Node3D" parent="."]
@@ -625,14 +644,14 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 4, 0, 9)
 
 [node name="Tubes" type="Node3D" parent="Level/Props"]
 
+[node name="GapTubes" parent="Level/Props/Tubes" instance=ExtResource("23_4uagv")]
+
 [node name="WallTubesCorner" parent="Level/Props/Tubes" instance=ExtResource("21_fetox")]
 
 [node name="WallTubesVertical" parent="Level/Props/Tubes" instance=ExtResource("22_6smry")]
 
 [node name="WallTubesVertical2" parent="Level/Props/Tubes" instance=ExtResource("22_6smry")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0652249, 0, 7)
-
-[node name="GapTubes" parent="Level/Props/Tubes" instance=ExtResource("23_4uagv")]
 
 [node name="Units" type="Node3D" parent="."]
 

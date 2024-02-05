@@ -14,8 +14,10 @@ public partial class TurnManager : Node3D
     private LevelData levelData;
     private EnemyUnit[] enemyUnits;
     private int enemyIndex;
+    private StateMachine<State> sm = new StateMachine<State>(State.PlayerSelectUnit);
 
     [Export] private UnitHUD unitHUD;
+    [Export] private Label turnLabel;
     [Export] private RichTextLabel hintLabel;
     [Export] private PackedScene minionPackedScene;
     [Export] private int minionCount = 4;
@@ -35,7 +37,6 @@ public partial class TurnManager : Node3D
         EnemyTurn,  // Base states
         AIInit, AISpawnMinions, AIContext, AIShowWalkable, AIMove, AIShowHittable, AISelectSwap, AIAwaitReaction, AIAttack
     }
-    StateMachine<State> sm = new StateMachine<State>(State.PlayerSelectUnit);
 
     public delegate TurnState TurnState();
 
@@ -58,7 +59,7 @@ public partial class TurnManager : Node3D
         PickNextPossessedUnit();
 
         sm.StateChanged += s => GD.Print($"FSM >> Changed to: \"{s}\"");
-        sm.StateChanged += s => SetHint("");
+        sm.StateChanged += s => SetHintLabel("");
     }
 
     public override void _Process(double delta)
@@ -66,7 +67,12 @@ public partial class TurnManager : Node3D
         sm.Process();
     }
 
-    private void SetHint(string text)
+    private void SetTurnLabel(string text)
+    {
+        turnLabel.Text = text;
+    }
+
+    private void SetHintLabel(string text)
     {
         if (!text.Contains("\n"))
         {

@@ -13,6 +13,7 @@ public partial class TurnManager : Node3D
         sm.Configure(State.EnemyTurn)
             .OnEntry(() =>
             {
+                SetTurnLabel("Enemy Turn");
                 enemyUnits = GetEnemyUnits();
                 enemyIndex = 0;
                 GD.Print(">>> Entered Enemy turn");
@@ -105,7 +106,7 @@ public partial class TurnManager : Node3D
             .SubstateOf(State.EnemyTurn)
             .OnEntry(() =>
             {
-                SetHint("Select a friendly unit to swap with, or cancel to continue.");
+                SetHintLabel("Select a friendly unit to swap with, or cancel to continue.");
 
                 // Get nearby units
                 List<PlayerUnit> nearbyUnits = LevelData.GetNearbyUnits(currentUnit.GridId).OfType<PlayerUnit>().ToList();

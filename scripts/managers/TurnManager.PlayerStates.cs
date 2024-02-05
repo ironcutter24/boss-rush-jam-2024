@@ -10,6 +10,7 @@ public partial class TurnManager : Node3D
         sm.Configure(State.PlayerTurn)
             .OnEntry(() =>
             {
+                SetTurnLabel("Player Turn");
                 Unit.ResetTurn(FactionType.Player);
                 GD.Print(">>> Entered Player turn");
             })
@@ -31,7 +32,7 @@ public partial class TurnManager : Node3D
             .SubstateOf(State.PlayerCanEndTurn)
             .OnEntry(() =>
             {
-                SetHint("Select a friendly unit to control.");
+                SetHintLabel("Select a friendly unit to control.");
                 ResetCurrentUnit();
                 levelData.RefreshGrid();
 
@@ -56,7 +57,7 @@ public partial class TurnManager : Node3D
             .SubstateOf(State.PlayerCanEndTurn)
             .OnEntry(() =>
             {
-                SetHint("Press an action key to perform the corresponding action.");
+                SetHintLabel("Press an action key to perform the corresponding action.");
 
                 levelData.RefreshGrid(currentUnit.GridPosition);
                 currentUnit.SetSelected(true);
@@ -77,7 +78,7 @@ public partial class TurnManager : Node3D
             .SubstateOf(State.PlayerCanEndTurn)
             .OnEntry(() =>
             {
-                SetHint("Select a tile to move to or press an action button.\nYou won't be able to move after performing an action.");
+                SetHintLabel("Select a tile to move to or press an action button.\nYou won't be able to move after performing an action.");
 
                 levelData.RefreshGrid();
                 DisplayMesh(levelData.GenerateWalkableMesh(currentUnit), MeshColor.Green);
@@ -112,7 +113,7 @@ public partial class TurnManager : Node3D
             .SubstateOf(State.PlayerCanEndTurn)
             .OnEntry(() =>
             {
-                SetHint("Select a unit in range to attack.");
+                SetHintLabel("Select a unit in range to attack.");
 
                 levelData.RefreshGrid();
                 DisplayMesh(levelData.GenerateHittableMesh(currentUnit), MeshColor.Red);
@@ -144,7 +145,7 @@ public partial class TurnManager : Node3D
             .SubstateOf(State.PlayerCanEndTurn)
             .OnEntry(() =>
             {
-                SetHint("Select a unit in range to use your special action on it.");
+                SetHintLabel("Select a unit in range to use your special action on it.");
 
                 var playerUnit = currentUnit as PlayerUnit;
                 levelData.RefreshGrid();
