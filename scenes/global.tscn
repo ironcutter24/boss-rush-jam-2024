@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=3 uid="uid://djksnspp04hpn"]
+
+[ext_resource type="Script" path="res://scripts/Global.cs" id="1_73g23"]
+
+[node name="Global" type="Node"]
+script = ExtResource("1_73g23")
+levels = PackedStringArray("res://scenes/levels/mannequin_level.tscn", "res://scenes/levels/mold_level.tscn", "res://scenes/levels/thanks_for_playing_level.tscn")

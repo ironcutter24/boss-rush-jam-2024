@@ -59,7 +59,6 @@ transform = Transform3D(-0.832385, -0.545696, 0.0967061, 0.136254, -0.0323677, 0
 
 [node name="TurnManager" parent="." index="6"]
 minionCount = 0
-nextScenePath = "res://scenes/levels/thanks_for_playing_level.tscn"
 
 [node name="Muro_dx" type="MeshInstance3D" parent="Level/Grid/Root Scene/RootNode/ROOM" index="2"]
 transform = Transform3D(-4.36677e-08, 0.999, 0, -0.999, -4.36677e-08, 0, 0, 0, 0.999, -0.095, 0, 0)

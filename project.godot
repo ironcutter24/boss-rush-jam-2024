@@ -11,13 +11,13 @@ config_version=5
 [application]
 
 config/name="Lab Escape"
-run/main_scene="res://scenes/levels/mold_level.tscn"
+run/main_scene="res://scenes/levels/mannequin_level.tscn"
 config/features=PackedStringArray("4.2", "C#", "Mobile")
 config/icon="res://icon.svg"
 
 [autoload]
 
-Global="*res://scripts/Global.cs"
+Global="*res://scenes/global.tscn"
 FMODRuntime="*res://addons/FMOD/runtime/fmod_runtime_manager.gd"
 AudioManager="*res://scenes/audio_manager.tscn"
 

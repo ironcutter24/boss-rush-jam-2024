@@ -14,26 +14,12 @@
 [ext_resource type="EventAsset" uid="uid://cgiggxs3olu5y" path="res://addons/FMOD/editor/resources/events/{d939919e-a440-4d0e-b7f8-cfe80e828c1a}.tres" id="12_le5y8"]
 [ext_resource type="EventAsset" uid="uid://c541e7gxnpm4n" path="res://addons/FMOD/editor/resources/events/{366cbf23-31b4-456c-999f-5824229c5aea}.tres" id="13_jgoym"]
 [ext_resource type="EventAsset" uid="uid://bq0p13kh7e6xl" path="res://addons/FMOD/editor/resources/events/{cbf15c0b-8f0b-4772-a04e-2c165059459b}.tres" id="14_4nb2c"]
+[ext_resource type="EventAsset" uid="uid://bmnnjxanbqssy" path="res://addons/FMOD/editor/resources/events/{8e0fd444-53cd-466a-93c5-4ba118ebc9cb}.tres" id="14_e5r3w"]
 [ext_resource type="EventAsset" uid="uid://dkpc0m0tx7xma" path="res://addons/FMOD/editor/resources/events/{c1a961e2-6d72-4692-ae8b-12f3b13fc4c0}.tres" id="15_85mo4"]
+[ext_resource type="EventAsset" uid="uid://bcrhra5o6unu0" path="res://addons/FMOD/editor/resources/events/{47e37560-d152-4256-b113-9f025c7bca4f}.tres" id="15_e2ub5"]
 [ext_resource type="EventAsset" uid="uid://cskq81dgpt3ps" path="res://addons/FMOD/editor/resources/events/{c255c36f-4773-46e7-9185-ea11742b52b6}.tres" id="16_rew3t"]
 [ext_resource type="EventAsset" uid="uid://dgnepgwyqmcvx" path="res://addons/FMOD/editor/resources/events/{fa956172-a8f8-4665-bf3b-909df9685c7e}.tres" id="17_ioin2"]
 [ext_resource type="EventAsset" uid="uid://br7ylj6gka3jc" path="res://addons/FMOD/editor/resources/events/{8039d327-10af-4654-bffd-60e15b72ec8e}.tres" id="18_biqnl"]
-
-[sub_resource type="EventAsset" id="EventAsset_7wba1"]
-is_oneshot = true
-min_distance = 1.0
-max_distance = 20.0
-path = "event:/SFX/HUD/Cancel"
-guid = "{8e0fd444-53cd-466a-93c5-4ba118ebc9cb}"
-name = "Cancel"
-
-[sub_resource type="EventAsset" id="EventAsset_liq0n"]
-is_oneshot = true
-min_distance = 1.0
-max_distance = 20.0
-path = "event:/SFX/HUD/Select"
-guid = "{47e37560-d152-4256-b113-9f025c7bca4f}"
-name = "Select"
 
 [resource]
 banks = {
@@ -45,11 +31,11 @@ events = {
 "{2d38874a-4dfc-49e5-ab5d-1ce9776a0975}": ExtResource("11_y5tl2"),
 "{366cbf23-31b4-456c-999f-5824229c5aea}": ExtResource("13_jgoym"),
 "{3babcfaa-2430-4d86-b7f5-dc80e0c721e1}": ExtResource("9_dbcfe"),
-"{47e37560-d152-4256-b113-9f025c7bca4f}": SubResource("EventAsset_liq0n"),
+"{47e37560-d152-4256-b113-9f025c7bca4f}": ExtResource("15_e2ub5"),
 "{67bd44df-7d43-4dc0-b52f-4769d8c77d0a}": ExtResource("5_y4xv3"),
 "{74f52032-adb8-4849-9b39-014b95308731}": ExtResource("5_rp1pv"),
 "{8039d327-10af-4654-bffd-60e15b72ec8e}": ExtResource("18_biqnl"),
-"{8e0fd444-53cd-466a-93c5-4ba118ebc9cb}": SubResource("EventAsset_7wba1"),
+"{8e0fd444-53cd-466a-93c5-4ba118ebc9cb}": ExtResource("14_e5r3w"),
 "{b6332176-cd65-47ac-a21f-5f6564d643ae}": ExtResource("7_jt57u"),
 "{c1a961e2-6d72-4692-ae8b-12f3b13fc4c0}": ExtResource("15_85mo4"),
 "{c255c36f-4773-46e7-9185-ea11742b52b6}": ExtResource("16_rew3t"),
@@ -154,13 +140,13 @@ event_tree = [{
 "item_type": 1,
 "node_name": "Cancel",
 "path": "event:/SFX/HUD/Cancel",
-"resource": SubResource("EventAsset_7wba1")
+"resource": ExtResource("14_e5r3w")
 }, {
 "children": [],
 "item_type": 1,
 "node_name": "Select",
 "path": "event:/SFX/HUD/Select",
-"resource": SubResource("EventAsset_liq0n")
+"resource": ExtResource("15_e2ub5")
 }],
 "item_type": 7,
 "node_name": "HUD",

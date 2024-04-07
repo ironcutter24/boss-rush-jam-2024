@@ -1,0 +1,66 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Damiano\\Documents\\GitHub\\boss-rush-jam-2024\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{6265D8AA-D00D-4801-936A-92BD9DC60D2A}|boss-rush-jam-2024.csproj|c:\\users\\damiano\\documents\\github\\boss-rush-jam-2024\\scripts\\global.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6265D8AA-D00D-4801-936A-92BD9DC60D2A}|boss-rush-jam-2024.csproj|solutionrelative:scripts\\global.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6265D8AA-D00D-4801-936A-92BD9DC60D2A}|boss-rush-jam-2024.csproj|c:\\users\\damiano\\documents\\github\\boss-rush-jam-2024\\scripts\\managers\\turnmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6265D8AA-D00D-4801-936A-92BD9DC60D2A}|boss-rush-jam-2024.csproj|solutionrelative:scripts\\managers\\turnmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 3,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:130:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:129:0:{1fc202d4-d401-403c-9834-5b218574bb67}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{13b12e3e-c1b4-4539-9371-4fe9a0d523fc}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Global.cs",
+              "DocumentMoniker": "C:\\Users\\Damiano\\Documents\\GitHub\\boss-rush-jam-2024\\scripts\\Global.cs",
+              "RelativeDocumentMoniker": "scripts\\Global.cs",
+              "ToolTip": "C:\\Users\\Damiano\\Documents\\GitHub\\boss-rush-jam-2024\\scripts\\Global.cs",
+              "RelativeToolTip": "scripts\\Global.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-07T23:00:47.22Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "TurnManager.cs",
+              "DocumentMoniker": "C:\\Users\\Damiano\\Documents\\GitHub\\boss-rush-jam-2024\\scripts\\managers\\TurnManager.cs",
+              "RelativeDocumentMoniker": "scripts\\managers\\TurnManager.cs",
+              "ToolTip": "C:\\Users\\Damiano\\Documents\\GitHub\\boss-rush-jam-2024\\scripts\\managers\\TurnManager.cs",
+              "RelativeToolTip": "scripts\\managers\\TurnManager.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-07T23:00:47.227Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
