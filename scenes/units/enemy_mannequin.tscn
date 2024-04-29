@@ -1,4 +1,4 @@
-[gd_scene load_steps=28 format=3 uid="uid://xw4iy8e8lhdo"]
+[gd_scene load_steps=29 format=3 uid="uid://xw4iy8e8lhdo"]
 
 [ext_resource type="PackedScene" uid="uid://bkh4eat12qt1o" path="res://scenes/units/base/base_unit.tscn" id="1_7ih6j"]
 [ext_resource type="PackedScene" uid="uid://2na512rokwqi" path="res://scenes/vfx/Possession_vfx.tscn" id="2_00bg6"]
@@ -3349,16 +3349,21 @@ xfade_curve = SubResource("Curve_hbfar")
 switch_mode = 2
 advance_mode = 2
 
+[sub_resource type="AnimationNodeStateMachineTransition" id="AnimationNodeStateMachineTransition_hmmt7"]
+xfade_time = 0.2
+advance_mode = 2
+advance_condition = &"attack"
+
 [sub_resource type="AnimationNodeStateMachine" id="AnimationNodeStateMachine_4pb3d"]
 states/Attack/node = SubResource("AnimationNodeAnimation_u6rhw")
 states/Attack/position = Vector2(696, 100)
 states/Hurt/node = SubResource("AnimationNodeAnimation_kv2yj")
-states/Hurt/position = Vector2(518, 219)
+states/Hurt/position = Vector2(518, 218)
 states/Idle/node = SubResource("AnimationNodeAnimation_yynkv")
 states/Idle/position = Vector2(518, 100)
 states/Static/node = SubResource("AnimationNodeAnimation_r0hxx")
 states/Static/position = Vector2(357, 100)
-transitions = ["Start", "Static", SubResource("AnimationNodeStateMachineTransition_wcebq"), "Idle", "Attack", SubResource("AnimationNodeStateMachineTransition_14pgw"), "Attack", "Idle", SubResource("AnimationNodeStateMachineTransition_ovj12"), "Static", "Idle", SubResource("AnimationNodeStateMachineTransition_0r3fq"), "Idle", "Static", SubResource("AnimationNodeStateMachineTransition_mixb5"), "Idle", "Hurt", SubResource("AnimationNodeStateMachineTransition_bkvxn"), "Hurt", "Idle", SubResource("AnimationNodeStateMachineTransition_2sy3u")]
+transitions = ["Start", "Static", SubResource("AnimationNodeStateMachineTransition_wcebq"), "Idle", "Attack", SubResource("AnimationNodeStateMachineTransition_14pgw"), "Attack", "Idle", SubResource("AnimationNodeStateMachineTransition_ovj12"), "Static", "Idle", SubResource("AnimationNodeStateMachineTransition_0r3fq"), "Idle", "Static", SubResource("AnimationNodeStateMachineTransition_mixb5"), "Idle", "Hurt", SubResource("AnimationNodeStateMachineTransition_bkvxn"), "Hurt", "Idle", SubResource("AnimationNodeStateMachineTransition_2sy3u"), "Hurt", "Attack", SubResource("AnimationNodeStateMachineTransition_hmmt7")]
 
 [node name="EnemyMannequin" node_paths=PackedStringArray("PossessionVFX") instance=ExtResource("1_7ih6j")]
 playSpawnAnimation = false
