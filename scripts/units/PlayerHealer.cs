@@ -35,9 +35,12 @@ public partial class PlayerHealer : PlayerUnit
 
         _ = SetAnimationTrigger("reaction");
 
-        swappedUnit.ApplyHealing(healingAmount);
-        SpecialVFX.GlobalPosition = swappedUnit.GlobalPosition + Vector3.Up * .6f;
-        SpecialVFX.Emitting = true;
+        if (swappedUnit != null)
+        {
+            swappedUnit.ApplyHealing(healingAmount);
+            SpecialVFX.GlobalPosition = swappedUnit.GlobalPosition + Vector3.Up * .6f;
+            SpecialVFX.Emitting = true;
+        }
 
         ApplyHealing(healingAmount);
         HealSelfVFX.Emitting = true;

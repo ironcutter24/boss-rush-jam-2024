@@ -117,7 +117,7 @@ public abstract partial class Unit : CharacterBody3D
 
     private void AddToHealth(int value)
     {
-        Health = Mathf.Max(0, Health + value);
+        Health = Mathf.Clamp(Health + value, 0, MaxHealth);
         healthBar.SetHealth(Health, MaxHealth);
     }
 

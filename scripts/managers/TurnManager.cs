@@ -8,6 +8,7 @@ public partial class TurnManager : Node3D
     const float showcaseAwaitDuration = .8f;
 
     private Unit currentUnit, currentTarget, nextPossessedUnit;
+    private PlayerUnit swappedUnit;
     private Task currentTask;
     private Vector2I? cursorGridPos;
     private InputManager inputManager;

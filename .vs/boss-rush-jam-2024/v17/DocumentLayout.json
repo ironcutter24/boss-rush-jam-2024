@@ -3,8 +3,28 @@
   "WorkspaceRootPath": "C:\\Users\\Damiano\\Documents\\GitHub\\boss-rush-jam-2024\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{6265D8AA-D00D-4801-936A-92BD9DC60D2A}|boss-rush-jam-2024.csproj|c:\\users\\damiano\\documents\\github\\boss-rush-jam-2024\\scripts\\global.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{6265D8AA-D00D-4801-936A-92BD9DC60D2A}|boss-rush-jam-2024.csproj|solutionrelative:scripts\\global.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{6265D8AA-D00D-4801-936A-92BD9DC60D2A}|boss-rush-jam-2024.csproj|c:\\users\\damiano\\documents\\github\\boss-rush-jam-2024\\scripts\\units\\base\\unit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6265D8AA-D00D-4801-936A-92BD9DC60D2A}|boss-rush-jam-2024.csproj|solutionrelative:scripts\\units\\base\\unit.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6265D8AA-D00D-4801-936A-92BD9DC60D2A}|boss-rush-jam-2024.csproj|c:\\users\\damiano\\documents\\github\\boss-rush-jam-2024\\scripts\\units\\playerhealer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6265D8AA-D00D-4801-936A-92BD9DC60D2A}|boss-rush-jam-2024.csproj|solutionrelative:scripts\\units\\playerhealer.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6265D8AA-D00D-4801-936A-92BD9DC60D2A}|boss-rush-jam-2024.csproj|c:\\users\\damiano\\documents\\github\\boss-rush-jam-2024\\scripts\\units\\playerberserker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6265D8AA-D00D-4801-936A-92BD9DC60D2A}|boss-rush-jam-2024.csproj|solutionrelative:scripts\\units\\playerberserker.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6265D8AA-D00D-4801-936A-92BD9DC60D2A}|boss-rush-jam-2024.csproj|c:\\users\\damiano\\documents\\github\\boss-rush-jam-2024\\scripts\\units\\playertank.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6265D8AA-D00D-4801-936A-92BD9DC60D2A}|boss-rush-jam-2024.csproj|solutionrelative:scripts\\units\\playertank.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6265D8AA-D00D-4801-936A-92BD9DC60D2A}|boss-rush-jam-2024.csproj|c:\\users\\damiano\\documents\\github\\boss-rush-jam-2024\\scripts\\managers\\turnmanager.enemystates.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6265D8AA-D00D-4801-936A-92BD9DC60D2A}|boss-rush-jam-2024.csproj|solutionrelative:scripts\\managers\\turnmanager.enemystates.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6265D8AA-D00D-4801-936A-92BD9DC60D2A}|boss-rush-jam-2024.csproj|c:\\users\\damiano\\documents\\github\\boss-rush-jam-2024\\scripts\\managers\\turnmanager.playerstates.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{6265D8AA-D00D-4801-936A-92BD9DC60D2A}|boss-rush-jam-2024.csproj|solutionrelative:scripts\\managers\\turnmanager.playerstates.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{6265D8AA-D00D-4801-936A-92BD9DC60D2A}|boss-rush-jam-2024.csproj|c:\\users\\damiano\\documents\\github\\boss-rush-jam-2024\\scripts\\managers\\turnmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -18,8 +38,60 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 3,
+          "SelectedChildIndex": 0,
           "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Unit.cs",
+              "DocumentMoniker": "C:\\Users\\Damiano\\Documents\\GitHub\\boss-rush-jam-2024\\scripts\\units\\base\\Unit.cs",
+              "RelativeDocumentMoniker": "scripts\\units\\base\\Unit.cs",
+              "ToolTip": "C:\\Users\\Damiano\\Documents\\GitHub\\boss-rush-jam-2024\\scripts\\units\\base\\Unit.cs",
+              "RelativeToolTip": "scripts\\units\\base\\Unit.cs",
+              "ViewState": "AQIAAGIAAAAAAAAAAAApwHoAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-29T17:10:32.757Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "PlayerTank.cs",
+              "DocumentMoniker": "C:\\Users\\Damiano\\Documents\\GitHub\\boss-rush-jam-2024\\scripts\\units\\PlayerTank.cs",
+              "RelativeDocumentMoniker": "scripts\\units\\PlayerTank.cs",
+              "ToolTip": "C:\\Users\\Damiano\\Documents\\GitHub\\boss-rush-jam-2024\\scripts\\units\\PlayerTank.cs",
+              "RelativeToolTip": "scripts\\units\\PlayerTank.cs",
+              "ViewState": "AQIAAAwAAAAAAAAAAAAYwCcAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-29T17:01:14.302Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "PlayerHealer.cs",
+              "DocumentMoniker": "C:\\Users\\Damiano\\Documents\\GitHub\\boss-rush-jam-2024\\scripts\\units\\PlayerHealer.cs",
+              "RelativeDocumentMoniker": "scripts\\units\\PlayerHealer.cs",
+              "ToolTip": "C:\\Users\\Damiano\\Documents\\GitHub\\boss-rush-jam-2024\\scripts\\units\\PlayerHealer.cs",
+              "RelativeToolTip": "scripts\\units\\PlayerHealer.cs",
+              "ViewState": "AQIAABEAAAAAAAAAAAAgwCwAAAAUAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-29T17:01:14.222Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "PlayerBerserker.cs",
+              "DocumentMoniker": "C:\\Users\\Damiano\\Documents\\GitHub\\boss-rush-jam-2024\\scripts\\units\\PlayerBerserker.cs",
+              "RelativeDocumentMoniker": "scripts\\units\\PlayerBerserker.cs",
+              "ToolTip": "C:\\Users\\Damiano\\Documents\\GitHub\\boss-rush-jam-2024\\scripts\\units\\PlayerBerserker.cs",
+              "RelativeToolTip": "scripts\\units\\PlayerBerserker.cs",
+              "ViewState": "AQIAAAcAAAAAAAAAAAAQwCIAAAABAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-29T17:01:09.952Z",
+              "EditorCaption": ""
+            },
             {
               "$type": "Bookmark",
               "Name": "ST:130:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
@@ -34,28 +106,41 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "Global.cs",
-              "DocumentMoniker": "C:\\Users\\Damiano\\Documents\\GitHub\\boss-rush-jam-2024\\scripts\\Global.cs",
-              "RelativeDocumentMoniker": "scripts\\Global.cs",
-              "ToolTip": "C:\\Users\\Damiano\\Documents\\GitHub\\boss-rush-jam-2024\\scripts\\Global.cs",
-              "RelativeToolTip": "scripts\\Global.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAABEAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-04-07T23:00:47.22Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 6,
               "Title": "TurnManager.cs",
               "DocumentMoniker": "C:\\Users\\Damiano\\Documents\\GitHub\\boss-rush-jam-2024\\scripts\\managers\\TurnManager.cs",
               "RelativeDocumentMoniker": "scripts\\managers\\TurnManager.cs",
               "ToolTip": "C:\\Users\\Damiano\\Documents\\GitHub\\boss-rush-jam-2024\\scripts\\managers\\TurnManager.cs",
               "RelativeToolTip": "scripts\\managers\\TurnManager.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAgAAAAAAAAA",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABIAAAAAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2024-04-07T23:00:47.227Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "TurnManager.PlayerStates.cs",
+              "DocumentMoniker": "C:\\Users\\Damiano\\Documents\\GitHub\\boss-rush-jam-2024\\scripts\\managers\\TurnManager.PlayerStates.cs",
+              "RelativeDocumentMoniker": "scripts\\managers\\TurnManager.PlayerStates.cs",
+              "ToolTip": "C:\\Users\\Damiano\\Documents\\GitHub\\boss-rush-jam-2024\\scripts\\managers\\TurnManager.PlayerStates.cs",
+              "RelativeToolTip": "scripts\\managers\\TurnManager.PlayerStates.cs",
+              "ViewState": "AQIAAC8AAAAAAAAAAAAQwEcAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-29T16:14:49.263Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "TurnManager.EnemyStates.cs",
+              "DocumentMoniker": "C:\\Users\\Damiano\\Documents\\GitHub\\boss-rush-jam-2024\\scripts\\managers\\TurnManager.EnemyStates.cs",
+              "RelativeDocumentMoniker": "scripts\\managers\\TurnManager.EnemyStates.cs",
+              "ToolTip": "C:\\Users\\Damiano\\Documents\\GitHub\\boss-rush-jam-2024\\scripts\\managers\\TurnManager.EnemyStates.cs",
+              "RelativeToolTip": "scripts\\managers\\TurnManager.EnemyStates.cs",
+              "ViewState": "AQIAAKIAAAAAAAAAAAAAALoAAAA5AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-04-29T16:14:48.591Z",
               "EditorCaption": ""
             }
           ]

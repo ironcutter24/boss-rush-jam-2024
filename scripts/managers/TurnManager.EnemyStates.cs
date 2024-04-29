@@ -125,6 +125,8 @@ public partial class TurnManager : Node3D
             {
                 SetHintLabel("Select a friendly unit to swap with, or cancel to continue.");
 
+                swappedUnit = null;
+
                 // Get nearby units
                 List<PlayerUnit> nearbyUnits = LevelData.GetNearbyUnits(currentUnit.GridId).OfType<PlayerUnit>().ToList();
 
@@ -148,19 +150,15 @@ public partial class TurnManager : Node3D
             {
                 DestroyChildren();
             })
-            .AddTransition(State.AIAttack, () => currentTarget != null && !(currentTarget as PlayerUnit).HasReactionCharge)
+            .AddTransition(State.AIAwaitReaction, () => currentTarget != null && !(currentTarget as PlayerUnit).HasReactionCharge)
             .AddTransition(State.AIAwaitReaction, () =>
             {
                 if (inputManager.IsCellSelected(out cursorGridPos))
                 {
                     var swapTarget = levelData.GetUnitAt(cursorGridPos.Value) as PlayerUnit;
-                    if (swapTarget != null &&
-                        swapTarget != currentTarget &&
-                        swapTarget.HasReactionCharge
-                        )
+                    if (CanSwapWith(swapTarget))
                     {
                         var swapOwner = currentTarget as PlayerUnit;
-
                         swapOwner.ConsumeReactionCounter();
                         swapTarget.ConsumeReactionCounter();
 
@@ -169,17 +167,7 @@ public partial class TurnManager : Node3D
                         swapTarget.Position = swapOwner.Position;
                         swapOwner.Position = appPos;
                         currentTarget = swapTarget;
-
-                        //levelData.RefreshGrid();
-
-                        if (swapTarget.IsReactionPlanned && currentUnit is EnemyUnit unit)
-                        {
-                            currentTask = swapTarget.Reaction(swapOwner, unit);
-                        }
-                        else
-                        {
-                            currentTask = null;
-                        }
+                        swappedUnit = swapOwner;
 
                         return true;
                     }
@@ -187,15 +175,23 @@ public partial class TurnManager : Node3D
                 return false;
             })
             .AddTransition(State.AIContext, () => currentTarget == null)
-            .AddTransition(State.AIAttack, () => inputManager.IsCancel());
+            .AddTransition(State.AIAwaitReaction, () => inputManager.IsCancel());
 
         sm.Configure(State.AIAwaitReaction)
                 .SubstateOf(State.EnemyTurn)
-                .AddTransition(State.AIAttack, () =>
+                .OnEntry(() =>
                 {
-                    var unit = currentTarget as PlayerUnit;
-                    return unit != null && !unit.IsReactionPlanned;
+                    var targetUnit = currentTarget as PlayerUnit;
+                    if (targetUnit.IsReactionPlanned && currentUnit is EnemyUnit unit)
+                    {
+                        currentTask = targetUnit.Reaction(swappedUnit, unit);
+                    }
+                    else
+                    {
+                        currentTask = null;
+                    }
                 })
+                .AddTransition(State.AIAttack, () => currentTask == null)
                 .AddTransition(State.AIAttack, () => currentTask != null && currentTask.IsCompleted);
 
         sm.Configure(State.AIAttack)
@@ -286,4 +282,8 @@ public partial class TurnManager : Node3D
         return list[randIndex];
     }
 
+    private bool CanSwapWith(PlayerUnit target)
+    {
+        return target != null && target != currentTarget && target.HasReactionCharge;
+    }
 }
